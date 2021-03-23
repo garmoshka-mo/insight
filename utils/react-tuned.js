@@ -24,7 +24,7 @@ export class Component extends RawComponent {
     )
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.controllers.each(controller => {
       if (controller)
         controller._subscribers.push(this)

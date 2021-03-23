@@ -5,37 +5,55 @@ import React, {Component} from "../utils/react-tuned"
 import {
   Text,
   TextInput,
+  TouchableOpacity,
   View,
+  Alert,
+
 } from 'react-native'
 
 export default class YamlItem extends Component {
 
+  constructor(props) {
+    super()
+    this.level = props.level || 0
+  }
+
   render() {
-    return <View style={{ flexDirection:'row', flexWrap:'wrap' }}>
-      <TextInput
-        value={this.props.name}
-      ></TextInput>
-      {this.content()}
+    var style = {
+      flexDirection:'row',
+      marginLeft: this.level && 20,
+      flexWrap:'wrap'
+    }
+
+    return <View style={style}>
+      {this.header()}
+      {this.subitems()}
     </View>
   }
 
-  content() {
-    if (typeof this.props.content == 'string')
-      return this.text()
-    else
-      return this.subitems()
-  }
-
-  text() {
+  header() {
+    var details = typeof this.props.content == 'string' ? this.props.content : ""
     return <Text>
-      {this.props.content}
+        <Text
+          onPress={_ => Alert.alert(this.props.name) }
+          style={{color: '#2280a5'}}
+        >
+          {this.props.name}
+        </Text>
+        <View style={{width: 5}}/>
+        {details}
     </Text>
   }
 
   subitems() {
     var result = [], {content} = this.props
+    if (typeof content == 'string') return
     for (const key in content)
-      result.push(<YamlItem name={key} content={content[key]} />)
+      result.push(<YamlItem
+        name={key}
+        level={this.level + 1}
+        content={content[key]}
+      />)
     return result
   }
 

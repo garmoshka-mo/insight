@@ -9,6 +9,7 @@ var REACT_METHODS = [
   'replaceState',
   'hasOwnProperty',
   'componentWillMount',
+  'UNSAFE_componentWillMount',
   'componentDidMount',
   'componentWillReceiveProps',
   'shouldComponentUpdate',
