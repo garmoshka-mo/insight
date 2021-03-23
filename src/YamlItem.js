@@ -13,9 +13,15 @@ import {
 
 export default class YamlItem extends Component {
 
+  state = {
+    showSubItems: true
+  }
+  subItems = null
+
   constructor(props) {
     super()
     this.level = props.level || 0
+    this.parseContent(props)
   }
 
   render() {
@@ -27,33 +33,55 @@ export default class YamlItem extends Component {
 
     return <View style={style}>
       {this.header()}
-      {this.subitems()}
+      {this.renderSubItems()}
     </View>
   }
 
+  parseContent(props) {
+    var {content} = props
+    if (typeof content == 'string') {
+      this.details = content
+      return
+    }
+
+    if (content["_"]) {
+      this.details = content["_"]
+    }
+    this.subItems = content
+  }
+
   header() {
-    var details = typeof this.props.content == 'string' ? this.props.content : ""
+    var hasSubItems = '#2280a5'
+    var plainItem = '#8d7627'
+    var color = this.subItems ? hasSubItems :plainItem
+
     return <Text>
         <Text
-          onPress={_ => Alert.alert(this.props.name) }
-          style={{color: '#2280a5'}}
+          onPress={this.toggle}
+          style={{color}}
         >
           {this.props.name}
         </Text>
         <View style={{width: 5}}/>
-        {details}
+        {this.details}
     </Text>
   }
 
-  subitems() {
-    var result = [], {content} = this.props
-    if (typeof content == 'string') return
-    for (const key in content)
+  toggle() {
+    this.setState({showSubItems: !this.state.showSubItems})
+  }
+
+  renderSubItems() {
+    var result = [], {subItems} = this
+    if (!subItems || !this.state.showSubItems) return
+    for (const key in subItems) {
+      if (["_"].includes(key)) continue
       result.push(<YamlItem
         name={key}
         level={this.level + 1}
-        content={content[key]}
+        content={subItems[key]}
       />)
+    }
     return result
   }
 

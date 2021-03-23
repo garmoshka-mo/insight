@@ -5,12 +5,13 @@ import React, {Component} from "../utils/react-tuned"
 import {FlatList} from 'react-native'
 import YamlItem from './YamlItem'
 import sample from './sampleData'
+import _ from 'lodash'
 
 export default class extends Component {
 
   constructor() {
     super()
-    this.state = sample
+    this.state = _.cloneDeep(sample)
   }
 
   render() {
