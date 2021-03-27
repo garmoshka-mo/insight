@@ -10,9 +10,15 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "dropbox": "^9.4.0",
     "lodash": "^4.17.21",
+    "patch-package": "^6.4.7",
     "react": "17.0.1",
-    "react-native": "0.64.0"
+    "react-native": "0.64.0",
+    "react-native-crypto": "^2.2.0",
+    "react-native-randombytes": "^3.6.0",
+    "steam": "^1.4.1",
+    "util": "^0.12.3"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
