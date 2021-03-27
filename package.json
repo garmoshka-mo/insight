@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "start-rc": "react-native start --reset-cache",
+    "lint": "eslint .",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "dropbox": "^9.4.0",
