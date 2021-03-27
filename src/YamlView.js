@@ -13,14 +13,14 @@ export default class extends Component {
   constructor() {
     super()
     this.state = _.cloneDeep(sample)
-    console.log('Instances', new Dropbox(), new DropboxAuth())
+    //console.log('Instances', new Dropbox(), new DropboxAuth())
   }
 
   render() {
     return <FlatList
       style={{marginTop: 40, margin: 10}}
       data={Object.keys(this.state)}
-      keyExtractor={row => row.item}
+      keyExtractor={row => row}
       renderItem={this.renderItem}/>
   }
 

@@ -77,6 +77,7 @@ export default class YamlItem extends Component {
     for (const key in subItems) {
       if (["_"].includes(key)) continue
       result.push(<YamlItem
+        key={key}
         name={key}
         level={this.level + 1}
         content={subItems[key]}
