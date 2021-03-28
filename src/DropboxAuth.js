@@ -4,6 +4,7 @@
 import React, {Component} from "../utils/react-tuned"
 import { View, Text, TouchableOpacity, Linking } from 'react-native'
 import {Dropbox, DropboxAuth} from 'dropbox'
+import config from '../config/config'
 
 
 export default class extends Component {
@@ -61,8 +62,8 @@ export default class extends Component {
       this.showPageSection('pre-auth-section');
 
       // Set the login anchors href using dbx.getAuthenticationUrl()
-      var dbx = new Dropbox({ clientId: this.CLIENT_ID });
-      var authUrl = dbx.auth.getAuthenticationUrl('http://localhost:8080/auth')
+      var dbx = new Dropbox({ clientId: config.clientId });
+      var authUrl = dbx.auth.getAuthenticationUrl('insight://auth')
         .then((authUrl) => {
           this.setState( { authUrl })
           console.log('then auth url', authUrl)
@@ -71,7 +72,6 @@ export default class extends Component {
     }
   }
 
-  CLIENT_ID = '42zjexze6mfpf7x';
   // Parses the url and gets the access token if it is in the urls hash
   getAccessTokenFromUrl() {
     console.log('getAccessTokenFromUrl')
