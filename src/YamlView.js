@@ -6,14 +6,12 @@ import {FlatList} from 'react-native'
 import YamlItem from './YamlItem'
 import sample from './sampleData'
 import _ from 'lodash'
-import {Dropbox, DropboxAuth} from 'dropbox'
 
 
 export default class extends Component {
   constructor() {
     super()
     this.state = _.cloneDeep(sample)
-    //console.log('Instances', new Dropbox(), new DropboxAuth())
   }
 
   render() {
