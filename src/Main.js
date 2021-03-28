@@ -5,7 +5,7 @@ import React, {Component} from "../utils/react-tuned"
 import { View, Linking } from 'react-native'
 import YamlView from "./YamlView";
 import DropboxAuth from './DropboxAuth'
-//const parseUrl = require('url-parse')
+import auth from './auth'
 
 
 export default class extends Component {
@@ -22,18 +22,11 @@ export default class extends Component {
     })
   }
 
-  handleLinkingUrl(_url) {
-    console.log('handle deep links url', _url)
-
-    /*
-    handle deep links url insight://auth#uid=3986894416&access_token=sl.At7ng2Tlb3y0UhhJAXt3BhfjMxkq1cP6uIWvZHj6ee_nx2CamJYHeibvYz-Ga0RC5SJz5qyuGgF28Mgt1MZIH4Noo9I17z9dvBf53pEdnvyUUfMm0qqHc04lqYjsrN5_vkHtL44&expires_in=14400&token_type=bearer&scope=account_info.read&account_id=dbid%3AAACIbLRB4h2sP_iOpzYEClE4VCs_6uos2iU
-     */
-
-    /*let url = parseUrl(_url, true)
-    if (url.host == 'update-password') {
-      let routeData = { query: url.query }
-      rootNav.navigate('updatePassword', routeData)
-    }*/
+  handleLinkingUrl(url) {
+    let anchor1 = url.indexOf('access_token=') + 'access_token='.length
+    let anchor2 = url.indexOf('&expires_in')
+    let token = url.slice(anchor1, anchor2)
+    auth.authenticate(token)
   }
 
   render() {
