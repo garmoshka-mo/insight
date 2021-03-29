@@ -8,6 +8,13 @@ import _ from 'lodash'
 
 
 class Auth extends ComponentController {
+  constructor() {
+    super()
+    if (__DEV__) {
+      this.token = "sl.At64Ajpep8ku_HQVpAbJ_FsdNVnwpxegVNS_kIcqzNqOt_o_C3A_cu5YPkdhKynOnY7_GiBDQmn23apVorirNTD6nxJjBkhTAEOg7x0ngHVnDEYuh7cYhirxUWdK2BZJlbniMC_hXlA"
+      this.authenticate(this.token)
+    }
+  }
 
   async authenticate(token) {
     try {
