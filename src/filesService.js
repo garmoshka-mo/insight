@@ -15,7 +15,6 @@ class FilesService extends ComponentController {
     try {
       let response = await auth.dropbox.filesDownload({path: file.path_lower})
       let {name, fileBlob} = response.result
-      console.log('fileBlob', JSON.stringify(fileBlob)) // todo
       await fs.writeToFile(name, fileBlob)
     } catch(err) {
       errorDialog(err)
