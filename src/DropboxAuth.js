@@ -2,7 +2,13 @@
  **/
 
 import React, {Component} from "../utils/react-tuned"
-import { View, Text, TouchableOpacity, Linking } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Linking,
+  FlatList
+} from 'react-native'
 import auth from './auth'
 
 
@@ -40,9 +46,23 @@ export default class extends Component {
   }
 
   files() {
+    if (!auth.files) return
+    // console.log('files', JSON.stringify(auth.files))
+
     return (
-      <Text>{auth.token}</Text>
+      <View>
+        <Text style={{fontSize: 20, marginBottom: 5}}>List of files</Text>
+        <FlatList
+          data={auth.files}
+          keyExtractor={item => item.id}
+          renderItem={item => this.renderFile(item.item)}
+        />
+      </View>
     )
+  }
+
+  renderFile(file) {
+    return <Text>{file.name}</Text>
   }
 
 }

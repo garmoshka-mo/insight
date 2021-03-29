@@ -4,6 +4,7 @@
 import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
+import _ from 'lodash'
 
 
 class Auth extends ComponentController {
@@ -12,8 +13,10 @@ class Auth extends ComponentController {
     try {
       let dropbox = new Dropbox({ accessToken: token })
       let response = await dropbox.filesListFolder({path: ''})
-      console.log('response', response) // files: response.result.entries
-      this.update({ token })
+      this.update({
+        token,
+        files: _.get(response, 'result.entries', []) // todo: move files from auth, handle response.result.has_more
+      })
     } catch(err) {
       console.error('err', JSON.stringify(err))
       /*

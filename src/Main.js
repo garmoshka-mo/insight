@@ -31,7 +31,7 @@ export default class extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{margin: 10}}>
         <DropboxAuth />
         <YamlView />
       </View>
