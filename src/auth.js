@@ -12,7 +12,7 @@ class Auth extends ComponentController {
   constructor() {
     super()
     if (__DEV__) {
-      this.token = "sl.At4rIVwKOcFDy3lWJwcytByWUmnZBi_Jo4dO5kf-OdcBlWMzMvFqREEieXHSMFBnl4fSdl28w6tuSBJukzi3bidDWsCgYyFWaXEmWhzIY6S1xmhQRWHrq96GYy6k4aNMTEUG1XQUm8w"
+      this.token = "8YA1_oZq1WwAAAAAAAAAAemF4zn6JiG_omAHyUxKaVWR5RIAtzvDDfbZ6E4Cwfge"
       this.login(this.token)
     }
   }
@@ -20,7 +20,7 @@ class Auth extends ComponentController {
   async login(token) {
     try {
       let dropbox = new Dropbox({ accessToken: token })
-      let response = await dropbox.filesListFolder({path: ''})
+      let response = await dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
       filesService.update({files: _.get(response, 'result.entries')})
       this.update({ token, dropbox })
     } catch(err) {
