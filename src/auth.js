@@ -5,25 +5,24 @@ import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
 import _ from 'lodash'
+import filesService from './filesService'
 
 
 class Auth extends ComponentController {
   constructor() {
     super()
     if (__DEV__) {
-      this.token = "sl.At64Ajpep8ku_HQVpAbJ_FsdNVnwpxegVNS_kIcqzNqOt_o_C3A_cu5YPkdhKynOnY7_GiBDQmn23apVorirNTD6nxJjBkhTAEOg7x0ngHVnDEYuh7cYhirxUWdK2BZJlbniMC_hXlA"
-      this.authenticate(this.token)
+      this.token = "sl.At4rIVwKOcFDy3lWJwcytByWUmnZBi_Jo4dO5kf-OdcBlWMzMvFqREEieXHSMFBnl4fSdl28w6tuSBJukzi3bidDWsCgYyFWaXEmWhzIY6S1xmhQRWHrq96GYy6k4aNMTEUG1XQUm8w"
+      this.login(this.token)
     }
   }
 
-  async authenticate(token) {
+  async login(token) {
     try {
       let dropbox = new Dropbox({ accessToken: token })
       let response = await dropbox.filesListFolder({path: ''})
-      this.update({
-        token,
-        files: _.get(response, 'result.entries', []) // todo: move files from auth, handle response.result.has_more
-      })
+      filesService.update({files: _.get(response, 'result.entries')})
+      this.update({ token, dropbox })
     } catch(err) {
       console.error('err', JSON.stringify(err))
       /*

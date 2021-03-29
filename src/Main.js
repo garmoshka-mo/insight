@@ -26,7 +26,7 @@ export default class extends Component {
     let anchor1 = url.indexOf('access_token=') + 'access_token='.length
     let anchor2 = url.indexOf('&expires_in')
     let token = url.slice(anchor1, anchor2)
-    auth.authenticate(token)
+    auth.login(token)
   }
 
   render() {

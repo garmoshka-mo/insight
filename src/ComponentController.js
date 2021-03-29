@@ -4,7 +4,7 @@
 
 
 export default class ComponentController {
-  constructor(props) {
+  constructor() {
     this._subscribers = []
   }
 

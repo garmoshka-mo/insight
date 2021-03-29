@@ -10,12 +10,13 @@ import {
   FlatList
 } from 'react-native'
 import auth from './auth'
+import filesService from "./filesService";
 
 
 export default class extends Component {
   constructor(props) {
     super(props)
-    this.subscribeTo(auth)
+    this.subscribeTo(auth, filesService)
   }
 
   componentDidMount() {
@@ -46,14 +47,14 @@ export default class extends Component {
   }
 
   files() {
-    if (!auth.files) return
+    if (!filesService.files.length) return
     // console.log('files', JSON.stringify(auth.files))
 
     return (
       <View>
         <Text style={{fontSize: 20, marginBottom: 5}}>List of files</Text>
         <FlatList
-          data={auth.files}
+          data={filesService.files}
           keyExtractor={item => item.id}
           renderItem={item => this.renderFile(item.item)}
         />
@@ -62,7 +63,11 @@ export default class extends Component {
   }
 
   renderFile(file) {
-    return <Text>{file.name}</Text>
+    return (
+      <TouchableOpacity onPress={() => filesService.download(file)}>
+        <Text>{file.name}</Text>
+      </TouchableOpacity>
+    )
   }
 
 }
