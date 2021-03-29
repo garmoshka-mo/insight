@@ -21,9 +21,8 @@ class Auth extends ComponentController {
   async login(token) {
     try {
       let dropbox = new Dropbox({ accessToken: token })
-      let response = await dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
-      filesService.update({files: _.get(response, 'result.entries')})
       this.update({ token, dropbox })
+      await filesService.getFiles()
     } catch(err) {
       errorDialog(err)
     }
