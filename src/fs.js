@@ -12,7 +12,7 @@ class Fs {
 
   async writeToFile(fileName, content) {
     let path = `${this.rootDir()}/${fileName}`
-    await RNFS.writeFile(path, JSON.stringify(content), 'utf8')
+    //await RNFS.writeFile(path, JSON.stringify(content), 'utf8')
   }
 
 }

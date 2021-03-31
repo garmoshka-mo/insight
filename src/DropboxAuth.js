@@ -21,6 +21,7 @@ export default class extends Component {
 
   componentDidMount() {
     auth.getAuthUrl()
+    auth.devLogin()
   }
 
   render() {

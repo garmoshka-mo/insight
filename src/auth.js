@@ -4,28 +4,25 @@
 import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
-import _ from 'lodash'
 import filesService from './filesService'
 import {errorDialog} from "./commonFunctions";
 
 
 class Auth extends ComponentController {
-  constructor() {
-    super()
-    if (__DEV__) {
-      this.token = "8YA1_oZq1WwAAAAAAAAAAemF4zn6JiG_omAHyUxKaVWR5RIAtzvDDfbZ6E4Cwfge"
-      this.login(this.token)
-    }
-  }
 
   async login(token) {
     try {
-      let dropbox = new Dropbox({ accessToken: token })
-      this.update({ token, dropbox })
+      this.dropbox = new Dropbox({ accessToken: token })
+      this.update({ token })
       await filesService.getFiles()
     } catch(err) {
       errorDialog(err)
     }
+  }
+
+  devLogin() {
+    if (!__DEV__) return
+    this.login("8YA1_oZq1WwAAAAAAAAAAemF4zn6JiG_omAHyUxKaVWR5RIAtzvDDfbZ6E4Cwfge")
   }
 
   get isAuthenticated() {
