@@ -4,7 +4,7 @@
 import React, {Component} from "../utils/react-tuned"
 import { View, Linking } from 'react-native'
 import YamlView from "./YamlView";
-import DropboxAuth from './DropboxAuth'
+import Dropbox from './Dropbox'
 import auth from './auth'
 
 
@@ -32,7 +32,7 @@ export default class extends Component {
   render() {
     return (
       <View style={{margin: 10}}>
-        <DropboxAuth />
+        <Dropbox />
         <YamlView />
       </View>
     )

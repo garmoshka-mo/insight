@@ -3,9 +3,10 @@
 
 import ComponentController from './ComponentController'
 import auth from './auth'
-import {errorDialog, showSuccessFlash} from "./commonFunctions";
+import {errorDialog, showSuccessFlash} from "./commonFunctions"
 import fs from './fs'
-import _ from "lodash";
+import _ from "lodash"
+import DocumentPicker from 'react-native-document-picker'
 
 
 class FilesService extends ComponentController {
@@ -28,6 +29,19 @@ class FilesService extends ComponentController {
       showSuccessFlash('Download successful')
     } catch(err) {
       errorDialog(err, {response, tempFilePath: path})
+    }
+  }
+
+  async pickFileForUpload() {
+    // Pick a single file
+    try {
+      let res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      await auth.dropbox.filesUpload({path: res.uri})
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) return // User cancelled the picker, exit any dialogs or menus and move on
+      errorDialog(err)
     }
   }
 

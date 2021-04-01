@@ -1,4 +1,4 @@
-/** @providesModule DropboxAuth
+/** @providesModule Dropbox
  **/
 
 import React, {Component} from "../utils/react-tuned"
@@ -7,10 +7,11 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-  FlatList
+  FlatList,
+  StyleSheet
 } from 'react-native'
 import auth from './auth'
-import filesService from "./filesService";
+import filesService from "./filesService"
 
 
 export default class extends Component {
@@ -28,7 +29,7 @@ export default class extends Component {
     return (
       <View>
         {auth.isAuthenticated ?
-          this.files() : this.authUrl()}
+          this.dropbox() : this.authUrl()}
       </View>
     )
   }
@@ -47,13 +48,29 @@ export default class extends Component {
     )
   }
 
+  dropbox() {
+    return [this.documentPicker(), this.files()]
+
+  }
+
+  documentPicker() {
+    return (
+      <TouchableOpacity
+        key={'documentPicker'}
+        onPress={filesService.pickFileForUpload}
+      >
+        <Text style={styles.header}>Pick file for upload</Text>
+      </TouchableOpacity>
+    )
+  }
+
   files() {
     if (!filesService.files.length) return
     // console.log('files', JSON.stringify(auth.files))
 
     return (
-      <View>
-        <Text style={{fontSize: 20, marginBottom: 5}}>List of files</Text>
+      <View key={'files'}>
+        <Text style={styles.header}>List of files</Text>
         <FlatList
           data={filesService.files}
           keyExtractor={item => item.id}
@@ -72,3 +89,10 @@ export default class extends Component {
   }
 
 }
+
+const styles = StyleSheet.create({
+  header: {
+    fontSize: 20,
+    marginBottom: 5
+  }
+})
