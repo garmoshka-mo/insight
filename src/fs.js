@@ -5,14 +5,23 @@ import RNFS from 'react-native-fs'
 
 
 class Fs {
-
-  rootDir() {
-    return (RNFS.ExternalStorageDirectoryPath || RNFS.DocumentDirectoryPath)
+  constructor() {
+    this._initRootDir()
   }
 
-  async writeToFile(fileName, content) {
-    let path = `${this.rootDir()}/${fileName}`
-    //await RNFS.writeFile(path, JSON.stringify(content), 'utf8')
+  rootDir() {
+    return (RNFS.ExternalStorageDirectoryPath || RNFS.DocumentDirectoryPath) + "/insight"
+  }
+
+  async moveFile(name, tempPath) {
+    let newPath = `${this.rootDir()}/${name}`
+    await RNFS.moveFile(tempPath, newPath)
+  }
+
+  // private
+
+  _initRootDir() {
+    RNFS.mkdir(this.rootDir())
   }
 
 }

@@ -19,12 +19,15 @@ class FilesService extends ComponentController {
 
   async download(file) {
     try {
-      let response = await auth.dropbox.filesDownload({path: file.path_lower})
-      let {name, fileBlob} = response.result
-      await fs.writeToFile(name, fileBlob)
+      var response = await auth.dropbox.filesDownload({path: file.path_lower})
+      var path = response && response.path()
+      if (!(response.data && path))
+        throw('Download response has no data or path')
+
+      await fs.moveFile(file.name, path)
       showSuccessFlash('Download successful')
     } catch(err) {
-      errorDialog(err)
+      errorDialog(err, {response, tempFilePath: path})
     }
   }
 
