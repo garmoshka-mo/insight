@@ -40,6 +40,7 @@ class FilesService extends ComponentController {
       })
 
       await auth.dropbox.filesUpload({path: res.uri})
+      showSuccessFlash('Upload successful')
     } catch (err) {
       if (DocumentPicker.isCancel(err)) return
       errorDialog(err)
