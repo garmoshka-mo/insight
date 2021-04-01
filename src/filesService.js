@@ -37,10 +37,11 @@ class FilesService extends ComponentController {
     try {
       let res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
-      });
+      })
+
       await auth.dropbox.filesUpload({path: res.uri})
     } catch (err) {
-      if (DocumentPicker.isCancel(err)) return // User cancelled the picker, exit any dialogs or menus and move on
+      if (DocumentPicker.isCancel(err)) return
       errorDialog(err)
     }
   }

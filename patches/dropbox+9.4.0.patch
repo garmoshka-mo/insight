@@ -12,7 +12,7 @@ index 9b0d92f..ebe48d9 100644
  
  var Encoder;
 diff --git a/node_modules/dropbox/cjs/src/dropbox.js b/node_modules/dropbox/cjs/src/dropbox.js
-index 78b6dbd..9d934bf 100644
+index 78b6dbd..ffd59b1 100644
 --- a/node_modules/dropbox/cjs/src/dropbox.js
 +++ b/node_modules/dropbox/cjs/src/dropbox.js
 @@ -11,6 +11,8 @@ var _routes = require("../lib/routes.js");
@@ -48,6 +48,33 @@ index 78b6dbd..9d934bf 100644
      }
    }, {
      key: "uploadRequest",
+@@ -207,11 +217,22 @@ var Dropbox = /*#__PURE__*/function () {
+         _this3.setCommonHeaders(fetchOptions);
+ 
+         return fetchOptions;
+-      }).then(function (fetchOptions) {
+-        return _this3.fetch((0, _utils.getBaseURL)(host) + path, fetchOptions);
+-      }).then(function (res) {
++      }).then(async function (fetchOptions) {
++        let filePath = JSON.parse(fetchOptions.headers['Dropbox-API-Arg']).path
++        let fileName = filePath.split('/').pop()
++        // modify mobile file path for dropbox
++        fetchOptions.headers['Dropbox-API-Arg'] = JSON.stringify({path: "/"+fileName})
++        let fileContent = await RNFetchBlob.fs.readFile(filePath, 'base64')
++        return RNFetchBlob.fetch(
++          fetchOptions.method,
++          (0, _utils.getBaseURL)(host) + path,
++          fetchOptions.headers,
++          fileContent
++        )
++        //return _this3.fetch((0, _utils.getBaseURL)(host) + path, fetchOptions);
++      })/*.then(function (res) {
+         return (0, _response.parseResponse)(res);
+-      });
++      });*/
+     }
+   }, {
+     key: "setCommonHeaders",
 diff --git a/node_modules/dropbox/dist/Dropbox-sdk.min.js b/node_modules/dropbox/dist/Dropbox-sdk.min.js
 index f9ba121..3f5bb2c 100644
 --- a/node_modules/dropbox/dist/Dropbox-sdk.min.js
