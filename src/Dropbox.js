@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import auth from './auth'
 import filesService from "./filesService"
+import {logr} from './commonFunctions'
 
 
 export default class extends Component {
@@ -66,7 +67,7 @@ export default class extends Component {
 
   files() {
     if (!filesService.files.length) return
-    // console.log('files', JSON.stringify(auth.files))
+    // logr('files', filesService.files)
 
     return (
       <View key={'files'}>
