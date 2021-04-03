@@ -16,7 +16,7 @@ export default class extends Component {
   }
 
   render() {
-    return <View>
+    return <View style={{flex: 1}}>
       {this.topPanel()}
       {this.content()}
     </View>
@@ -24,7 +24,7 @@ export default class extends Component {
 
   topPanel() {
     return <View style={{}}>
-      <Dropbox />
+      <Dropbox/>
       <Button
         title="Test"
         onPress={_ => console.log('test')}

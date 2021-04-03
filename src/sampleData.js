@@ -23,7 +23,7 @@ export default {
         "_": "Tells TextInput to automatically capitalize certain characters. This property is not supported by some keyboard types such as name-phone-pad.",
         "characters": "all characters",
         "words": "first letter of each word",
-        "sentences": "first letter of each sentence (default)"
+        "sentences": "first letter of each sentence (default) THE END"
       }
     }
   }
