@@ -1,12 +1,12 @@
-/** @providesModule YamlView
+/** @providesModule Dashboard
  **/
 
 import React, {Component} from "../utils/react-tuned"
 import {View, Button, FlatList} from 'react-native'
-import YamlItem from './YamlItem'
 import sample from './sampleData'
 import _ from 'lodash'
 import YamlNode from "./YamlNode"
+import Dropbox from "./Dropbox";
 
 export default class extends Component {
 
@@ -23,7 +23,8 @@ export default class extends Component {
   }
 
   topPanel() {
-    return <View style={{height: 40}}>
+    return <View style={{}}>
+      <Dropbox />
       <Button
         title="Test"
         onPress={_ => console.log('test')}
@@ -35,11 +36,11 @@ export default class extends Component {
     return <FlatList
       style={{marginTop: 4, margin: 10}}
       data={this.root.children}
-      keyExtractor={row => row.item.name}
+      keyExtractor={item => item.name}
       renderItem={this.renderItem}/>
   }
 
   renderItem(row) {
-    return <YamlItem node={row.item} />
+    return row.item.render()
   }
 }

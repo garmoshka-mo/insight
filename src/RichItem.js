@@ -1,4 +1,4 @@
-/** @providesModule YamlItem
+/** @providesModule RichItem
  **/
 
 import React from "../utils/react-tuned"
@@ -10,7 +10,7 @@ import {
   Alert,
 
 } from 'react-native'
-import PlainItem from 'PlainItem'
+import PlainItem from './PlainItem'
 
 export default class RichItem extends PlainItem {
 
@@ -27,11 +27,7 @@ export default class RichItem extends PlainItem {
     var {node} = this
     if (!this.state.showSubItems) return
     return node.children.map(
-      child => <YamlItem
-        key={child.name}
-        node={child}
-        level={this.level + 1}
-      />
+      child => child.render()
     )
   }
 

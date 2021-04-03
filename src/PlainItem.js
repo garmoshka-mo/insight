@@ -20,7 +20,6 @@ export default class PlainItem extends Component {
 
   constructor(props) {
     super()
-    this.level = props.level || 0
     this.node = props.node
     this.subscribeTo(props.node)
   }
@@ -28,7 +27,7 @@ export default class PlainItem extends Component {
   render() {
     const containerStyle = {
       flexDirection:'row',
-      marginLeft: this.level && 20,
+      marginLeft: this.node.level && 20,
       flexWrap:'wrap'
     }
 

@@ -6,9 +6,15 @@ import {Dropbox} from "dropbox"
 import config from "../config/config"
 import filesService from './filesService'
 import {errorDialog} from "./commonFunctions";
+import {Linking} from "react-native";
 
 
 class Auth extends ComponentController {
+
+  constructor() {
+    super()
+    this.handleDeepLinks()
+  }
 
   async login(token) {
     try {
@@ -35,6 +41,21 @@ class Auth extends ComponentController {
     let dropbox = new Dropbox({ clientId: config.clientId });
     let authUrl = await dropbox.auth.getAuthenticationUrl('insight://auth')
     this.update( { authUrl })
+  }
+
+  async handleDeepLinks() {
+    const initialUrl = await Linking.getInitialURL()
+    if (initialUrl) this.handleLinkingUrl(initialUrl)
+    Linking.addEventListener('url', ({ url }) => {
+      this.handleLinkingUrl(url)
+    })
+  }
+
+  handleLinkingUrl(url) {
+    let anchor1 = url.indexOf('access_token=') + 'access_token='.length
+    let anchor2 = url.indexOf('&expires_in')
+    let token = url.slice(anchor1, anchor2)
+    this.login(token)
   }
 
 }
