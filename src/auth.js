@@ -7,19 +7,27 @@ import config from "../config/config"
 import filesService from './filesService'
 import {errorDialog} from "./commonFunctions";
 import {Linking} from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class Auth extends ComponentController {
+
+  loading = true
 
   constructor() {
     super()
     this.handleDeepLinks()
+    this.loadToken()
+  }
+
+  async loadToken() {
+    var token = await AsyncStorage.getItem('token')
+    await this.login(token)
   }
 
   async login(token) {
     try {
       this.dropbox = new Dropbox({ accessToken: token })
-      this.update({ token })
+      this.update({ token, loading: false })
       await filesService.getFiles()
     } catch(err) {
       errorDialog(err)
@@ -55,6 +63,7 @@ class Auth extends ComponentController {
     let anchor1 = url.indexOf('access_token=') + 'access_token='.length
     let anchor2 = url.indexOf('&expires_in')
     let token = url.slice(anchor1, anchor2)
+    AsyncStorage.setItem('token', token)
     this.login(token)
   }
 

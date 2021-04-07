@@ -23,16 +23,15 @@ export default class extends Component {
 
   componentDidMount() {
     auth.getAuthUrl()
-    auth.devLogin()
+    //auth.devLogin()
   }
 
   render() {
-    return (
-      <View>
-        {auth.isAuthenticated ?
-          this.dropbox() : this.authUrl()}
-      </View>
-    )
+    var content
+    if (auth.loading) content = <Text>Loading...</Text>
+    else if (auth.isAuthenticated) content = this.dropbox()
+    else content = this.authUrl()
+    return <View>{content}</View>
   }
 
   authUrl() {
@@ -51,7 +50,6 @@ export default class extends Component {
 
   dropbox() {
     return [this.documentPicker(), this.files()]
-
   }
 
   documentPicker() {

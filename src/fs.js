@@ -2,7 +2,7 @@
  **/
 
 import RNFS from 'react-native-fs'
-
+import {PermissionsAndroid} from 'react-native'
 
 class Fs {
   constructor() {
@@ -10,7 +10,12 @@ class Fs {
   }
 
   rootDir() {
-    return (RNFS.ExternalStorageDirectoryPath || RNFS.DocumentDirectoryPath) + "/insight"
+    var path
+    if (RNFS.ExternalStorageDirectoryPath)
+      path = `${RNFS.ExternalStorageDirectoryPath}/Documents`
+    else
+      path = RNFS.DocumentDirectoryPath
+    return `${path}/insight`
   }
 
   async moveFile(name, tempPath) {
@@ -20,7 +25,9 @@ class Fs {
 
   // private
 
-  _initRootDir() {
+  async _initRootDir() {
+    await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)
+    await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
     RNFS.mkdir(this.rootDir())
   }
 
