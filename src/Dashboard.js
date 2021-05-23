@@ -18,14 +18,13 @@ export default class extends Component {
 
   render() {
     return <View style={{flex: 1}}>
-      {this.topPanel()}
       {this.content()}
+      {this.bottomPanel()}
     </View>
   }
 
-  topPanel() {
+  bottomPanel() {
     return <View style={{}}>
-      <Dropbox/>
       <Button
         title="Test"
         onPress={_ => logr('test')}
@@ -35,7 +34,7 @@ export default class extends Component {
 
   content() {
     return <FlatList
-      style={{marginTop: 4, margin: 10}}
+      style={{paddingHorizontal: 8}}
       data={this.root.children}
       keyExtractor={item => item.name}
       renderItem={this.renderItem}/>

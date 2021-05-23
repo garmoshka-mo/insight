@@ -49,7 +49,7 @@ export default class extends Component {
   }
 
   dropbox() {
-    return [this.documentPicker(), this.files()]
+    return []
   }
 
   documentPicker() {

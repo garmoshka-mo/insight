@@ -27,7 +27,7 @@ export default class PlainItem extends Component {
   render() {
     const containerStyle = {
       flexDirection:'row',
-      marginLeft: this.node.level && 20,
+      marginLeft: this.node.level > 1 ? 20 : 0,
       flexWrap:'wrap'
     }
 
