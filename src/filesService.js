@@ -3,7 +3,7 @@
 
 import ComponentController from './ComponentController'
 import auth from './auth'
-import {errorDialog, showSuccessFlash} from "./commonFunctions"
+import {errorDialog, logr, showSuccessFlash} from "./commonFunctions"
 import fs from './fs'
 import _ from "lodash"
 import DocumentPicker from 'react-native-document-picker'
@@ -13,7 +13,7 @@ class FilesService extends ComponentController {
 
   files = []
 
-  async getFiles() {
+  async loadFiles() {
     let response = await auth.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
     this.update({files: _.get(response, 'result.entries')})
   }

@@ -5,7 +5,7 @@ import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
 import filesService from './filesService'
-import {errorDialog} from "./commonFunctions";
+import {errorDialog, logr} from "./commonFunctions";
 import {Linking} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -21,22 +21,33 @@ class Auth extends ComponentController {
 
   async loadToken() {
     var token = await AsyncStorage.getItem('token')
-    await this.login(token)
+    if (token) await this.loadDropboxData(token)
+    this.update({ loading: false })
   }
 
-  async login(token) {
+  async loadDropboxData(token) {
     try {
       this.dropbox = new Dropbox({ accessToken: token })
       this.update({ token, loading: false })
-      await filesService.getFiles()
+      await filesService.loadFiles()
     } catch(err) {
-      errorDialog(err)
+      if (err.error.error?.['.tag'] == "expired_access_token") {
+        this.logout()
+      } else
+        errorDialog(err)
     }
+  }
+
+  logout() {
+    logr("🔑 Log out")
+    var token = null
+    this.update({ token, loading: false })
+    AsyncStorage.removeItem('token')
   }
 
   devLogin() {
     if (!__DEV__) return
-    this.login("8YA1_oZq1WwAAAAAAAAAAemF4zn6JiG_omAHyUxKaVWR5RIAtzvDDfbZ6E4Cwfge")
+    this.loadDropboxData("8YA1_oZq1WwAAAAAAAAAAemF4zn6JiG_omAHyUxKaVWR5RIAtzvDDfbZ6E4Cwfge")
   }
 
   get isAuthenticated() {
@@ -64,7 +75,7 @@ class Auth extends ComponentController {
     let anchor2 = url.indexOf('&expires_in')
     let token = url.slice(anchor1, anchor2)
     AsyncStorage.setItem('token', token)
-    this.login(token)
+    this.loadDropboxData(token)
   }
 
 }
