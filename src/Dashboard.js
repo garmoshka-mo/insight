@@ -7,6 +7,7 @@ import sample from './sampleData'
 import _ from 'lodash'
 import YamlNode from "./YamlNode"
 import Dropbox from "./Dropbox";
+import {logr} from "./commonFunctions";
 
 export default class extends Component {
 
@@ -27,7 +28,7 @@ export default class extends Component {
       <Dropbox/>
       <Button
         title="Test"
-        onPress={_ => console.log('test')}
+        onPress={_ => logr('test')}
       />
     </View>
   }

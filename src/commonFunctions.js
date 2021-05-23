@@ -4,7 +4,7 @@
 import { Alert } from 'react-native'
 
 export function errorDialog(err, title = 'Error', data) {
-  logr(`⛔️ ${title}:`, err.message, err)
+  console.error(`⛔️ ${title}:`, err.message, ...formatObjects([err]))
   // alert ..
 }
 
@@ -14,16 +14,18 @@ export function showSuccessFlash(message) {
 }
 
 export function logr() {
-  if (__DEV__) {
-    var args = []
-    for (let arg of arguments) {
-      if (typeof arg == 'object')
-        args.push(JSON.stringify(sanitizeData(arg), null, 2))
-      else
-        args.push(arg)
-    }
-    console.log(...args)
+  if (__DEV__) console.log(...formatObjects(arguments))
+}
+
+function formatObjects(inputArgs) {
+  var args = []
+  for (let arg of inputArgs) {
+    if (typeof arg == 'object')
+      args.push(JSON.stringify(sanitizeData(arg), null, 2))
+    else
+      args.push(arg)
   }
+  return args
 }
 
 export function sanitizeData(src, passedObjects = []) {
