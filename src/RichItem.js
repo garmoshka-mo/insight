@@ -23,6 +23,12 @@ export default class RichItem extends PlainItem {
     this.setState({showSubItems: !this.state.showSubItems})
   }
 
+  get wrapStyle() {
+    return Object.assign({}, super.wrapStyle, {
+
+    })
+  }
+
   renderSubItems() {
     var {node} = this
     if (!this.state.showSubItems) return

@@ -24,14 +24,17 @@ export default class PlainItem extends Component {
     this.subscribeTo(props.node)
   }
 
-  render() {
-    const containerStyle = {
+  get wrapStyle() {
+    return {
       flexDirection:'row',
       marginLeft: this.node.level > 1 ? 20 : 0,
+      marginBottom: 4,
       flexWrap:'wrap'
     }
+  }
 
-    return <View style={containerStyle}>
+  render() {
+    return <View style={this.wrapStyle}>
       {this.header()}
       {this.renderSubItems()}
     </View>
