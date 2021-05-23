@@ -3,8 +3,8 @@
 
 import { Alert } from 'react-native'
 
-export function errorDialog(err, data, title) {
-  logr('⛔️ Error', err)
+export function errorDialog(err, title = 'Error', data) {
+  logr(`⛔️ ${title}:`, err.message, err)
   // alert ..
 }
 
@@ -52,4 +52,12 @@ export function sanitizeData(src, passedObjects = []) {
 function isObject(obj) {
   var type = typeof obj
   return type === 'object' && !!obj
+}
+
+export function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+export function randInRange(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

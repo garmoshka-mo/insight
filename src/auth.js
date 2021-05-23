@@ -8,6 +8,7 @@ import filesService from './filesService'
 import {errorDialog, logr} from "./commonFunctions";
 import {Linking} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import s from './services'
 
 class Auth extends ComponentController {
 
@@ -27,11 +28,11 @@ class Auth extends ComponentController {
 
   async loadDropboxData(token) {
     try {
-      this.dropbox = new Dropbox({ accessToken: token })
+      await s.initDropbox(token)
       this.update({ token, loading: false })
       await filesService.loadFiles()
     } catch(err) {
-      if (err.error.error?.['.tag'] == "expired_access_token") {
+      if (err.error?.error?.['.tag'] == "expired_access_token") {
         this.logout()
       } else
         errorDialog(err)
