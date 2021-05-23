@@ -10,11 +10,7 @@ class Fs {
   }
 
   rootDir() {
-    var path
-    if (RNFS.ExternalStorageDirectoryPath)
-      path = `${RNFS.ExternalStorageDirectoryPath}/Documents`
-    else
-      path = RNFS.DocumentDirectoryPath
+    var path = RNFS.DocumentDirectoryPath
     return `${path}/insight`
   }
 

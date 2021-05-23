@@ -1,11 +1,14 @@
 /** @providesModule ComponentController
  **/
 
+import autoBind from "../utils/autoBind";
 
 
 export default class ComponentController {
   constructor() {
     this._subscribers = []
+    autoBind(this)
+    this.init?.()
   }
 
   refresh() {

@@ -7,15 +7,36 @@ import {errorDialog, logr, showSuccessFlash} from "./commonFunctions"
 import fs from './fs'
 import _ from "lodash"
 import DocumentPicker from 'react-native-document-picker'
-
+import {AppState} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import conflictResolver from './conflictResolver'
 
 class FilesService extends ComponentController {
 
   files = []
 
+  init() {
+    AppState.addEventListener('change', (appState) => {
+      if (appState == 'background') this.uploadChanges()
+    })
+  }
+
   async loadFiles() {
     let response = await auth.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
-    this.update({files: _.get(response, 'result.entries')})
+    response?.result?.entries.each(this.processFile)
+  }
+
+  async processFile(meta) {
+    if (!meta.name.endsWith('.yml') || meta.size > 2000000) return
+
+    var localMeta = AsyncStorage.get(`meta_${meta.id}`)
+    if (localMeta) {
+      // also can use .server_modified
+      if (localMeta.content_hash != meta.content_hash) {
+        // todo: upload local file as conflict
+      }
+    }
+    AsyncStorage.set(`meta_${meta.id}`, meta)
   }
 
   async download(file) {
@@ -30,6 +51,10 @@ class FilesService extends ComponentController {
     } catch(err) {
       errorDialog(err, {response, tempFilePath: path})
     }
+  }
+
+  async uploadChanges() {
+    logr('Todo: upload changes...')
   }
 
   async pickFileForUpload() {
@@ -51,3 +76,12 @@ class FilesService extends ComponentController {
 }
 
 export default new FilesService()
+
+
+AsyncStorage.set = (key, data) =>
+  AsyncStorage.setItem(key, JSON.stringify(data))
+
+AsyncStorage.get = async (key) => {
+  var data = await AsyncStorage.getItem(key)
+  return JSON.stringify(data)
+}
