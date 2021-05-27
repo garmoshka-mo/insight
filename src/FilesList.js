@@ -7,6 +7,7 @@ import Dropbox from "./Dropbox";
 import {logr} from "./commonFunctions";
 import ActionsSheetDialog from './ActionsSheetDialog'
 import styles from "./styles";
+import actionsSheetController from "./actionsSheetController";
 
 export default class extends Component {
 
@@ -25,10 +26,15 @@ export default class extends Component {
         borderBottomWidth: 1,
         borderBottomColor: styles.textColor
       }}
-      onPress={file.open}
+      onPress={_ => this.open(file)}
     >
       <Text style={styles.text}>{file.name}</Text>
     </TouchableOpacity>
+  }
+
+  open(file) {
+    actionsSheetController.hide()
+    file.open()
   }
 
 }

@@ -1,6 +1,8 @@
 import fs from "./fs";
 import yaml from 'js-yaml'
 import autoBind from "../utils/autoBind";
+import viewport from './viewport'
+import {errorDialog} from "./commonFunctions";
 
 export default class File {
 
@@ -10,9 +12,13 @@ export default class File {
   }
 
   async open() {
-    var content = await fs.readFile(this.id)
-    var obj = yaml.load(content)
-    console.log('obj', this.id, obj, content)
+    try {
+      var content = await fs.readFile(this.id)
+      var obj = yaml.load(content)
+      viewport.load(obj)
+    } catch (err) {
+      errorDialog(err, "Can't load file")
+    }
   }
 
 }

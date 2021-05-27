@@ -4,9 +4,42 @@
 import { Alert } from 'react-native'
 import { showMessage, hideMessage } from "react-native-flash-message"
 
-export function errorDialog(err, title = 'Error', data) {
-  console.error(`⛔️ ${title}:`, err.message, ...formatObjects([err]))
-  // alert ..
+export function errorDialog(error, title = 'Error', data) {
+  const buttons = [{ text: 'OK' }]
+
+  var message
+  let details = serialize(error.details)
+  if (error.internetError) {
+    message = t('messages.internet_required')
+    details = serialize(error)
+  } else {
+    message = (error.message || error).toString()
+  }
+
+  if (details) {
+    buttons.unshift({
+      text: 'Details',
+      onPress: () => {
+        Alert.alert(title || 'Error details', details)
+      }
+    })
+  }
+
+  console.error(`⛔️ ${title || ""}:`, message,
+    ...formatObjects([error, data]))
+
+  Alert.alert(
+    title || config.appTitle,
+    message,
+    buttons
+  )
+
+  // if (error instanceof Error) {
+  //   data.dialogTitle = title
+  //   data.details = details
+  //   sendToBugsnag(error, data)
+  // }
+
 }
 
 var flashShownAt = Date.now()
@@ -43,6 +76,15 @@ function formatObjects(inputArgs) {
       args.push(arg)
   }
   return args
+}
+
+function serialize(obj) {
+  if (!obj || typeof obj != "object") return obj
+  try {
+    return JSON.stringify(sanitizeData(obj))
+  } catch {
+    return toString(obj)
+  }
 }
 
 export function sanitizeData(src, passedObjects = []) {

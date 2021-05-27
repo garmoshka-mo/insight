@@ -7,16 +7,16 @@ import sample from './sampleData'
 import _ from 'lodash'
 import YamlNode from "./YamlNode"
 import auth from "./auth"
-import {logr} from "./commonFunctions";
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './Menu'
 import FlashMessage from "react-native-flash-message"
+import viewport from "./viewport";
 
 export default class extends Component {
 
   constructor() {
     super()
-    this.root = new YamlNode('root', _.cloneDeep(sample))
+    this.subscribeTo(viewport)
   }
 
   componentDidMount() {
@@ -36,7 +36,7 @@ export default class extends Component {
     return <FlatList
       contentContainerStyle={{paddingHorizontal: 8,
         paddingVertical: 15}}
-      data={this.root.children}
+      data={viewport.root.children}
       keyExtractor={item => item.name}
       renderItem={this.renderItem}/>
   }
