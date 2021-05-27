@@ -23,14 +23,16 @@ export default new class extends ComponentController {
     await settings.load()
     if (!forceSample && settings.recentFileId) {
       var file = await File.load(settings.recentFileId)
-      this.load(await file.data())
+      await this.loadToPort(file)
     } else {
       this.load(yaml.load(sample))
     }
   }
 
-  load(data) {
+  async loadToPort(file) {
+    this.file = file
     this.update({root: null})
+    var data = await file.data()
     this.update({root: new YamlNode('root', data)})
   }
 

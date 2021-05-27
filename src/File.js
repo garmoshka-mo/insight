@@ -21,8 +21,13 @@ export default class File {
   async openFile() {
     var data = await this.data()
     if (!data) return
-    s.viewport.load(data)
+    s.viewport.loadToPort(this)
     settings.update({recentFileId: this.id})
+  }
+
+  updateMeta(data) {
+    Object.assign(this, data)
+    AsyncStorage.set(`meta_${this.id}`, this)
   }
 
   async data() {

@@ -14,7 +14,7 @@ import actionsSheetController from './actionsSheetController'
 import React from "../utils/react-tuned"
 import FilesList from './FilesList'
 import File from "./File";
-import settings from "./settings";
+import viewport from "./viewport";
 
 export default new class Files extends ComponentController {
 
@@ -111,10 +111,8 @@ export default new class Files extends ComponentController {
 
       await fs.moveFile(path, meta.id)
       this.updateMeta(meta, {unchanged: true})
-      if (meta.id == settings.recentFileId) {
-        var file = await File.load(meta.id)
-        file.openFile()
-      }
+      if (meta.id == viewport.file?.id)
+        viewport.file.openFile()
       this.stats.downloaded++
       logr(`⏬ downloaded ${meta.name}`)
     } catch(err) {
@@ -126,6 +124,7 @@ export default new class Files extends ComponentController {
     this.updateMeta(meta, {unchanged: true})
   }
 
+  // todo: move to File
   updateMeta(meta, data) {
     Object.assign(meta, data)
     AsyncStorage.set(`meta_${meta.id}`, meta)
