@@ -34,7 +34,7 @@ export default class extends Component {
 
   open(file) {
     actionsSheetController.hide()
-    file.open()
+    file.openFile()
   }
 
 }

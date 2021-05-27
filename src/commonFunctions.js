@@ -3,44 +3,8 @@
 
 import { Alert } from 'react-native'
 import { showMessage, hideMessage } from "react-native-flash-message"
+import actionsSheetController from "./actionsSheetController";
 
-export function errorDialog(error, title = 'Error', data) {
-  const buttons = [{ text: 'OK' }]
-
-  var message
-  let details = serialize(error.details)
-  if (error.internetError) {
-    message = t('messages.internet_required')
-    details = serialize(error)
-  } else {
-    message = (error.message || error).toString()
-  }
-
-  if (details) {
-    buttons.unshift({
-      text: 'Details',
-      onPress: () => {
-        Alert.alert(title || 'Error details', details)
-      }
-    })
-  }
-
-  console.error(`⛔️ ${title || ""}:`, message,
-    ...formatObjects([error, data]))
-
-  Alert.alert(
-    title || config.appTitle,
-    message,
-    buttons
-  )
-
-  // if (error instanceof Error) {
-  //   data.dialogTitle = title
-  //   data.details = details
-  //   sendToBugsnag(error, data)
-  // }
-
-}
 
 var flashShownAt = Date.now()
 export function showFlash(message, type="success") {
@@ -67,7 +31,7 @@ export function logr() {
   if (__DEV__) console.log(...formatObjects(arguments))
 }
 
-function formatObjects(inputArgs) {
+export function formatObjects(inputArgs) {
   var args = []
   for (let arg of inputArgs) {
     if (typeof arg == 'object')
@@ -78,7 +42,7 @@ function formatObjects(inputArgs) {
   return args
 }
 
-function serialize(obj) {
+export function serialize(obj) {
   if (!obj || typeof obj != "object") return obj
   try {
     return JSON.stringify(sanitizeData(obj))

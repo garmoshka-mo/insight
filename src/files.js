@@ -2,7 +2,8 @@
  **/
 
 import ComponentController from './ComponentController'
-import {errorDialog, logr, showFlash} from "./commonFunctions"
+import {logr, showFlash} from "./commonFunctions"
+import {showError} from './errors'
 import fs from './fs'
 import DocumentPicker from 'react-native-document-picker'
 import {AppState} from 'react-native'
@@ -61,7 +62,7 @@ export default new class Files extends ComponentController {
       }
       await this.download(meta)
     } catch (err) {
-      errorDialog(err, 'processFile error')
+      showError(err, 'processFile error')
     }
   }
 
@@ -80,7 +81,7 @@ export default new class Files extends ComponentController {
       this.updateMeta(meta, {unchanged: true})
       logr(`⏬ downloaded ${meta.name}`)
     } catch(err) {
-      errorDialog(err, 'Download error', {response, tempFilePath: path})
+      showError(err, 'Download error', {response, tempFilePath: path})
     }
   }
 
@@ -108,7 +109,7 @@ export default new class Files extends ComponentController {
       showFlash('Upload successful')
     } catch (err) {
       if (DocumentPicker.isCancel(err)) return
-      errorDialog(err)
+      showError(err)
     }
   }
 
