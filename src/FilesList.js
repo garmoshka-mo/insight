@@ -8,12 +8,18 @@ import {logr} from "./commonFunctions";
 import ActionsSheetDialog from './ActionsSheetDialog'
 import styles from "./styles";
 import actionsSheetController from "./actionsSheetController";
+import files from "./files";
 
 export default class extends Component {
 
+  constructor() {
+    super()
+    this.subscribeTo(files)
+  }
+
   render() {
     return <View>
-      {this.props.files.map(this.file)}
+      {files.list.map(this.file)}
     </View>
   }
 

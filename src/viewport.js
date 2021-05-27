@@ -30,6 +30,7 @@ export default new class extends ComponentController {
   }
 
   load(data) {
+    this.update({root: null})
     this.update({root: new YamlNode('root', data)})
   }
 

@@ -15,7 +15,7 @@ export default class File {
 
   static async load(id) {
     var meta = await AsyncStorage.get(`meta_${id}`)
-    return new this(meta)
+    if (meta) return new this(meta)
   }
 
   async openFile() {

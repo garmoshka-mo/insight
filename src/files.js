@@ -18,31 +18,60 @@ import settings from "./settings";
 
 export default new class Files extends ComponentController {
 
-  files = []
+  list = []
 
-  init() {
+  async init() {
     AppState.addEventListener('change', (appState) => {
       if (appState == 'background') this.uploadChanges()
     })
+    // await this.resetFiles()
+    this.reloadList()
   }
 
   async showList() {
-    actionsSheetController.open(<FilesList files={await this.list()} />)
+    actionsSheetController.open(<FilesList />)
   }
 
-  async list() {
+  async reloadList() {
     var keys = await AsyncStorage.getAllKeys()
     keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
-    return items.map((row) => new File(JSON.parse(row[1])))
+    this.list.replace(
+      items.map((row) => new File(JSON.parse(row[1])))
+    )
+  }
+
+  async resetFiles() {
+    var keys = await AsyncStorage.getAllKeys()
+    keys = keys.filter(_ => _.startsWith("meta_id"))
+    await Promise.all(
+      keys.map(key => AsyncStorage.removeItem(key))
+    )
   }
 
   async downloadUpdates() {
     let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
+    this.stats = {downloaded: 0, conflicts: 0 }
     var promises = response?.result?.entries.map(this.processFile)
     await Promise.all(promises)
-    logr("♻️  downloadUpdates complete")
+    await this.reloadList()
+    this.report()
     return true
+  }
+
+  report() {
+    var type = "default", message = ""
+    if (this.stats.downloaded) {
+      type = "success"
+      message += ` Downloaded ${this.stats.downloaded}`
+    }
+    if (this.stats.conflicts) {
+      type = "warning"
+      message += ` Conflicts ${this.stats.conflicts}`
+    }
+    if (!message) message = "Up to date"
+    logr(`♻️  ${message}`)
+    showFlash(message, type)
   }
 
   async processFile(meta) {
@@ -50,11 +79,13 @@ export default new class Files extends ComponentController {
       if (!meta.name.endsWith('.yml') || meta.size > 2000000) return
 
       var localMeta = await File.load(meta.id)
+
       if (localMeta) {
         if (this.wasChangedOnServer(localMeta, meta)) {
           if (!localMeta.unchanged) {
             await conflictResolver.resolve(meta)
             await this.upload(localMeta)
+            this.stats.conflicts++
             return 'locally changed file uploaded to server'
           }
         } else {
@@ -84,6 +115,7 @@ export default new class Files extends ComponentController {
         var file = await File.load(meta.id)
         file.openFile()
       }
+      this.stats.downloaded++
       logr(`⏬ downloaded ${meta.name}`)
     } catch(err) {
       showError(err, 'Download error', {response, tempFilePath: path})
