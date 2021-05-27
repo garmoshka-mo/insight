@@ -10,6 +10,7 @@ import {showError} from './errors'
 import {Linking} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import s from './services'
+import 'react-native-url-polyfill/auto'
 
 class Auth extends ComponentController {
 
@@ -74,6 +75,9 @@ class Auth extends ComponentController {
   }
 
   handleLinkingUrl(url) {
+    // url = new URL('insight://auth.com?uid=7682069&access_token=sl.AxocvOranothRw19rx8NVOosHq1VxNcoKGfqp3WUEIWUAFvVOGyS8e9hCoAoSjVT6K0QHKoMQK8OfqeYsEZk6vJmGUH8fXIjx2fdRfoG3Yvis4zXsjZzujnkl1Abo0V3M1sOi7A&expires_in=14399&token_type=bearer&scope=account_info.read+files.content.read+files.content.write+files.metadata.read+files.metadata.write&account_id=dbid%3AAADlY3B373KR5DZZ6sO2IH-UuW9doO4AK5Y')
+    // url.searchParams.get('access_token')
+
     let anchor1 = url.indexOf('access_token=') + 'access_token='.length
     let anchor2 = url.indexOf('&expires_in')
     let token = url.slice(anchor1, anchor2)
