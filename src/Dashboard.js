@@ -38,6 +38,7 @@ export default class extends Component {
     return <FlatList
       contentContainerStyle={{paddingHorizontal: 8,
         paddingVertical: 15}}
+      keyboardShouldPersistTaps="always"
       data={viewport.root.children}
       keyExtractor={item => item.name}
       renderItem={this.renderItem}/>

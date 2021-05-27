@@ -11,6 +11,8 @@ import {
   Appearance
 } from 'react-native'
 import styles from './styles'
+import Editor from './Editor'
+import actionsSheetController from "./actionsSheetController";
 
 export default class PlainItem extends Component {
 
@@ -43,15 +45,21 @@ export default class PlainItem extends Component {
   }
 
   header() {
-    return <Text>
+    if (this.state.editing)
+      return <Editor parent={this} node={this.node} />
+
+    return <Text
+      onPress={this.edit}
+    >
       <Text
         onPress={this.toggle}
         style={{color: this.titleColor}}
       >
         {this.node.name}
       </Text>
-      <View style={{width: 5}}/>
-      <Text style={{color: styles.textColor}}>
+      <View style={{width: 10}}/>
+      <Text
+        style={{color: styles.textColor}}>
         {this.node.description}
       </Text>
     </Text>
@@ -59,6 +67,10 @@ export default class PlainItem extends Component {
 
   toggle() {
     this.setState({showDescription: !this.state.showDescription})
+  }
+
+  edit() {
+    this.setState({editing: true})
   }
 
   renderSubItems() {
