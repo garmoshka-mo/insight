@@ -1,8 +1,10 @@
 import fs from "./fs";
 import yaml from 'js-yaml'
 import autoBind from "../utils/autoBind";
-import viewport from './viewport'
+import s from './services'
 import {showError} from './errors'
+import settings from './settings'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default class File {
 
@@ -11,11 +13,20 @@ export default class File {
     autoBind(this)
   }
 
+  static async load(id) {
+    var meta = await AsyncStorage.get(`meta_${id}`)
+    return new this(meta)
+  }
+
   async openFile() {
+    s.viewport.load(await this.data())
+    settings.update({recentFileId: this.id})
+  }
+
+  async data() {
     try {
       var content = await fs.readFile(this.id)
-      var obj = yaml.load(content)
-      viewport.load(obj)
+      return yaml.load(content)
     } catch (err) {
       showError(err, "Can't load file")
     }

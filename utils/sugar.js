@@ -1,6 +1,8 @@
 /** @providesModule sugar
  */
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 Array.prototype.each = function(callback) {
   this.forEach((_, i) => callback(_, i))
 }
@@ -133,4 +135,12 @@ export function defer() {
   })
   Object.assign(promise, methods)
   return promise
+}
+
+AsyncStorage.set = (key, data) =>
+  AsyncStorage.setItem(key, JSON.stringify(data))
+
+AsyncStorage.get = async (key) => {
+  var data = await AsyncStorage.getItem(key)
+  return JSON.parse(data)
 }

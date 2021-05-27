@@ -48,7 +48,7 @@ export default new class Files extends ComponentController {
     try {
       if (!meta.name.endsWith('.yml') || meta.size > 2000000) return
 
-      var localMeta = await AsyncStorage.get(`meta_${meta.id}`)
+      var localMeta = await File.load(meta.id)
       if (localMeta) {
         if (this.wasChangedOnServer(localMeta, meta)) {
           if (!localMeta.unchanged) {
@@ -114,13 +114,4 @@ export default new class Files extends ComponentController {
   }
 
 
-}
-
-
-AsyncStorage.set = (key, data) =>
-  AsyncStorage.setItem(key, JSON.stringify(data))
-
-AsyncStorage.get = async (key) => {
-  var data = await AsyncStorage.getItem(key)
-  return JSON.parse(data)
 }
