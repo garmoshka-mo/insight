@@ -13,13 +13,12 @@ import {
 import auth from './auth'
 import filesService from "./files"
 import {logr} from './commonFunctions'
+import menuController from "./menuController";
 
 
 export default class extends Component {
-  constructor(props) {
-    super(props)
-    this.subscribeTo(auth, filesService)
-  }
+
+  controllers = [auth, filesService]
 
   componentDidMount() {
     auth.getAuthUrl()

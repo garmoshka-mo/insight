@@ -9,10 +9,8 @@ import Icon from "react-native-vector-icons/FontAwesome"
 
 
 export default class ActionsSheetDialog extends Component {
-  constructor(props) {
-    super(props)
-    this.subscribeTo(actionsSheetController)
-  }
+
+  controllers = [actionsSheetController]
 
   render() {
     return (

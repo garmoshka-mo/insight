@@ -12,10 +12,7 @@ import files from "./files";
 
 export default class extends Component {
 
-  constructor() {
-    super()
-    this.subscribeTo(files)
-  }
+  controllers = [files]
 
   render() {
     return <View>

@@ -5,16 +5,11 @@ import styles from './styles'
 import files from './files'
 import auth from "./auth";
 import {showFlash} from "./commonFunctions";
-import filesService from "./files";
+import menuController from "./menuController"
 
 export default class Menu extends Component {
 
-  menu = [
-    {icon: 'refresh', action: filesService.downloadUpdates},
-    {icon: 'bath', action: _=> showFlash('Test')},
-    {icon: 'folder-open', action: files.showList},
-    // {icon: 'sign-out', action: auth.logout},
-  ]
+  controllers = [menuController]
 
   render() {
     return <View style={{
@@ -26,7 +21,7 @@ export default class Menu extends Component {
       borderRadius: 20,
       backgroundColor: '#262626'
     }}>
-      {this.menu.map(_ => this.button(_))}
+      {menuController.menu.map(_ => this.button(_))}
     </View>
   }
 

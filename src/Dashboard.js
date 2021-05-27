@@ -14,10 +14,7 @@ import viewport from "./viewport";
 
 export default class extends Component {
 
-  constructor() {
-    super()
-    this.subscribeTo(viewport)
-  }
+  controllers = [viewport]
 
   componentDidMount() {
     auth.load()

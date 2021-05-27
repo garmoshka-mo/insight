@@ -11,7 +11,8 @@ export class Component extends RawComponent {
   constructor(props) {
     super(props)
     autoBind(this)
-    this.controllers = []
+    if (!this.controllers)
+      this.controllers = []
   }
 
   asyncSetState(newState) {

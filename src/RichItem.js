@@ -16,6 +16,7 @@ export default class RichItem extends PlainItem {
 
   titleColor = '#2280a5'
   state = {
+    showDescription: true,
     showSubItems: true
   }
 

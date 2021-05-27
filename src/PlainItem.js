@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import styles from './styles'
 import Editor from './Editor'
+import Icon from "react-native-vector-icons/FontAwesome"
 import actionsSheetController from "./actionsSheetController";
 
 export default class PlainItem extends Component {
@@ -58,11 +59,20 @@ export default class PlainItem extends Component {
         {this.node.name}
       </Text>
       <View style={{width: 10}}/>
-      <Text
-        style={{color: styles.textColor}}>
-        {this.node.description}
-      </Text>
+      {this.renderDescription()}
     </Text>
+  }
+
+  renderDescription() {
+    if (this.state.showDescription)
+      return <Text
+        style={{color: styles.textColor}}>
+        {this.node.description || this.editIcon()}
+      </Text>
+  }
+
+  editIcon() {
+    return <Icon name={"edit"} size={14} style={styles.text} />
   }
 
   toggle() {
