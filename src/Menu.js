@@ -5,10 +5,15 @@ import styles from './styles'
 import files from './files'
 import auth from "./auth";
 import {showFlash} from "./commonFunctions";
+import filesService from "./files";
 
 export default class Menu extends Component {
 
   menu = [
+    {icon: 'refresh', action: async () => {
+        if (await filesService.downloadUpdates())
+          showFlash('Files downloaded')
+    }},
     {icon: 'bath', action: _=> showFlash('Test')},
     {icon: 'folder-open', action: files.showList},
     // {icon: 'sign-out', action: auth.logout},

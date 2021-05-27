@@ -20,6 +20,8 @@ export default class extends Component {
     return <TouchableOpacity
       key={file.id}
       style={{paddingHorizontal: 10,
+        padding: 10,
+        paddingVertical: 20,
         borderBottomWidth: 1,
         borderBottomColor: styles.textColor
       }}

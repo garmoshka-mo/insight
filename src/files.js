@@ -30,13 +30,17 @@ export default new class Files extends ComponentController {
 
   async list() {
     var keys = await AsyncStorage.getAllKeys()
+    keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
     return items.map((row) => new File(JSON.parse(row[1])))
   }
 
   async downloadUpdates() {
     let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
-    response?.result?.entries.each(this.processFile)
+    var promises = response?.result?.entries.map(this.processFile)
+    await Promise.all(promises)
+    logr("♻️  downloadUpdates complete")
+    return true
   }
 
   async processFile(meta) {
@@ -74,6 +78,7 @@ export default new class Files extends ComponentController {
 
       await fs.moveFile(path, meta.id)
       this.updateMeta(meta, {unchanged: true})
+      logr(`⏬ downloaded ${meta.name}`)
     } catch(err) {
       errorDialog(err, 'Download error', {response, tempFilePath: path})
     }

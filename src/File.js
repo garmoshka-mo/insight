@@ -1,16 +1,18 @@
 import fs from "./fs";
 import yaml from 'js-yaml'
+import autoBind from "../utils/autoBind";
 
 export default class File {
 
   constructor(meta) {
     Object.assign(this, meta)
+    autoBind(this)
   }
 
   async open() {
     var content = await fs.readFile(this.id)
     var obj = yaml.load(content)
-    console.log('obj', obj)
+    console.log('obj', this.id, obj, content)
   }
 
 }
