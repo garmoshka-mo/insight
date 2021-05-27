@@ -1,5 +1,9 @@
 import {  Appearance } from 'react-native'
 
-export default {
-  textColor: Appearance.getColorScheme() == 'dark' ? '#8f8f8f' : 'black'
+const styles = {
+  textColor: Appearance.getColorScheme() == 'dark' ? '#8f8f8f' : 'black',
 }
+
+styles.text = {color: styles.textColor}
+
+export default styles

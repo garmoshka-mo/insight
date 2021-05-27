@@ -2,15 +2,32 @@
  **/
 
 import { Alert } from 'react-native'
+import { showMessage, hideMessage } from "react-native-flash-message"
 
 export function errorDialog(err, title = 'Error', data) {
   console.error(`⛔️ ${title}:`, err.message, ...formatObjects([err]))
   // alert ..
 }
 
-export function showSuccessFlash(message) {
-  // install flash
-  Alert.alert(message)
+var flashShownAt = Date.now()
+export function showFlash(message, type="success") {
+  if (!message) return
+
+  flashShownAt = Date.now()
+  let options = {
+    message: message.trim(),
+    type,
+    style: {
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    icon: "auto",
+    titleStyle: {
+      fontSize: 18
+    },
+    autoHide: true
+  }
+  showMessage(options)
 }
 
 export function logr() {

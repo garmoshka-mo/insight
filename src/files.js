@@ -2,7 +2,7 @@
  **/
 
 import ComponentController from './ComponentController'
-import {errorDialog, logr, showSuccessFlash} from "./commonFunctions"
+import {errorDialog, logr, showFlash} from "./commonFunctions"
 import fs from './fs'
 import DocumentPicker from 'react-native-document-picker'
 import {AppState} from 'react-native'
@@ -12,6 +12,7 @@ import s from './services'
 import actionsSheetController from './actionsSheetController'
 import React from "../utils/react-tuned"
 import FilesList from './FilesList'
+import File from "./File";
 
 export default new class Files extends ComponentController {
 
@@ -23,11 +24,17 @@ export default new class Files extends ComponentController {
     })
   }
 
-  showList() {
-    actionsSheetController.open(<FilesList />)
+  async showList() {
+    actionsSheetController.open(<FilesList files={await this.list()} />)
   }
 
-  async loadFiles() {
+  async list() {
+    var keys = await AsyncStorage.getAllKeys()
+    var items = await AsyncStorage.multiGet(keys)
+    return items.map((row) => new File(JSON.parse(row[1])))
+  }
+
+  async downloadUpdates() {
     let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
     response?.result?.entries.each(this.processFile)
   }
@@ -65,8 +72,7 @@ export default new class Files extends ComponentController {
       var path = response && response.path()
       if (!path) throw('Download response has no data or path')
 
-      console.log('downloaded path', path)
-      // await fs.moveFile(meta.name, path)
+      await fs.moveFile(path, meta.id)
       this.updateMeta(meta, {unchanged: true})
     } catch(err) {
       errorDialog(err, 'Download error', {response, tempFilePath: path})
@@ -94,7 +100,7 @@ export default new class Files extends ComponentController {
       })
 
       await s.dropbox.filesUpload({path: res.uri})
-      showSuccessFlash('Upload successful')
+      showFlash('Upload successful')
     } catch (err) {
       if (DocumentPicker.isCancel(err)) return
       errorDialog(err)

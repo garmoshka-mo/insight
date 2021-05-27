@@ -14,9 +14,14 @@ class Fs {
     return `${path}/insight`
   }
 
-  async moveFile(name, tempPath) {
-    let newPath = `${this.rootDir()}/${name}`
+  async moveFile(tempPath, id) {
+    let newPath = `${this.rootDir()}/${id}.yml`
     await RNFS.moveFile(tempPath, newPath)
+  }
+
+  async readFile(id) {
+    let path = `${this.rootDir()}/${id}.yml`
+    await RNFS.readFile(path, 'utf8')
   }
 
   // private

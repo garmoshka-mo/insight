@@ -6,10 +6,11 @@ import {View, Button, FlatList} from 'react-native'
 import sample from './sampleData'
 import _ from 'lodash'
 import YamlNode from "./YamlNode"
-import Dropbox from "./Dropbox";
+import auth from "./auth"
 import {logr} from "./commonFunctions";
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './Menu'
+import FlashMessage from "react-native-flash-message"
 
 export default class extends Component {
 
@@ -18,10 +19,15 @@ export default class extends Component {
     this.root = new YamlNode('root', _.cloneDeep(sample))
   }
 
+  componentDidMount() {
+    auth.load()
+  }
+
   render() {
     return <View style={{flex: 1}}>
       {this.content()}
       <Menu />
+      <FlashMessage position="top" />
       <ActionsSheetDialog />
     </View>
   }

@@ -5,7 +5,7 @@ import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
 import filesService from './files'
-import {errorDialog, logr} from "./commonFunctions";
+import {errorDialog, logr, showFlash} from "./commonFunctions";
 import {Linking} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import s from './services'
@@ -17,20 +17,20 @@ class Auth extends ComponentController {
   constructor() {
     super()
     this.handleDeepLinks()
-    this.loadToken()
   }
 
-  async loadToken() {
+  async load() {
     var token = await AsyncStorage.getItem('token')
     if (token) await this.loadDropboxData(token)
-    this.update({ loading: false })
+    else await this.login()
   }
 
   async loadDropboxData(token) {
     try {
       await s.initDropbox(token)
       this.update({ token, loading: false })
-      await filesService.loadFiles()
+      await filesService.downloadUpdates()
+      this.update({ loading: false })
     } catch(err) {
       if (err.error?.error?.['.tag'] == "expired_access_token") {
         this.logout()
@@ -40,10 +40,11 @@ class Auth extends ComponentController {
   }
 
   logout() {
-    logr("🔑 Log out")
+    logr("🔑 Logging out")
     var token = null
     this.update({ token, loading: false })
     AsyncStorage.removeItem('token')
+    showFlash('Logged out')
   }
 
   devLogin() {
@@ -55,15 +56,15 @@ class Auth extends ComponentController {
     return !!this.token
   }
 
-  async getAuthUrl() {
-    if (this.isAuthenticated || this.authUrl) return
-
+  async login() {
     let dropbox = new Dropbox({ clientId: config.clientId });
     let authUrl = await dropbox.auth.getAuthenticationUrl('insight://auth')
-    this.update( { authUrl })
+    Linking.openURL(authUrl)
   }
 
   async handleDeepLinks() {
+    if (this.isAuthenticated) return
+
     const initialUrl = await Linking.getInitialURL()
     if (initialUrl) this.handleLinkingUrl(initialUrl)
     Linking.addEventListener('url', ({ url }) => {

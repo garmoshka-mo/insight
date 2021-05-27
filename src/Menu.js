@@ -3,12 +3,15 @@ import {Text, TouchableOpacity, View} from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
 import styles from './styles'
 import files from './files'
+import auth from "./auth";
+import {showFlash} from "./commonFunctions";
 
 export default class Menu extends Component {
 
   menu = [
-    {icon: 'bath', action: _=> 1},
-    {icon: 'folder-open', action: files.showList}
+    {icon: 'bath', action: _=> showFlash('Test')},
+    {icon: 'folder-open', action: files.showList},
+    // {icon: 'sign-out', action: auth.logout},
   ]
 
   render() {
