@@ -8,6 +8,8 @@ import _ from 'lodash'
 import YamlNode from "./YamlNode"
 import Dropbox from "./Dropbox";
 import {logr} from "./commonFunctions";
+import ActionsSheetDialog from './ActionsSheetDialog'
+import Menu from './Menu'
 
 export default class extends Component {
 
@@ -19,22 +21,15 @@ export default class extends Component {
   render() {
     return <View style={{flex: 1}}>
       {this.content()}
-      {this.bottomPanel()}
-    </View>
-  }
-
-  bottomPanel() {
-    return <View style={{}}>
-      <Button
-        title="Test"
-        onPress={_ => logr('test')}
-      />
+      <Menu />
+      <ActionsSheetDialog />
     </View>
   }
 
   content() {
     return <FlatList
-      style={{paddingHorizontal: 8}}
+      contentContainerStyle={{paddingHorizontal: 8,
+        paddingVertical: 15}}
       data={this.root.children}
       keyExtractor={item => item.name}
       renderItem={this.renderItem}/>

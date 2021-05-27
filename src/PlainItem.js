@@ -8,12 +8,14 @@ import {
   TouchableOpacity,
   View,
   Alert,
-
+  Appearance
 } from 'react-native'
+import styles from './styles'
 
 export default class PlainItem extends Component {
 
   titleColor = '#8d7627'
+
   state = {
     showDescription: true
   }
@@ -49,7 +51,9 @@ export default class PlainItem extends Component {
         {this.node.name}
       </Text>
       <View style={{width: 5}}/>
-      {this.node.description}
+      <Text style={{color: styles.textColor}}>
+        {this.node.description}
+      </Text>
     </Text>
   }
 
