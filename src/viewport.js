@@ -19,6 +19,7 @@ export default new class extends ComponentController {
   }
 
   async preload() {
+    await settings.load()
     if (settings.recentFileId) {
       var file = await File.load(settings.recentFileId)
       this.load(await file.data())

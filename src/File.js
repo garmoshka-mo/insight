@@ -19,7 +19,9 @@ export default class File {
   }
 
   async openFile() {
-    s.viewport.load(await this.data())
+    var data = await this.data()
+    if (!data) return
+    s.viewport.load(data)
     settings.update({recentFileId: this.id})
   }
 
