@@ -11,7 +11,7 @@ import {
   StyleSheet
 } from 'react-native'
 import auth from './auth'
-import filesService from "./filesService"
+import filesService from "./files"
 import {logr} from './commonFunctions'
 
 

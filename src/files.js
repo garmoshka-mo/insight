@@ -9,8 +9,11 @@ import {AppState} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import conflictResolver from './conflictResolver'
 import s from './services'
+import actionsSheetController from './actionsSheetController'
+import React from "../utils/react-tuned"
+import FilesList from './FilesList'
 
-class FilesService extends ComponentController {
+export default new class Files extends ComponentController {
 
   files = []
 
@@ -18,6 +21,10 @@ class FilesService extends ComponentController {
     AppState.addEventListener('change', (appState) => {
       if (appState == 'background') this.uploadChanges()
     })
+  }
+
+  showList() {
+    actionsSheetController.open(<FilesList />)
   }
 
   async loadFiles() {
@@ -31,29 +38,48 @@ class FilesService extends ComponentController {
 
       var localMeta = await AsyncStorage.get(`meta_${meta.id}`)
       if (localMeta) {
-        // also can use .server_modified
-        if (localMeta.content_hash != meta.content_hash) {
-          await conflictResolver.resolve(meta)
+        if (this.wasChangedOnServer(localMeta, meta)) {
+          if (!localMeta.unchanged) {
+            await conflictResolver.resolve(meta)
+            await this.upload(localMeta)
+            return 'locally changed file uploaded to server'
+          }
+        } else {
+          return 'latest version already downloaded'
         }
       }
-      AsyncStorage.set(`meta_${meta.id}`, meta)
+      await this.download(meta)
     } catch (err) {
       errorDialog(err, 'processFile error')
     }
   }
 
-  async download(file) {
-    try {
-      var response = await s.dropbox.filesDownload({path: file.path_lower})
-      var path = response && response.path()
-      if (!(response.data && path))
-        throw('Download response has no data or path')
+  wasChangedOnServer(localMeta, meta) {
+    // also can use .server_modified
+    return localMeta.content_hash != meta.content_hash
+  }
 
-      await fs.moveFile(file.name, path)
-      showSuccessFlash('Download successful')
+  async download(meta) {
+    try {
+      var response = await s.dropbox.filesDownload({path: meta.path_lower})
+      var path = response && response.path()
+      if (!path) throw('Download response has no data or path')
+
+      console.log('downloaded path', path)
+      // await fs.moveFile(meta.name, path)
+      this.updateMeta(meta, {unchanged: true})
     } catch(err) {
       errorDialog(err, 'Download error', {response, tempFilePath: path})
     }
+  }
+
+  async upload(meta) {
+    this.updateMeta(meta, {unchanged: true})
+  }
+
+  updateMeta(meta, data) {
+    Object.assign(meta, data)
+    AsyncStorage.set(`meta_${meta.id}`, meta)
   }
 
   async uploadChanges() {
@@ -77,8 +103,6 @@ class FilesService extends ComponentController {
 
 
 }
-
-export default new FilesService()
 
 
 AsyncStorage.set = (key, data) =>

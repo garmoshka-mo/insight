@@ -4,7 +4,7 @@
 import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
-import filesService from './filesService'
+import filesService from './files'
 import {errorDialog, logr} from "./commonFunctions";
 import {Linking} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
