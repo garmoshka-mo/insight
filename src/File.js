@@ -28,6 +28,7 @@ export default class File {
   async data() {
     try {
       var content = await fs.readFile(this.id)
+      content = content.replace(/\t/g, '    ')
       return yaml.load(content)
     } catch (err) {
       showError(err, "Can't load file")

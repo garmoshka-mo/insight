@@ -1,4 +1,4 @@
-export const forceSamle = true
+export const forceSample = false
 export default `
 ---
 style: With React Native, you style your application using JavaScript. All of the

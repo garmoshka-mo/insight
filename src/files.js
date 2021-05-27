@@ -14,6 +14,7 @@ import actionsSheetController from './actionsSheetController'
 import React from "../utils/react-tuned"
 import FilesList from './FilesList'
 import File from "./File";
+import settings from "./settings";
 
 export default new class Files extends ComponentController {
 
@@ -79,6 +80,10 @@ export default new class Files extends ComponentController {
 
       await fs.moveFile(path, meta.id)
       this.updateMeta(meta, {unchanged: true})
+      if (meta.id == settings.recentFileId) {
+        var file = await File.load(meta.id)
+        file.openFile()
+      }
       logr(`⏬ downloaded ${meta.name}`)
     } catch(err) {
       showError(err, 'Download error', {response, tempFilePath: path})
