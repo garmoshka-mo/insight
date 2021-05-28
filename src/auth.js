@@ -60,7 +60,7 @@ class Auth extends ComponentController {
 
   async login() {
     let dropbox = new Dropbox({ clientId: config.clientId });
-    let authUrl = await dropbox.auth.getAuthenticationUrl('insight://auth')
+    let authUrl = await dropbox.auth.getAuthenticationUrl('insight://auth?')
     Linking.openURL(authUrl)
   }
 
@@ -76,11 +76,10 @@ class Auth extends ComponentController {
 
   handleLinkingUrl(url) {
     // url = new URL('insight://auth.com?uid=7682069&access_token=sl.AxocvOranothRw19rx8NVOosHq1VxNcoKGfqp3WUEIWUAFvVOGyS8e9hCoAoSjVT6K0QHKoMQK8OfqeYsEZk6vJmGUH8fXIjx2fdRfoG3Yvis4zXsjZzujnkl1Abo0V3M1sOi7A&expires_in=14399&token_type=bearer&scope=account_info.read+files.content.read+files.content.write+files.metadata.read+files.metadata.write&account_id=dbid%3AAADlY3B373KR5DZZ6sO2IH-UuW9doO4AK5Y')
-    // url.searchParams.get('access_token')
+    // insight://auth?#access_token=bXZI7ACdH4UAAAAAAAAAAb7AbmnFc_iwsc9dO-6wNyqzVxd1Hk4y_raraHz9u_31&token_type=bearer&uid=7682069&account_id=dbid%3AAADlY3B373KR5DZZ6sO2IH-UuW9doO4AK5Y&scope=account_info.read+files.content.read+files.content.write+files.metadata.read+files.metadata.write
 
-    let anchor1 = url.indexOf('access_token=') + 'access_token='.length
-    let anchor2 = url.indexOf('&expires_in')
-    let token = url.slice(anchor1, anchor2)
+    url = new URL(url.replace("//auth?#", "//auth?"))
+    let token = url.searchParams.get('access_token')
     AsyncStorage.setItem('token', token)
     this.loadDropboxData(token)
   }

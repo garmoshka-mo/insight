@@ -5,6 +5,7 @@ import ComponentController from "./ComponentController"
 import filesService from "./files";
 import {showFlash} from "./commonFunctions";
 import files from "./files"
+import auth from './auth'
 import {Keyboard} from 'react-native'
 
 export default new class extends ComponentController {
