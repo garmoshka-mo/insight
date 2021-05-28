@@ -76,7 +76,10 @@ export default class PlainItem extends Component {
   }
 
   toggle() {
-    this.setState({showDescription: !this.state.showDescription})
+    if (this.node.description)
+      this.setState({showDescription: !this.state.showDescription})
+    else
+      this.edit()
   }
 
   edit() {

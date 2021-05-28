@@ -28,7 +28,7 @@ export default class Menu extends Component {
   button(button) {
     return <TouchableOpacity
       key={button.icon}
-      style={{paddingHorizontal: 10}}
+      style={{paddingHorizontal: 12}}
       onPress={button.action}
     >
       <Icon name={button.icon}

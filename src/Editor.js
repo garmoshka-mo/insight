@@ -22,7 +22,12 @@ export default class extends Component {
     this.state = {
       value: `${node.name}: ${node.description}`
     }
+
     menuController.set([
+      {icon: 'angle-double-down', action: node.addSibling},
+      {icon: 'level-down', action: node.addChild},
+      {icon: 'times', action: node.delete},
+
       {icon: 'ellipsis-v', action: this.split},
       {icon: 'check', action: this.save},
     ])
