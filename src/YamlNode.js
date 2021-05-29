@@ -31,6 +31,19 @@ export default class YamlNode extends ComponentController {
     }
   }
 
+  dump() {
+    if (this.children.length > 0) {
+      var result = {}
+      if (this.description)
+        result["_"] = this.description
+      this.children.each(node => {
+        result[node.name] = node.dump()
+      })
+     return result
+    } else
+      return this.description
+  }
+
   render() {
     var component = this.children.length ? RichItem : PlainItem
     return React.createElement(

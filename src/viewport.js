@@ -6,10 +6,12 @@ import {createRef} from 'react'
 import YamlNode from "./YamlNode";
 import _ from "lodash";
 import s from "./services";
-import sample, {forceSample} from "./sampleData";
+import sampleData, {forceSample} from "./sampleData";
 import settings from "./settings";
 import File from './File'
 import yaml from 'js-yaml'
+import FileSample from "./FileSample";
+import {logr} from "./commonFunctions";
 
 export default new class extends ComponentController {
 
@@ -21,12 +23,11 @@ export default new class extends ComponentController {
 
   async preload() {
     await settings.load()
-    if (!forceSample && settings.recentFileId) {
+    if (!forceSample && settings.recentFileId)
       var file = await File.load(settings.recentFileId)
-      await this.loadToPort(file)
-    } else {
-      this.load(yaml.load(sample))
-    }
+    else
+      file = new FileSample(sampleData)
+    await this.loadToPort(file)
   }
 
   async loadToPort(file) {
