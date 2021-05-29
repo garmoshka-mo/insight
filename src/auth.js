@@ -31,7 +31,7 @@ class Auth extends ComponentController {
     try {
       await s.initDropbox(token)
       this.update({ token, loading: false })
-      await filesService.downloadUpdates()
+      await filesService.sync()
       this.update({ loading: false })
     } catch(err) {
       if (err.error?.error?.['.tag'] == "expired_access_token") {

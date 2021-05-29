@@ -32,8 +32,12 @@ export default new class extends ComponentController {
   async loadToPort(file) {
     this.file = file
     this.update({root: null})
-    var data = await file.data()
+    var data = await file.parseData()
     this.update({root: new YamlNode('root', data)})
+  }
+
+  async save() {
+    this.file.save(this.root.dump())
   }
 
 }

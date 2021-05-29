@@ -9,7 +9,8 @@ class ActionsSheetController extends ComponentController {
 
   ref = createRef()
 
-  open(content) {
+  open(content, options = {error: false}) {
+    Object.assign(this, options)
     this.content = content
     this.refresh()
     this.ref.current?.show()

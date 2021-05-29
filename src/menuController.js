@@ -32,7 +32,7 @@ export default new class extends ComponentController {
 
   get dashboard() {
     return [
-      {icon: 'refresh', action: filesService.downloadUpdates},
+      {icon: 'refresh', action: filesService.sync},
       {icon: 'bath', action: _=> showFlash('Test')},
       {icon: 'folder-open', action: files.showList},
       // {icon: 'sign-out', action: auth.logout},

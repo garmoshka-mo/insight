@@ -19,7 +19,7 @@ export default class File {
   }
 
   async openFile() {
-    var data = await this.data()
+    var data = await this.parseData()
     if (!data) return
     s.viewport.loadToPort(this)
     settings.update({recentFileId: this.id})
@@ -30,14 +30,34 @@ export default class File {
     AsyncStorage.set(`meta_${this.id}`, this)
   }
 
-  async data() {
+  async parseData() {
     try {
-      var content = await fs.readFile(this.id)
+      var content = await this.data()
       content = content.replace(/\t/g, '    ')
       return yaml.load(content)
     } catch (err) {
       showError(err, "Can't load file")
     }
+  }
+
+  data() {
+    return fs.readFile(this.id)
+  }
+
+  async save(obj) {
+    await fs.saveFile(this.id, yaml.dump(obj))
+    this.updateMeta({changed: true})
+  }
+
+  async upload() {
+    await s.dropbox.filesUpload({
+      path: this.path_lower,
+      contents: await this.data(),
+      rev: this.rev,
+      mode: 'update',
+      autorename: true,
+      mute: true
+    })
   }
 
 }

@@ -23,6 +23,10 @@ class Fs {
     return await RNFS.readFile(this.filePath(id), 'utf8')
   }
 
+  saveFile(id, data) {
+    return RNFS.writeFile(this.filePath(id), data, 'utf8')
+  }
+
   // private
 
   filePath(id) {

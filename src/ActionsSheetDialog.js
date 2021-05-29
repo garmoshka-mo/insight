@@ -6,7 +6,7 @@ import React, { Component } from "../utils/react-tuned"
 import {Text, TouchableOpacity, View} from 'react-native'
 import actionsSheetController from "./actionsSheetController"
 import Icon from "react-native-vector-icons/FontAwesome"
-
+import {colors} from './styles'
 
 export default class ActionsSheetDialog extends Component {
 
@@ -15,6 +15,10 @@ export default class ActionsSheetDialog extends Component {
   render() {
     return (
       <ActionSheet
+        containerStyle={{backgroundColor:
+          actionsSheetController.error ? colors.violet : colors.background,
+          zIndex: 10
+        }}
         gestureEnabled={true}
         ref={actionsSheetController.ref}
       >

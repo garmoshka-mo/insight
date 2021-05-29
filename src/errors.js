@@ -7,6 +7,7 @@ import { showMessage, hideMessage } from "react-native-flash-message"
 import actionsSheetController from "./actionsSheetController";
 import {formatObjects, logr, serialize} from './commonFunctions'
 import {Text, ScrollView, View} from 'react-native'
+import {colors} from "./styles";
 
 
 export function showError(error, title = 'Error', data) {
@@ -50,10 +51,11 @@ function errorSheet(message) {
   actionsSheetController.open(
     <ScrollView horizontal={true}>
       <View style={{width: 1000}}>
-        <Text style={{fontFamily: 'monospace'}}>
+        <Text style={{fontFamily: 'monospace', color: colors.light}}>
           {message}
         </Text>
       </View>
-    </ScrollView>
+    </ScrollView>,
+    {error: true}
   )
 }

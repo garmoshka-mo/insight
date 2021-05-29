@@ -1,9 +1,14 @@
 import {  Appearance } from 'react-native'
 
-const styles = {
-  textColor: Appearance.getColorScheme() == 'dark' ? '#8f8f8f' : 'black',
+export const colors = {
+  light: '#d0d0d0',
+  violet: '#860e0e',
+  background: '#323232',
+  text: Appearance.getColorScheme() == 'dark' ?
+    '#8f8f8f' : 'black'
 }
 
-styles.text = {color: styles.textColor}
-
-export default styles
+export default {
+  textColor: colors.text, // todo: use colors.text
+  text: {color: colors.text}
+}
