@@ -49,14 +49,21 @@ export default new class Files extends ComponentController {
     )
   }
 
+  async sync() {
+    // todo: наверно все конфликты будут разруливаться при аплоаде
+    // и при даунлоаде, если случается - кидать эксепшн просто на всякий случай
+    await this.uploadChanges()
+    await this.downloadUpdates()
+    this.report()
+    await this.reloadList()
+    return true
+  }
+
   async downloadUpdates() {
     let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
     this.stats = {downloaded: 0, conflicts: 0 }
     var promises = response?.result?.entries.map(this.processFile)
     await Promise.all(promises)
-    await this.reloadList()
-    this.report()
-    return true
   }
 
   report() {
@@ -82,7 +89,7 @@ export default new class Files extends ComponentController {
 
       if (localMeta) {
         if (this.wasChangedOnServer(localMeta, meta)) {
-          if (!localMeta.unchanged) {
+          if (localMeta.changed) {
             await conflictResolver.resolve(meta)
             await this.upload(localMeta)
             this.stats.conflicts++
@@ -110,7 +117,7 @@ export default new class Files extends ComponentController {
       if (!path) throw('Download response has no data or path')
 
       await fs.moveFile(path, meta.id)
-      this.updateMeta(meta, {unchanged: true})
+      this.updateMeta(meta, {changed: false})
       if (meta.id == viewport.file?.id)
         viewport.file.openFile()
       this.stats.downloaded++
@@ -121,7 +128,7 @@ export default new class Files extends ComponentController {
   }
 
   async upload(meta) {
-    this.updateMeta(meta, {unchanged: true})
+    this.updateMeta(meta, {changed: false})
   }
 
   // todo: move to File
