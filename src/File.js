@@ -5,6 +5,7 @@ import s from './services'
 import {showError} from './errors'
 import settings from './settings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import conflictResolver from "./conflictResolver";
 
 export default class File {
 
@@ -50,14 +51,27 @@ export default class File {
   }
 
   async upload() {
-    await s.dropbox.filesUpload({
+    var uploadResult = await s.dropbox.filesUpload({
       path: this.path_lower,
       contents: await this.data(),
-      rev: this.rev,
-      mode: 'update',
-      autorename: true,
+      mode: {
+        ".tag": "update",
+        "update": this.rev
+      },
       mute: true
     })
+    console.log('uploadResult', uploadResult)
+    throw('to implement')
+
+    if (1 == 'conflict') {
+      // todo:
+      await conflictResolver.resolve(remoteFile)
+      await this.upload(localFile)
+
+      return 'conflict'
+    }
+
+    return true
   }
 
 }

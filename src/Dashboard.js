@@ -5,7 +5,7 @@ import React, {Component} from "../utils/react-tuned"
 import {View, ActivityIndicator, FlatList} from 'react-native'
 import sample from './sampleData'
 import _ from 'lodash'
-import YamlNode from "./YamlNode"
+import files from "./files"
 import auth from "./auth"
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './Menu'
@@ -16,8 +16,10 @@ export default class extends Component {
 
   controllers = [viewport]
 
-  componentDidMount() {
-    auth.load()
+  async componentDidMount() {
+    // await files.resetFiles()
+    await files.reloadList()
+    await auth.load()
   }
 
   render() {

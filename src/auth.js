@@ -4,7 +4,7 @@
 import ComponentController from './ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
-import filesService from './files'
+import files from './files'
 import {logr, showFlash} from "./commonFunctions";
 import {showError} from './errors'
 import {Linking} from "react-native";
@@ -31,7 +31,7 @@ class Auth extends ComponentController {
     try {
       await s.initDropbox(token)
       this.update({ token, loading: false })
-      await filesService.sync()
+      await files.sync()
       this.update({ loading: false })
     } catch(err) {
       if (err.error?.error?.['.tag'] == "expired_access_token") {

@@ -24,8 +24,6 @@ export default new class Files extends ComponentController {
     AppState.addEventListener('change', (appState) => {
       if (appState == 'background') this.uploadChanges()
     })
-    // await this.resetFiles()
-    this.reloadList()
   }
 
   async showList() {
@@ -61,7 +59,7 @@ export default new class Files extends ComponentController {
 
   async downloadUpdates() {
     let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
-    this.stats = {downloaded: 0, conflicts: 0 }
+    this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
     var promises = response?.result?.entries.map(this.processFile)
     await Promise.all(promises)
   }
@@ -71,6 +69,10 @@ export default new class Files extends ComponentController {
     if (this.stats.downloaded) {
       type = "success"
       message += ` Downloaded ${this.stats.downloaded}`
+    }
+    if (this.stats.uploaded) {
+      type = "success"
+      message += ` Uploaded ${this.stats.uploaded}`
     }
     if (this.stats.conflicts) {
       type = "warning"
@@ -85,16 +87,11 @@ export default new class Files extends ComponentController {
     try {
       if (!meta.name.endsWith('.yml') || meta.size > 2000000) return
 
-      var localMeta = await File.load(meta.id)
+      var localFile = await File.load(meta.id)
 
-      if (localMeta) {
-        if (this.wasChangedOnServer(localMeta, meta)) {
-          if (localMeta.changed) {
-            await conflictResolver.resolve(meta)
-            await this.upload(localMeta)
-            this.stats.conflicts++
-            return 'locally changed file uploaded to server'
-          }
+      if (localFile) {
+        if (this.wasChangedOnServer(localFile, meta) && localFile.changed) {
+          throw('Local file changed during sync. Re-sync needed.')
         } else {
           return 'latest version already downloaded'
         }
@@ -105,9 +102,9 @@ export default new class Files extends ComponentController {
     }
   }
 
-  wasChangedOnServer(localMeta, meta) {
+  wasChangedOnServer(localFile, meta) {
     // also can use .server_modified
-    return localMeta.content_hash != meta.content_hash
+    return localFile.content_hash != meta.content_hash
   }
 
   async download(meta) {
@@ -138,7 +135,12 @@ export default new class Files extends ComponentController {
   }
 
   async uploadChanges() {
-    logr('Todo: upload changes...')
+    this.list.each(file => {
+      if (file.changed) {
+        if (file.upload() == 'conflict') this.stats.conflicts++
+        this.stats.uploaded++
+      }
+    })
   }
 
   async pickFileForUpload() {
@@ -155,6 +157,5 @@ export default new class Files extends ComponentController {
       showError(err)
     }
   }
-
 
 }
