@@ -12,7 +12,7 @@ index 9b0d92f..ebe48d9 100644
  
  var Encoder;
 diff --git a/node_modules/dropbox/cjs/src/dropbox.js b/node_modules/dropbox/cjs/src/dropbox.js
-index 78b6dbd..5d38aee 100644
+index 78b6dbd..eacf04b 100644
 --- a/node_modules/dropbox/cjs/src/dropbox.js
 +++ b/node_modules/dropbox/cjs/src/dropbox.js
 @@ -11,6 +11,8 @@ var _routes = require("../lib/routes.js");
@@ -62,7 +62,7 @@ index 78b6dbd..5d38aee 100644
            method: 'POST',
            headers: {
              Authorization: "Bearer ".concat(_this3.auth.getAccessToken()),
-@@ -207,11 +217,21 @@ var Dropbox = /*#__PURE__*/function () {
+@@ -207,11 +217,26 @@ var Dropbox = /*#__PURE__*/function () {
          _this3.setCommonHeaders(fetchOptions);
  
          return fetchOptions;
@@ -79,7 +79,12 @@ index 78b6dbd..5d38aee 100644
 +        )
 +        //return _this3.fetch((0, _utils.getBaseURL)(host) + path, fetchOptions);
 +      }).then((res) => {
-+        return res.json()
++        var text = res.text()
++        try {
++          return JSON.parse(text)
++        } catch (e) {
++          throw text
++        }
 +      })
 +      /*.then(function (res) {
          return (0, _response.parseResponse)(res);
