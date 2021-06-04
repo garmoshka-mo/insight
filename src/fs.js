@@ -2,6 +2,7 @@
  **/
 
 import RNFS from 'react-native-fs'
+import RNFetchBlob from 'rn-fetch-blob'
 import {PermissionsAndroid} from 'react-native'
 
 class Fs {
@@ -23,7 +24,7 @@ class Fs {
   }
 
   saveFile(path, data) {
-    return RNFS.writeFile(path, data, 'utf8')
+    return RNFetchBlob.fs.writeFile(path, data, 'utf8')
   }
 
   // private

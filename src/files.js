@@ -44,6 +44,7 @@ export default new class Files extends ComponentController {
     await this.uploadChanges()
     await this.downloadUpdates()
     this.report()
+    this.refresh()
     return true
   }
 
@@ -74,7 +75,10 @@ export default new class Files extends ComponentController {
 
   async processFile(meta) {
     try {
-      if (!meta.name.endsWith('.yml') || meta.size > 2000000) return
+      if (!meta.name.endsWith('.yml') ||
+        meta.name.includes('conflict') ||
+        meta.size > 2000000
+      ) return
 
       var localFile = this.fileById(meta.id)
 

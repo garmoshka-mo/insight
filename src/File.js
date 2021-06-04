@@ -45,6 +45,7 @@ export default class File {
   }
 
   data() {
+    logr('Reading data of', this.name)
     return fs.readFile(this.filePath)
   }
 
@@ -67,15 +68,18 @@ export default class File {
   }
 
   async upload() {
+    var result = true
     var uploadResult = await this._upload()
     if (uploadResult == 'conflict') {
-        await conflictResolver.backupConflict(this.path_display)
+      result = 'conflict'
+      await conflictResolver.backupConflict(this.path_display)
       uploadResult = await this._upload('overwrite')
       if (uploadResult == 'conflict') throw("Double conflict on file upload")
     }
 
-    await this.updateMeta({changed: false, rev: uploadResult.rev})
-    return true
+    uploadResult.changed = false
+    await this.updateMeta(uploadResult)
+    return result
   }
 
   async _upload(modeTag = "update") {
