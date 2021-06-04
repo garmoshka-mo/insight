@@ -30,7 +30,7 @@ export default new class Files extends ComponentController {
     actionsSheetController.open(<FilesList />)
   }
 
-  async reloadList() {
+  async loadList() {
     var keys = await AsyncStorage.getAllKeys()
     keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
@@ -54,7 +54,6 @@ export default new class Files extends ComponentController {
     await this.uploadChanges()
     await this.downloadUpdates()
     this.report()
-    await this.reloadList()
     return true
   }
 
@@ -87,51 +86,43 @@ export default new class Files extends ComponentController {
     try {
       if (!meta.name.endsWith('.yml') || meta.size > 2000000) return
 
-      var localFile = await File.load(meta.id)
+      var localFile = this.fileById(meta.id)
 
       if (localFile) {
-        if (this.wasChangedOnServer(localFile, meta) && localFile.changed) {
-          throw('Local file changed during sync. Re-sync needed.')
+        if (this.wasChangedOnServer(localFile, meta)) {
+          if (localFile.changed)
+            throw('Local file changed during sync. Re-sync needed.')
+          else
+            'will download'
         } else {
           return 'latest version already downloaded'
         }
+      } else {
+        localFile = new File(meta)
+        this.list.push(localFile)
       }
-      await this.download(meta)
+
+      await localFile.download()
+
+      meta.changed = false
+      localFile.updateMeta(meta)
+      this.stats.downloaded++
+
+      if (localFile.id == viewport.file?.id)
+        localFile.openFile()
+
     } catch (err) {
       showError(err, 'processFile error')
     }
   }
 
+  fileById(id) {
+    return this.list.find(f => f.id == id)
+  }
+
   wasChangedOnServer(localFile, meta) {
     // also can use .server_modified
     return localFile.content_hash != meta.content_hash
-  }
-
-  async download(meta) {
-    try {
-      var response = await s.dropbox.filesDownload({path: meta.path_lower})
-      var path = response && response.path()
-      if (!path) throw('Download response has no data or path')
-
-      await fs.moveFile(path, meta.id)
-      this.updateMeta(meta, {changed: false})
-      if (meta.id == viewport.file?.id)
-        viewport.file.openFile()
-      this.stats.downloaded++
-      logr(`⏬ downloaded ${meta.name}`)
-    } catch(err) {
-      showError(err, 'Download error', {response, tempFilePath: path})
-    }
-  }
-
-  async upload(meta) {
-    this.updateMeta(meta, {changed: false})
-  }
-
-  // todo: move to File
-  updateMeta(meta, data) {
-    Object.assign(meta, data)
-    AsyncStorage.set(`meta_${meta.id}`, meta)
   }
 
   async uploadChanges() {

@@ -14,9 +14,7 @@ class Fs {
     return `${path}/insight`
   }
 
-  async moveFile(tempPath, id) {
-    // todo: move to File.js
-    let newPath = `${this.rootDir()}/${id.replace(':', '_')}.yml`
+  async moveFile(tempPath, newPath) {
     await RNFS.moveFile(tempPath, newPath)
   }
 

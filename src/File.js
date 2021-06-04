@@ -2,6 +2,7 @@ import fs from "./fs";
 import yaml from 'js-yaml'
 import autoBind from "../utils/autoBind";
 import s from './services'
+import files from './files'
 import {showError} from './errors'
 import settings from './settings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -15,9 +16,10 @@ export default class File {
     autoBind(this)
   }
 
-  static async load(id) {
-    var meta = await AsyncStorage.get(`meta_${id}`)
-    if (meta) return new this(meta)
+  static byId(id) {
+    var file = files.fileById(id)
+    if (!file) throw `File ${id} is not in files.list`
+    return file
   }
 
   async openFile() {
@@ -53,6 +55,15 @@ export default class File {
   async save(obj) {
     await fs.saveFile(this.filePath, yaml.dump(obj))
     this.updateMeta({changed: true})
+  }
+
+  async download() {
+    var response = await s.dropbox.filesDownload({path: this.path_lower})
+    var path = response && response.path()
+    if (!path) throw('Download response has no data or path')
+
+    await fs.moveFile(path, this.filePath)
+    logr(`⏬ downloaded ${this.name}`)
   }
 
   async upload() {

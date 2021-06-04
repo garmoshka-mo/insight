@@ -18,7 +18,7 @@ export default class extends Component {
 
   async componentDidMount() {
     // await files.resetFiles()
-    await files.reloadList()
+    await files.loadList()
     await auth.load()
   }
 

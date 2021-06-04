@@ -24,7 +24,7 @@ export default new class extends ComponentController {
   async preload() {
     await settings.load()
     if (!forceSample && settings.recentFileId)
-      var file = await File.load(settings.recentFileId)
+      var file = await File.byId(settings.recentFileId)
     else
       file = new FileSample(sampleData)
     await this.loadToPort(file)
