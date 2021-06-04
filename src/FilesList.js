@@ -1,12 +1,6 @@
 import React, {Component} from "../utils/react-tuned"
 import {View, Text, TouchableOpacity} from 'react-native'
-import sample from './sampleData'
-import _ from 'lodash'
-import YamlNode from "./YamlNode"
-import Dropbox from "./Dropbox";
-import {logr} from "./commonFunctions";
-import ActionsSheetDialog from './ActionsSheetDialog'
-import styles from "./styles";
+import styles, {colors} from "./styles";
 import actionsSheetController from "./actionsSheetController";
 import files from "./files";
 
@@ -27,7 +21,7 @@ export default class extends Component {
         padding: 10,
         paddingVertical: 20,
         borderBottomWidth: 1,
-        borderBottomColor: styles.textColor
+        borderBottomColor: colors.text
       }}
       onPress={_ => this.open(file)}
     >

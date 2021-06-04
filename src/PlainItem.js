@@ -66,7 +66,7 @@ export default class PlainItem extends Component {
   renderDescription() {
     if (this.state.showDescription)
       return <Text
-        style={{color: styles.textColor}}>
+        style={styles.text}>
         {this.node.description || this.editIcon()}
       </Text>
   }

@@ -10,6 +10,5 @@ export const colors = {
 }
 
 export default {
-  textColor: colors.text, // todo: use colors.text
   text: {color: colors.text}
 }
