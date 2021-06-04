@@ -4,11 +4,9 @@
 import ComponentController from './ComponentController'
 import {logr, showFlash} from "./commonFunctions"
 import {showError} from './errors'
-import fs from './fs'
 import DocumentPicker from 'react-native-document-picker'
 import {AppState} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import conflictResolver from './conflictResolver'
 import s from './services'
 import actionsSheetController from './actionsSheetController'
 import React from "../utils/react-tuned"

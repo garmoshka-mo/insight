@@ -16,10 +16,8 @@ export default class extends Component {
 
   controllers = [dashboard]
 
-  async componentDidMount() {
-    // await files.resetFiles()
-    await files.loadList()
-    await auth.load()
+  componentDidMount() {
+    dashboard.loadDashboard()
   }
 
   render() {
