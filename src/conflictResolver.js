@@ -7,13 +7,13 @@ import {randInRange, sleep} from "./commonFunctions";
 
 export default new class ConflictResolver {
 
-  async resolve(meta) {
-    var originalPath = meta.path_display
+  async backupConflict(remotePath) {
     var time = moment().format('YYMMDD_HH-mm-ss')
-    var conflictedPath = `${originalPath} (conflict ${await getDeviceName()} ${time}).yml`
+    var conflictedPath =
+      `${remotePath} (conflict ${await getDeviceName()} ${time}).yml`
 
-    console.log('⚠️ Conflict detected', originalPath, conflictedPath)
-    await this.copyFile(meta.path_display, conflictedPath)
+    console.log('⚠️ Backup conflict', remotePath, conflictedPath)
+    await this.copyFile(remotePath, conflictedPath)
   }
 
   async copyFile(from_path, to_path) {

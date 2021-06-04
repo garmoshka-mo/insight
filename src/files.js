@@ -50,6 +50,7 @@ export default new class Files extends ComponentController {
   async sync() {
     // todo: наверно все конфликты будут разруливаться при аплоаде
     // и при даунлоаде, если случается - кидать эксепшн просто на всякий случай
+    this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
     await this.uploadChanges()
     await this.downloadUpdates()
     this.report()
@@ -59,7 +60,6 @@ export default new class Files extends ComponentController {
 
   async downloadUpdates() {
     let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
-    this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
     var promises = response?.result?.entries.map(this.processFile)
     await Promise.all(promises)
   }

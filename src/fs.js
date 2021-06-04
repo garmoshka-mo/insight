@@ -15,23 +15,20 @@ class Fs {
   }
 
   async moveFile(tempPath, id) {
-    let newPath = this.filePath(id)
+    // todo: move to File.js
+    let newPath = `${this.rootDir()}/${id.replace(':', '_')}.yml`
     await RNFS.moveFile(tempPath, newPath)
   }
 
-  async readFile(id) {
-    return await RNFS.readFile(this.filePath(id), 'utf8')
+  async readFile(path) {
+    return await RNFS.readFile(path, 'utf8')
   }
 
-  saveFile(id, data) {
-    return RNFS.writeFile(this.filePath(id), data, 'utf8')
+  saveFile(path, data) {
+    return RNFS.writeFile(path, data, 'utf8')
   }
 
   // private
-
-  filePath(id) {
-    return `${this.rootDir()}/${id.replace(':', '_')}.yml`
-  }
 
   async _initRootDir() {
     await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)

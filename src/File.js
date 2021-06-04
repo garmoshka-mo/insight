@@ -6,6 +6,7 @@ import {showError} from './errors'
 import settings from './settings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import conflictResolver from "./conflictResolver";
+import {logr} from "./commonFunctions";
 
 export default class File {
 
@@ -42,33 +43,49 @@ export default class File {
   }
 
   data() {
-    return fs.readFile(this.id)
+    return fs.readFile(this.filePath)
+  }
+
+  get filePath() {
+    return `${fs.rootDir()}/${this.id.replace(':', '_')}.yml`
   }
 
   async save(obj) {
-    await fs.saveFile(this.id, yaml.dump(obj))
+    await fs.saveFile(this.filePath, yaml.dump(obj))
     this.updateMeta({changed: true})
   }
 
   async upload() {
+    if (await this._upload() == 'conflict') {
+        await conflictResolver.backupConflict(this.path_display)
+        if (await this._upload('overwrite') == 'conflict')
+          throw("Double conflict on file upload")
+    }
+
+    this.updateMeta({changed: false, rev: uploadResult.rev})
+    return true
+  }
+
+  async _upload(mode = "update") {
     var uploadResult = await s.dropbox.filesUpload({
-      path: this.path_lower,
-      contents: await this.data(),
+      localPath: this.filePath, // (patched) local path of file to upload
+      path: this.path_lower, // Path in the user's Dropbox to save the file
       mode: {
-        ".tag": "update",
+        ".tag": mode,
         "update": this.rev
       },
+      // strict_conflict: true, // For example, always return a conflict error when mode = WriteMode.update and the given "rev" doesn't match the existing file's "rev", even if the existing file has been deleted. This also forces a conflict even when the target path refers to a file with identical contents.
       mute: true
     })
-    console.log('uploadResult', uploadResult)
-    throw('to implement')
+    // logr('uploadResult result', uploadResult, this.rev)
 
-    if (1 == 'conflict') {
-      // todo:
-      await conflictResolver.resolve(remoteFile)
-      await this.upload(localFile)
-
-      return 'conflict'
+    var {error} = uploadResult
+    if (error) {
+      if (error.reason?.conflict) {
+        return 'conflict'
+      } else {
+        throw(error)
+      }
     }
 
     return true
