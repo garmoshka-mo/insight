@@ -135,12 +135,13 @@ export default new class Files extends ComponentController {
   }
 
   async uploadChanges() {
-    this.list.each(file => {
+    for (const file of this.list) {
       if (file.changed) {
-        if (file.upload() == 'conflict') this.stats.conflicts++
+        if (await file.upload() == 'conflict')
+          this.stats.conflicts++
         this.stats.uploaded++
       }
-    })
+    }
   }
 
   async pickFileForUpload() {

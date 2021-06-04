@@ -29,7 +29,7 @@ export default class File {
 
   updateMeta(data) {
     Object.assign(this, data)
-    AsyncStorage.set(`meta_${this.id}`, this)
+    return AsyncStorage.set(`meta_${this.id}`, this)
   }
 
   async parseData() {
@@ -56,28 +56,30 @@ export default class File {
   }
 
   async upload() {
-    if (await this._upload() == 'conflict') {
+    var uploadResult = await this._upload()
+    if (uploadResult == 'conflict') {
         await conflictResolver.backupConflict(this.path_display)
-        if (await this._upload('overwrite') == 'conflict')
-          throw("Double conflict on file upload")
+      uploadResult = await this._upload('overwrite')
+      if (uploadResult == 'conflict') throw("Double conflict on file upload")
     }
 
-    this.updateMeta({changed: false, rev: uploadResult.rev})
+    await this.updateMeta({changed: false, rev: uploadResult.rev})
     return true
   }
 
-  async _upload(mode = "update") {
+  async _upload(modeTag = "update") {
+    var mode = {".tag": modeTag}
+    if (modeTag == 'update') mode.update = this.rev
+
     var uploadResult = await s.dropbox.filesUpload({
       localPath: this.filePath, // (patched) local path of file to upload
       path: this.path_lower, // Path in the user's Dropbox to save the file
-      mode: {
-        ".tag": mode,
-        "update": this.rev
-      },
+      mode,
       // strict_conflict: true, // For example, always return a conflict error when mode = WriteMode.update and the given "rev" doesn't match the existing file's "rev", even if the existing file has been deleted. This also forces a conflict even when the target path refers to a file with identical contents.
       mute: true
     })
-    // logr('uploadResult result', uploadResult, this.rev)
+
+    // logr('Upload result', uploadResult, this.rev)
 
     var {error} = uploadResult
     if (error) {
@@ -88,7 +90,7 @@ export default class File {
       }
     }
 
-    return true
+    return uploadResult
   }
 
 }
