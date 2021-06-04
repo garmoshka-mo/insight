@@ -1,6 +1,7 @@
 /** @providesModule filesService
  **/
 
+import React from "../utils/react-tuned"
 import ComponentController from './ComponentController'
 import {logr, showFlash} from "./commonFunctions"
 import {showError} from './errors'
@@ -8,9 +9,6 @@ import DocumentPicker from 'react-native-document-picker'
 import {AppState} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import s from './services'
-import actionsSheetController from './actionsSheetController'
-import React from "../utils/react-tuned"
-import FilesList from './FilesList'
 import File from "./File";
 import dashboard from "./dashboard";
 
@@ -22,10 +20,6 @@ export default new class Files extends ComponentController {
     AppState.addEventListener('change', (appState) => {
       if (appState == 'background') this.uploadChanges()
     })
-  }
-
-  async showList() {
-    actionsSheetController.open(<FilesList />)
   }
 
   async loadList() {
@@ -46,8 +40,6 @@ export default new class Files extends ComponentController {
   }
 
   async sync() {
-    // todo: наверно все конфликты будут разруливаться при аплоаде
-    // и при даунлоаде, если случается - кидать эксепшн просто на всякий случай
     this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
     await this.uploadChanges()
     await this.downloadUpdates()

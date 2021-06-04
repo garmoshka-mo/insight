@@ -7,6 +7,9 @@ import {showFlash} from "./commonFunctions";
 import files from "./files"
 import auth from './auth'
 import {Keyboard} from 'react-native'
+import actionsSheetController from "./actionsSheetController";
+import FilesList from "./FilesList";
+import React from "../utils/react-tuned";
 
 export default new class extends ComponentController {
 
@@ -34,7 +37,9 @@ export default new class extends ComponentController {
     return [
       {icon: 'refresh', action: filesService.sync},
       {icon: 'bath', action: _=> showFlash('Test')},
-      {icon: 'folder-open', action: files.showList},
+      {icon: 'folder-open', action: _=>
+          actionsSheetController.open(<FilesList />)
+      },
       // {icon: 'sign-out', action: auth.logout},
     ]
   }
