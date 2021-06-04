@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import menuController from "./menuController";
 import {showFlash} from "./commonFunctions";
-import viewport from "./viewport";
+import dashboard from "./dashboard";
 
 
 export default class extends Component {
@@ -45,7 +45,7 @@ export default class extends Component {
     else
       data = { name: v, description: "" }
     node.update(data)
-    viewport.save()
+    dashboard.save()
 
     this.props.parent.setState({editing: false})
   }

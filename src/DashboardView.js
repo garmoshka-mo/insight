@@ -10,11 +10,11 @@ import auth from "./auth"
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './Menu'
 import FlashMessage from "react-native-flash-message"
-import viewport from "./viewport";
+import dashboard from "./dashboard";
 
 export default class extends Component {
 
-  controllers = [viewport]
+  controllers = [dashboard]
 
   async componentDidMount() {
     // await files.resetFiles()
@@ -32,13 +32,13 @@ export default class extends Component {
   }
 
   content() {
-    if (!viewport.root) return this.preloader()
+    if (!dashboard.root) return this.preloader()
 
     return <FlatList
       contentContainerStyle={{paddingHorizontal: 8,
         paddingVertical: 15}}
       keyboardShouldPersistTaps="always"
-      data={viewport.root.children}
+      data={dashboard.root.children}
       keyExtractor={item => item.name}
       renderItem={this.renderItem}/>
   }

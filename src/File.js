@@ -25,7 +25,7 @@ export default class File {
   async openFile() {
     var data = await this.parseData()
     if (!data) return
-    s.viewport.loadToPort(this)
+    s.dashboard.loadToPort(this)
     settings.update({recentFileId: this.id})
   }
 

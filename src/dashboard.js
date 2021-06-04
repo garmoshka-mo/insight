@@ -1,4 +1,4 @@
-/** @providesModule viewport
+/** @providesModule dashboard
  **/
 
 import ComponentController from "./ComponentController"
@@ -18,7 +18,7 @@ export default new class extends ComponentController {
   constructor(props) {
     super(props)
     this.preload()
-    s.viewport = this
+    s.dashboard = this
   }
 
   async preload() {

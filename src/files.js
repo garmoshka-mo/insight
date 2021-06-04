@@ -14,7 +14,7 @@ import actionsSheetController from './actionsSheetController'
 import React from "../utils/react-tuned"
 import FilesList from './FilesList'
 import File from "./File";
-import viewport from "./viewport";
+import dashboard from "./dashboard";
 
 export default new class Files extends ComponentController {
 
@@ -108,7 +108,7 @@ export default new class Files extends ComponentController {
       localFile.updateMeta(meta)
       this.stats.downloaded++
 
-      if (localFile.id == viewport.file?.id)
+      if (localFile.id == dashboard.file?.id)
         localFile.openFile()
 
     } catch (err) {
