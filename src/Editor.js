@@ -13,6 +13,7 @@ import {
 import menuController from "./menuController";
 import {showFlash} from "./commonFunctions";
 import dashboard from "./dashboard";
+import Undo from "./Undo";
 
 
 export default class extends Component {
@@ -23,8 +24,12 @@ export default class extends Component {
     this.state = {
       value: `${node.name}: ${node.description}`
     }
+    this.undo = new Undo(this.state.value)
 
     menuController.set([
+      {icon: 'undo', action: _=>
+          this.setState({value: this.undo.undo()})},
+
       {icon: 'angle-double-down', action: node.addSibling},
       {icon: 'level-down', action: node.addChild},
       {icon: 'times', action: node.delete},
@@ -66,11 +71,16 @@ export default class extends Component {
     this.save()
   }
 
+  onChangeText(value) {
+    this.undo.changed(value)
+    this.setState({value})
+  }
+
   render() {
     return <View>
       <TextInput
         onBlur={this.blur}
-        onChangeText={value => this.setState({value})}
+        onChangeText={this.onChangeText}
         onSelectionChange={
           (event) => this.cursor = event.nativeEvent.selection?.start
         }

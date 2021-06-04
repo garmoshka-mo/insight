@@ -15,6 +15,7 @@
     "@react-native-async-storage/async-storage": "^1.15.2",
     "dropbox": "^9.4.0",
     "events": "^3.3.0",
+    "fast-diff": "^1.2.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
