@@ -15,7 +15,8 @@ export default class Undo {
   undo() {
     if (this.history.length == 1) return this.history[0]
     this.prev = []
-    return this.history.pop()
+    this.history.pop()
+    return this.current
   }
 
   get current() {
@@ -30,11 +31,12 @@ export default class Undo {
 
     var [prevChange, prevText] = this.prev
 
-    if (this.history.length == 1 ||
-        prevChange != change ||
-        (changedText == ' ' && prevText != ' ') ||
-        changedText.length > 1)
-      return this.add(value, change)
+    var add = this.history.length == 1 ||
+      prevChange != change ||
+      (changedText == ' ' && prevText != ' ') ||
+      changedText.length > 1
+    if (add)
+      this.add(value, change)
     else
       this.history[this.history.length - 1] = value
 
