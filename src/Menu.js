@@ -1,7 +1,7 @@
 import React, {Component} from "../utils/react-tuned";
 import {Text, TouchableOpacity, View} from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
-import styles from './styles'
+import {colors} from './styles'
 import files from './files'
 import auth from "./auth";
 import {showFlash} from "./commonFunctions";
@@ -29,11 +29,13 @@ export default class Menu extends Component {
     return <TouchableOpacity
       key={button.icon}
       style={{paddingHorizontal: 12}}
-      onPress={button.action}
+      onPress={button.disabled ? null : button.action}
     >
       <Icon name={button.icon}
             size={40}
-            style={{color: styles.textColor}}
+            style={{color: button.disabled ?
+                colors.disabled :
+                colors.text}}
       />
     </TouchableOpacity>
   }

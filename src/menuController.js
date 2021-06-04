@@ -2,7 +2,6 @@
  **/
 
 import ComponentController from "./ComponentController"
-import filesService from "./files";
 import {showFlash} from "./commonFunctions";
 import files from "./files"
 import auth from './auth'
@@ -33,15 +32,22 @@ export default new class extends ComponentController {
     this.update({_menu: menu})
   }
 
-  get dashboard() {
-    return [
-      {icon: 'refresh', action: filesService.sync},
+  dashboard = [
+      {icon: 'refresh', action: this.sync},
       {icon: 'bath', action: _=> showFlash('Test')},
       {icon: 'folder-open', action: _=>
           actionsSheetController.open(<FilesList />)
       },
       // {icon: 'sign-out', action: auth.logout},
     ]
+
+  async sync() {
+    var refreshButton = this.dashboard.find(_ => _.icon=='refresh')
+    refreshButton.disabled = true
+    this.refresh()
+    await files.sync()
+    refreshButton.disabled = false
+    this.refresh()
   }
 
 }

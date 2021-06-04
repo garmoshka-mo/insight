@@ -26,9 +26,8 @@ export default new class Files extends ComponentController {
     var keys = await AsyncStorage.getAllKeys()
     keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
-    this.list.replace(
+    this.list =
       items.map((row) => new File(JSON.parse(row[1])))
-    )
   }
 
   async resetFiles() {
@@ -41,6 +40,7 @@ export default new class Files extends ComponentController {
 
   async sync() {
     this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
+    if (!this.list.length) await this.loadList()
     await this.uploadChanges()
     await this.downloadUpdates()
     this.report()
@@ -87,7 +87,7 @@ export default new class Files extends ComponentController {
           if (localFile.changed)
             throw('Local file changed during sync. Re-sync needed.')
           else
-            'will download'
+            logr(`File ${meta.name} changed on server`, localFile.content_hash, meta.content_hash)
         } else {
           return 'latest version already downloaded'
         }
