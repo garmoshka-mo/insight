@@ -1,7 +1,7 @@
 /** @providesModule dashboard
  **/
 
-import ComponentController from "./ComponentController"
+import ComponentController from "./utils/ComponentController"
 import {createRef} from 'react'
 import Node from "./Node";
 import _ from "lodash";

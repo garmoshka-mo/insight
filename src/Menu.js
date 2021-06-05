@@ -19,7 +19,7 @@ export default class Menu extends Component {
       borderRadius: 20,
       backgroundColor: '#262626'
     }}>
-      {menuController.menu.map(_ => this.button(_))}
+      {menuController.currentTools.map(_ => this.button(_))}
     </View>
   }
 

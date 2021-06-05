@@ -4,14 +4,11 @@
 import autoBind from './autoBind'
 
 export default class ComponentController {
-  constructor(props) {
+  constructor() {
     this._subscribers = []
-    this.init(props)
-    if(this.constructor._applyAutoBind !== false)
-      autoBind(this)
+    autoBind(this)
+    this.init?.()
   }
-
-  init(props) {}
 
   refresh() {
     this._subscribers.each(component => component.forceUpdate())

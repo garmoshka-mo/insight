@@ -11,9 +11,9 @@ import {
   Appearance
 } from 'react-native'
 import menuController from "./menuController";
-import {showFlash} from "./commonFunctions";
 import dashboard from "./dashboard";
 import Undo from "./Undo";
+import NodeTools from "./nodeTools";
 
 
 export default class extends Component {
@@ -26,21 +26,18 @@ export default class extends Component {
     }
     this.undo = new Undo(this.state.value)
 
-    menuController.set([
+    menuController.push([
+      {icon: 'suitcase', action: this.showNodeTools},
       {icon: 'undo', action: _=>
           this.setState({value: this.undo.undo()})},
 
-      {icon: 'angle-double-up', action: _=> node.move(-1)},
-      {icon: 'angle-double-down', action: _=> node.move(+1)},
-
-      {icon: 'material/table-row-plus-after', action: node.addSibling},
-      {icon: 'material/table-column-plus-after', action: node.addChild},
-
-      {icon: 'times', action: node.delete},
-
       {icon: 'ellipsis-v', action: this.split},
-      {icon: 'check', action: this.save},
+      {icon: 'check', action: this.save}
     ])
+  }
+
+  showNodeTools() {
+    menuController.push(new NodeTools(this.props.node))
   }
 
   save() {
@@ -53,10 +50,10 @@ export default class extends Component {
       }
     else
       data = { name: v, description: "" }
+    data.editing = false
     node.update(data)
+    menuController.pop()
     dashboard.save()
-
-    this.props.parent.setState({editing: false})
   }
 
   split() {

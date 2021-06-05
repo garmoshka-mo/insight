@@ -83,7 +83,7 @@ export default class PlainItem extends Component {
   }
 
   edit() {
-    this.setState({editing: true})
+    this.node.update({editing: true})
   }
 
   renderSubItems() {
