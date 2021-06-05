@@ -2,7 +2,7 @@ import ComponentController from "../../utils/ComponentController";
 import menuController from "../menuController";
 import auth from "../auth";
 
-export default new class SettingsMenu extends ComponentController {
+export default class SettingsMenu extends ComponentController {
 
   init() {
     this.tools = [

@@ -1,25 +1,16 @@
 /** @providesModule menuController
  **/
 
-import ComponentController from "./utils/ComponentController"
-import {showFlash} from "./commonFunctions";
-import files from "./files"
-import auth from './auth'
-import {Keyboard} from 'react-native'
-import actionsSheetController from "./actionsSheetController";
-import FilesList from "./FilesList";
+import ComponentController from "../utils/ComponentController"
 import React from "../utils/react-tuned";
 import DashboardTools from "./menu/DashboardTools";
 
 export default new class extends ComponentController {
 
-  constructor() {
-    super()
-    this.stack = [new DashboardTools()]
-  }
+  stack = [new DashboardTools()]
 
   get currentTools() {
-    return this.stack.last()
+    return this.stack.last().tools
   }
 
   switch(menuName) {

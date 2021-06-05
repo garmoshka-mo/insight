@@ -25,7 +25,6 @@ export default class Menu extends Component {
 
   button(button) {
     var style = {paddingHorizontal: 12}
-    if (button.left) style.selfAlign = 'flex-start'
     return <TouchableOpacity
       key={button.icon}
       style={style}

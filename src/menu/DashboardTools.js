@@ -5,20 +5,20 @@ import FilesList from "../FilesList";
 import React from "../../utils/react-tuned";
 import files from "../files";
 import menuController from "../menuController";
-import settingsMenu from "./settingsMenu";
+import SettingsMenu from "./settingsMenu";
 
 export default class DashboardTools extends ComponentController {
 
   tools = [
     {icon: 'refresh', action: this.sync},
     {icon: 'bath', action: _=> showFlash('Test')},
-    {icon: 'cog', action: _=> menuController.push(settingsMenu)},
+    {icon: 'cog', action: this.showSettings},
     {icon: 'folder-open', action: _=>
         actionsSheetController.open(<FilesList />)
     },
   ]
 
-  async sync() {``
+  async sync() {
     var refreshButton = this.dashboard.find(_ => _.icon=='refresh')
     refreshButton.disabled = true
     this.refresh()
@@ -27,8 +27,9 @@ export default class DashboardTools extends ComponentController {
     this.refresh()
   }
 
-  showTools() {
-    this.update({show: true})
+  showSettings() {
+    if (!this.settingsMenu) this.settingsMenu = new SettingsMenu()
+    menuController.push(this.settingsMenu)
   }
 
 
