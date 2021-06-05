@@ -4,10 +4,10 @@
 import autoBind from './autoBind'
 
 export default class ComponentController {
-  constructor() {
+  constructor(params) {
     this._subscribers = []
     autoBind(this)
-    this.init?.()
+    this.init?.(params)
   }
 
   refresh() {

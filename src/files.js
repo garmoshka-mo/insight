@@ -2,7 +2,7 @@
  **/
 
 import React from "../utils/react-tuned"
-import ComponentController from './utils/ComponentController'
+import ComponentController from '../utils/ComponentController'
 import {logr, showFlash} from "./commonFunctions"
 import {showError} from './errors'
 import DocumentPicker from 'react-native-document-picker'

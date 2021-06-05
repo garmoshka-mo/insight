@@ -1,7 +1,7 @@
 /** @providesModule actionsSheetController
  **/
 
-import ComponentController from "./utils/ComponentController"
+import ComponentController from "../utils/ComponentController"
 import {createRef} from 'react'
 
 

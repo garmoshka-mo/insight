@@ -1,7 +1,7 @@
 /** @providesModule auth
  **/
 
-import ComponentController from './utils/ComponentController'
+import ComponentController from '../utils/ComponentController'
 import {Dropbox} from "dropbox"
 import config from "../config/config"
 import files from './files'

@@ -13,7 +13,7 @@ import {
 import menuController from "./menuController";
 import dashboard from "./dashboard";
 import Undo from "./Undo";
-import NodeTools from "./nodeTools";
+import NodeTools from "./menu/NodeTools";
 
 
 export default class extends Component {
