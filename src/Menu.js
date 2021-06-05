@@ -24,9 +24,11 @@ export default class Menu extends Component {
   }
 
   button(button) {
+    var style = {paddingHorizontal: 12}
+    if (button.left) style.selfAlign = 'flex-start'
     return <TouchableOpacity
       key={button.icon}
-      style={{paddingHorizontal: 12}}
+      style={style}
       onPress={button.disabled ? null : button.action}
     >
       {this.icon(button)}

@@ -5,7 +5,7 @@ export default class NodeTools extends ComponentController {
 
   init(node) {
     this.tools = [
-      {icon: 'chevron-left', action: menuController.pop},
+      {icon: 'chevron-left', action: menuController.pop, left: true},
 
       {icon: 'angle-double-up', action: _=> node.move(-1)},
       {icon: 'angle-double-down', action: _=> node.move(+1)},

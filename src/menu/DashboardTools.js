@@ -4,16 +4,18 @@ import actionsSheetController from "../actionsSheetController";
 import FilesList from "../FilesList";
 import React from "../../utils/react-tuned";
 import files from "../files";
+import menuController from "../menuController";
+import settingsMenu from "./settingsMenu";
 
 export default class DashboardTools extends ComponentController {
 
   tools = [
     {icon: 'refresh', action: this.sync},
     {icon: 'bath', action: _=> showFlash('Test')},
+    {icon: 'cog', action: _=> menuController.push(settingsMenu)},
     {icon: 'folder-open', action: _=>
         actionsSheetController.open(<FilesList />)
     },
-    // {icon: 'sign-out', action: auth.logout},
   ]
 
   async sync() {``
