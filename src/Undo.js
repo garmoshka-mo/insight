@@ -46,7 +46,7 @@ export default class Undo {
   }
 
   add(value, change) {
-    logr('Text change added', value, change)
+    // logr('Text change added', value, change)
     this.history.push(value)
   }
 

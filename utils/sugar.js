@@ -116,6 +116,14 @@ Array.prototype.replace = function (newValues) {
   this.splice(0, this.length, ...newValues)
 }
 
+Array.prototype.move = function(from, to) {
+  this.splice(to, 0, this.splice(from, 1)[0])
+}
+
+Array.prototype.insert = function (index, item) {
+  this.splice( index, 0, item )
+}
+
 String.prototype.replaceAllByRegexStr = function(search, replacement) {
   return this.replace(new RegExp(search, 'g'), replacement)
 }

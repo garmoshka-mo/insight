@@ -3,7 +3,7 @@
 
 import ComponentController from "./ComponentController"
 import {createRef} from 'react'
-import YamlNode from "./YamlNode";
+import Node from "./Node";
 import _ from "lodash";
 import s from "./services";
 import sampleData, {forceSample} from "./sampleData";
@@ -38,7 +38,7 @@ export default new class extends ComponentController {
     this.file = file
     this.update({root: null})
     var data = await file.parseData()
-    this.update({root: new YamlNode('root', data)})
+    this.update({root: new Node('root', data)})
   }
 
   async save() {

@@ -1,10 +1,8 @@
 import React, {Component} from "../utils/react-tuned";
 import {Text, TouchableOpacity, View} from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import {colors} from './styles'
-import files from './files'
-import auth from "./auth";
-import {showFlash} from "./commonFunctions";
 import menuController from "./menuController"
 
 export default class Menu extends Component {
@@ -31,13 +29,27 @@ export default class Menu extends Component {
       style={{paddingHorizontal: 12}}
       onPress={button.disabled ? null : button.action}
     >
-      <Icon name={button.icon}
-            size={40}
-            style={{color: button.disabled ?
-                colors.disabled :
-                colors.text}}
-      />
+      {this.icon(button)}
     </TouchableOpacity>
+  }
+
+  icon(button) {
+    var {icon} = button
+    if (icon.startsWith('material/')) {
+      var material = true
+      icon = icon.replace('material/', '')
+    }
+    var props = {
+      name: icon,
+      size: 40,
+      style: {color: button.disabled ?
+        colors.disabled :
+        colors.text}
+    }
+    if (material)
+      return <MaterialIcon {...props} />
+    else
+      return <Icon {...props} />
   }
 
 }
