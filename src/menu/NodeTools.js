@@ -1,7 +1,7 @@
 import ComponentController from "../../utils/ComponentController";
 import menuController from "../menuController";
 
-export default class NodeTools extends ComponentController {
+export default class NodeMoving extends ComponentController {
 
   init(node) {
     this.tools = [

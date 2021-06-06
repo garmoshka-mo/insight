@@ -7,13 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Alert,
+  TouchableHighlight,
   Appearance
 } from 'react-native'
-import styles from './styles'
+import styles, {colors} from './styles'
 import Editor from './Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
-import actionsSheetController from "./actionsSheetController";
+import Swipeout from 'react-native-swipeout'
+import menuController from "./menuController";
 
 export default class NodeComponent extends Component {
 
@@ -35,7 +36,7 @@ export default class NodeComponent extends Component {
     return {
       width: '100%',
       flexDirection:'row',
-      marginLeft: this.node.level > 1 ? 20 : 0,
+      paddingLeft: this.node.level > 1 ? 20 : 0,
       marginBottom: 4,
       flexWrap:'wrap'
     }
@@ -45,7 +46,7 @@ export default class NodeComponent extends Component {
     if (this.node.editing)
       return <Editor parent={this} node={this.node} />
 
-    return <Text
+    return this.swipeable(<Text
       onPress={this.node.edit}
     >
       <Text
@@ -60,7 +61,49 @@ export default class NodeComponent extends Component {
         {' '}
       </Text>
       {this.renderDescription()}
-    </Text>
+    </Text>)
+  }
+
+  updateNode(key, value, neutral) {
+    var state = {[key]: value}
+    if (this.node[key] == value) state[key] = neutral
+    this.node.update(state)
+    menuController.refresh()
+  }
+
+  swipeable(content) {
+    var {node} = this
+    var left = [{
+      text: '🔥',
+      selected: node.importance == 'important',
+      onPress: _=> this.updateNode('importance', 'important', 'normal')
+    },{
+      text: '❔',
+      selected: node.importance == 'guess',
+      onPress: _=> this.updateNode('importance', 'guess', 'normal')
+    },{
+      text: '⏩',
+      selected: node.alwaysExpanded,
+      onPress: _=> this.updateNode('alwaysExpanded', true, false)
+    },
+
+    ].map(props => ({
+      ...props,
+      backgroundColor: props.selected ? colors.selected : 'transparent',
+    }))
+
+    var right = [{
+      text: '🚮',
+      type: 'delete',
+      onPress: node.delete
+    }]
+
+    return <Swipeout backgroundColor={'transparent'}
+                     buttonWidth={40}
+                     style={{width: '100%'}}
+                     right={right} left={left}>
+      {content}
+    </Swipeout>
   }
 
   get rightIcons() {
