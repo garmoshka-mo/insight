@@ -4,10 +4,9 @@ import menuController from "../menuController";
 export default class NodeTools extends ComponentController {
 
   init(node) {
-    this.node = node
     this.tools = [
       {icon: 'chevron-left', left: true, action: _=> {
-        node.update({editing: false})
+        // node.update({editing: false})
         menuController.pop()
       }},
 
@@ -19,20 +18,10 @@ export default class NodeTools extends ComponentController {
 
       {icon: 'trash', action: node.delete},
 
-      'break',
-      {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
-        action: _=> this.updateNode({importance: 'important'})},
-      {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
-        action: _=> this.updateNode({importance: 'guess'})},
-      {icon: `emoji:⏩`, selected: _=> node.expanded,
-        action: _=> this.updateNode({expanded: !node.expanded})},
     ]
   }
 
-  updateNode(state) {
-    this.node.update(state)
-    menuController.refresh()
-  }
+
 
 
 }

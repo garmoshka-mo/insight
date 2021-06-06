@@ -56,9 +56,12 @@ export default class PlainItem extends Component {
         onPress={this.toggle}
         style={{color: this.titleColor}}
       >
+        {this.node.importanceEmoji}
         {this.node.name}
+        {' '}
+        {this.node.expandedEmoji}
+        {' '}
       </Text>
-      <View style={{width: 10}}/>
       {this.renderDescription()}
     </Text>
   }

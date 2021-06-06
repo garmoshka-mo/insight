@@ -21,12 +21,21 @@ export default class extends Component {
   constructor(props) {
     super(props)
     var {node} = props
+    this.node = node
     this.state = {
       value: `${node.name}: ${node.description}`
     }
     this.undo = new Undo(this.state.value)
 
     this.tools = [
+      {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
+        action: _=> this.updateNode('importance', 'important', 'normal')},
+      {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
+        action: _=> this.updateNode('importance', 'guess', 'normal')},
+      {icon: `emoji:⏩`, selected: _=> node.expanded,
+        action: _=> this.updateNode('expanded', true, false)},
+      'break',
+
       {icon: 'suitcase', action: this.showNodeTools},
       {icon: 'undo', action: _=>
           this.setState({value: this.undo.undo()})},
@@ -94,6 +103,13 @@ export default class extends Component {
         autoCorrect={false}
       />
     </View>
+  }
+
+  updateNode(key, value, neutral) {
+    var state = {[key]: value}
+    if (this.node[key] == value) state[key] = neutral
+    this.node.update(state)
+    menuController.refresh()
   }
 
 }

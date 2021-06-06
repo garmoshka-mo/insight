@@ -58,20 +58,28 @@ export default class Node extends ComponentController {
   }
 
   dump() {
-    var {description} = this
-    if (this.expanded) description = EXPANDED + description
+    var description = this.expandedEmoji + this.description
     if (this.children.length > 0) {
       var result = {}
       if (this.description)
         result["_"] = description
       this.children.each(node => {
-        var icon = IMPORTANCES[this.importance]
+        var icon = this.importanceEmoji
         var key = `${icon}${node.name}`
         result[key] = node.dump()
       })
      return result
     } else
       return description
+  }
+
+  get importanceEmoji() {
+    var emoji = IMPORTANCES[this.importance]
+    return emoji.length > 0 ? `${emoji} ` : emoji
+  }
+
+  get expandedEmoji() {
+    return this.expanded ? `${EXPANDED} ` : ''
   }
 
   move(dir = -1) {
