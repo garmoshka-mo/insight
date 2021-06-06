@@ -130,7 +130,7 @@ export default class Node extends ComponentController {
   // private
 
   _newNode(parent) {
-    return new Node("New record", "", parent, {isNew: true})
+    return new Node(`New record ${Date.now()}`, "", parent, {isNew: true})
   }
 
 }

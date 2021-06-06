@@ -21,9 +21,9 @@ export default class extends Component {
     super(props)
     var {node} = props
     this.node = node
-    this.state = {
-      value: `${node.name}: ${node.description}`
-    }
+    var value = `${node.name}: ${node.description}`
+    if (value.startsWith('New record')) value = ''
+    this.state = {value}
     this.undo = new Undo(this.state.value)
 
     this.tools = [
