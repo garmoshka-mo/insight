@@ -12,6 +12,7 @@ export default class Menu extends Component {
   render() {
     return <View style={{
       flexDirection: 'row',
+      flexWrap: 'wrap',
       justifyContent: 'center',
       paddingHorizontal: 15,
       paddingTop: 15,
@@ -35,14 +36,16 @@ export default class Menu extends Component {
   }
 
   icon(button) {
-    var {icon} = button
-    if (icon.startsWith('material/')) {
+    var {icon} = button, m
+    if ((m = icon.match(/^emoji:(.+)/))) {
+      return this.emoji(button, m[1])
+    } else if (icon.startsWith('material/')) {
       var material = true
       icon = icon.replace('material/', '')
     }
     var props = {
       name: icon,
-      size: 40,
+      size: 30,
       style: {color: button.disabled ?
         colors.disabled :
         colors.text}
@@ -51,6 +54,16 @@ export default class Menu extends Component {
       return <MaterialIcon {...props} />
     else
       return <Icon {...props} />
+  }
+
+  emoji(button, emoji) {
+    var style = {}
+    if (button.selected) style.backgroundColor = colors.selected
+    return <View style={style}>
+      <Text style={{fontSize: 22}} >
+        {emoji}
+      </Text>
+    </View>
   }
 
 }

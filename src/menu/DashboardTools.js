@@ -19,7 +19,7 @@ export default class DashboardTools extends ComponentController {
   ]
 
   async sync() {
-    var refreshButton = this.dashboard.find(_ => _.icon=='refresh')
+    var refreshButton = this.tools.find(_ => _.icon=='refresh')
     refreshButton.disabled = true
     this.refresh()
     await files.sync()

@@ -20,15 +20,15 @@ export default class NodeTools extends ComponentController {
       {icon: 'trash', action: node.delete},
 
       {icon: `emoji:🔥`, selected: node.importance == 'important',
-        action: this.updateNode({importance: 'important'})},
+        action: _=> this.updateNode({importance: 'important'})},
       {icon: `emoji:❔`, selected: node.importance == 'guess',
-        action: this.updateNode({importance: 'guess'})},
+        action: _=> this.updateNode({importance: 'guess'})},
       {icon: `emoji:⏩`, selected: node.expanded,
-        action: this.updateNode({expanded: !node.expanded})},
+        action: _=> this.updateNode({expanded: !node.expanded})},
     ]
   }
 
-  updateNode() {
+  updateNode(state) {
     this.node.update(state)
     this.refresh()
   }

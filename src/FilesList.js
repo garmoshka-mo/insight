@@ -10,11 +10,11 @@ export default class extends Component {
 
   render() {
     return <View>
-      {files.list.map(this.file)}
+      {files.list.map(this.fileRow)}
     </View>
   }
 
-  file(file) {
+  fileRow(file) {
     return <TouchableOpacity
       key={file.id}
       style={{paddingHorizontal: 10,

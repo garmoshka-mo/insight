@@ -23,8 +23,6 @@ export default class File {
   }
 
   async openFile() {
-    var data = await this.parseData()
-    if (!data) return
     s.dashboard.loadToPort(this)
     settings.update({recentFileId: this.id})
   }
@@ -41,6 +39,7 @@ export default class File {
       return yaml.load(content)
     } catch (err) {
       showError(err, "Can't load file")
+      throw err
     }
   }
 
