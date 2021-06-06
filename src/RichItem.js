@@ -15,14 +15,10 @@ import PlainItem from './PlainItem'
 export default class RichItem extends PlainItem {
 
   titleColor = '#2280a5'
-  state = {
-    showDescription: true,
-    showSubItems: true
-  }
 
-  toggle() {
-    this.setState({showSubItems: !this.state.showSubItems})
-  }
+  // toggle() {
+  //   this.setState({showSubItems: !this.state.showSubItems})
+  // }
 
   get wrapStyle() {
     return Object.assign({}, super.wrapStyle, {
@@ -32,7 +28,7 @@ export default class RichItem extends PlainItem {
 
   renderSubItems() {
     var {node} = this
-    if (!this.state.showSubItems) return
+    if (!this.state.expanded) return
     return node.children.map(
       child => child.render()
     )

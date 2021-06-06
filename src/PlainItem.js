@@ -19,14 +19,14 @@ export default class PlainItem extends Component {
 
   titleColor = '#8d7627'
 
-  state = {
-    showDescription: true
-  }
-
   constructor(props) {
     super()
-    this.node = props.node
-    this.subscribeTo(props.node)
+    var {node} = props
+    this.state = {
+      expanded: node.expanded
+    }
+    this.node = node
+    this.subscribeTo(node)
   }
 
   get wrapStyle() {
@@ -67,7 +67,7 @@ export default class PlainItem extends Component {
   }
 
   renderDescription() {
-    if (this.state.showDescription)
+    if (this.state.expanded)
       return <Text
         style={styles.text}>
         {this.node.description || this.editIcon()}
@@ -80,7 +80,7 @@ export default class PlainItem extends Component {
 
   toggle() {
     if (this.node.description)
-      this.setState({showDescription: !this.state.showDescription})
+      this.setState({expanded: !this.state.expanded})
     else
       this.edit()
   }

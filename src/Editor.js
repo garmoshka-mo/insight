@@ -36,6 +36,10 @@ export default class extends Component {
         action: _=> this.updateNode('expanded', true, false)},
       'break',
 
+      {icon: 'chevron-left', left: true, action: _=> {
+        node.update({editing: false})
+          menuController.pop()
+      }},
       {icon: 'suitcase', action: this.showNodeTools},
       {icon: 'undo', action: _=>
           this.setState({value: this.undo.undo()})},

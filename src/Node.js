@@ -18,7 +18,7 @@ export default class Node extends ComponentController {
     Object.entries(IMPORTANCES).some(([key, icon]) => {
       if (name.startsWith(icon)) {
         this.importance = key
-        name = name.substr(icon.length)
+        name = name.substr(icon.length).trim()
         return true
       }
     })
@@ -30,7 +30,7 @@ export default class Node extends ComponentController {
     var {description} = this
     if (description?.startsWith(EXPANDED)) {
       this.expanded = true
-      this.description = description.substr(EXPANDED.length)
+      this.description = description.substr(EXPANDED.length).trim()
     }
   }
 
@@ -64,8 +64,7 @@ export default class Node extends ComponentController {
       if (this.description)
         result["_"] = description
       this.children.each(node => {
-        var icon = this.importanceEmoji
-        var key = `${icon}${node.name}`
+        var key = `${node.importanceEmoji}${node.name}`
         result[key] = node.dump()
       })
      return result
