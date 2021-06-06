@@ -11,16 +11,30 @@ export default class Menu extends Component {
 
   render() {
     return <View style={{
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
       paddingHorizontal: 15,
       paddingTop: 15,
       paddingBottom: 15,
       borderRadius: 20,
       backgroundColor: '#262626'
     }}>
-      {menuController.currentTools.map(_ => this.button(_))}
+      {this.rows()}
+    </View>
+  }
+
+  rows() {
+    var rows = [[]]
+    menuController.currentTools.each(tool => {
+      if (tool == 'break') rows.push([])
+      else rows.last().push(tool)
+    })
+    return rows.map(this.row)
+  }
+
+  row(row, i) {
+    return <View key={i} style={{
+      flexDirection: 'row', flexWrap: 'wrap',
+      justifyContent: 'center'}}>
+      {row.map(_ => this.button(_))}
     </View>
   }
 

@@ -19,6 +19,7 @@ export default class NodeTools extends ComponentController {
 
       {icon: 'trash', action: node.delete},
 
+      'break',
       {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
         action: _=> this.updateNode({importance: 'important'})},
       {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
