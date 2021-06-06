@@ -59,11 +59,23 @@ export default class PlainItem extends Component {
         {this.node.importanceEmoji}
         {this.node.name}
         {' '}
-        {this.node.expandedEmoji}
+        {this.rightIcons}
         {' '}
       </Text>
       {this.renderDescription()}
     </Text>
+  }
+
+  get rightIcons() {
+    var {node} = this
+    var icons = [node.expandedEmoji]
+    if (!this.state.expanded) {
+      if (node.children.length > 0)
+        icons.push(<Icon name={"list"}>{' ' + node.children.length}</Icon>)
+      else if (!node.expandedEmoji && node.description)
+        icons.push(<Icon name={"sticky-note"}/>)
+    }
+    return icons
   }
 
   renderDescription() {

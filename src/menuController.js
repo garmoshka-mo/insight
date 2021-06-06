@@ -2,12 +2,17 @@
  **/
 
 import ComponentController from "../utils/ComponentController"
+import {BackHandler} from 'react-native'
 import React from "../utils/react-tuned";
 import DashboardTools from "./menu/DashboardTools";
 
 export default new class extends ComponentController {
 
   stack = [new DashboardTools()]
+
+  init() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBack)
+  }
 
   get currentTools() {
     return this.stack.last().tools
@@ -24,8 +29,15 @@ export default new class extends ComponentController {
 
   pop() {
     if (this.stack.length == 1) throw('Trying to pop root menu')
-    this.stack.pop()
+    this.stack.pop().onMenuPop?.()
     this.refresh()
+  }
+
+  handleBack() {
+    if (this.stack.length > 1) {
+      this.pop()
+      return true
+    }
   }
 
 
