@@ -57,10 +57,10 @@ export default class Menu extends Component {
   }
 
   emoji(button, emoji) {
-    var style = {}
-    if (button.selected) style.backgroundColor = colors.selected
+    var style = {}, color = '#000'
+    if (!button.selected?.()) color = 'rgba(0,0,0,.2)'
     return <View style={style}>
-      <Text style={{fontSize: 22}} >
+      <Text style={{fontSize: 22, color: color}} >
         {emoji}
       </Text>
     </View>
