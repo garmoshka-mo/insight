@@ -1,4 +1,4 @@
-/** @providesModule PlainItem
+/** @providesModule NodeComponent
  **/
 
 import React, {Component} from "../utils/react-tuned"
@@ -15,9 +15,7 @@ import Editor from './Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
 import actionsSheetController from "./actionsSheetController";
 
-export default class PlainItem extends Component {
-
-  titleColor = '#8d7627'
+export default class NodeComponent extends Component {
 
   constructor(props) {
     super()
@@ -51,7 +49,8 @@ export default class PlainItem extends Component {
     >
       <Text
         onPress={this.toggle}
-        style={{color: this.titleColor}}
+        style={{color: this.node.children.length == 0 ?
+            '#8d7627' : '#2280a5'}}
       >
         {this.node.importanceEmoji}
         {this.node.name}
@@ -97,7 +96,12 @@ export default class PlainItem extends Component {
   }
 
   renderSubItems() {
-
+    var {node} = this
+    if (!node.children.length) return
+    if (!this.node.expanded) return
+    return node.children.map(
+      child => child.render()
+    )
   }
 
 }

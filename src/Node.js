@@ -1,8 +1,7 @@
 
 import ComponentController from "../utils/ComponentController"
 import React from "../utils/react-tuned";
-import PlainItem from "./PlainItem"
-import RichItem from "./RichItem"
+import NodeComponent from "./NodeComponent"
 import menuController from "./menuController";
 import dashboard from "./dashboard";
 
@@ -39,9 +38,8 @@ export default class Node extends ComponentController {
   }
 
   render() {
-    var component = this.children.length ? RichItem : PlainItem
     return React.createElement(
-      component, {key: this.name, node: this}
+      NodeComponent, {key: this.name, node: this}
     )
   }
 
