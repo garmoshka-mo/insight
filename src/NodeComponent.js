@@ -89,10 +89,10 @@ export default class NodeComponent extends Component {
   }
 
   toggle() {
-    if (this.node.description)
-      this.node.update({expanded: !this.node.expanded})
-    else
-      this.node.edit()
+    if (!this.node.description && !this.node.children.length)
+      return this.node.edit()
+
+    this.node.update({expanded: !this.node.expanded})
   }
 
   renderSubItems() {

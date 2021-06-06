@@ -115,7 +115,7 @@ export default class Node extends ComponentController {
   addChild() {
     var n = this._newNode(this)
     this.children.push(n)
-    n.expanded = true
+    this.update({expanded: true})
     n.edit()
   }
 
