@@ -15,6 +15,8 @@ export class Component extends RawComponent {
       this.controllers = []
   }
 
+  refresh = this.forceUpdate
+
   asyncSetState(newState) {
     return new Promise((resolve) => this.setState(newState, () => resolve()))
   }
@@ -26,15 +28,12 @@ export class Component extends RawComponent {
   }
 
   UNSAFE_componentWillMount() {
-    this.controllers.each(controller => {
-      if (controller)
-        controller._subscribers.push(this)
-    })
+    this.controllers.each(controller => controller.subscribe(this))
   }
 
   componentWillUnmount() {
     this.unmounted = true
-    this.controllers.each(controller => controller._subscribers.delete(this))
+    this.controllers.each(controller => controller.unsubscribe(this))
   }
 
 }

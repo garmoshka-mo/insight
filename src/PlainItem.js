@@ -29,6 +29,13 @@ export default class PlainItem extends Component {
     this.subscribeTo(node)
   }
 
+  render() {
+    return <View style={this.wrapStyle}>
+      {this.header()}
+      {this.renderSubItems()}
+    </View>
+  }
+
   get wrapStyle() {
     return {
       flexDirection:'row',
@@ -36,13 +43,6 @@ export default class PlainItem extends Component {
       marginBottom: 4,
       flexWrap:'wrap'
     }
-  }
-
-  render() {
-    return <View style={this.wrapStyle}>
-      {this.header()}
-      {this.renderSubItems()}
-    </View>
   }
 
   header() {

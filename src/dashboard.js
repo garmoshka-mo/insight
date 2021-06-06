@@ -16,6 +16,8 @@ import auth from "./auth";
 
 export default new class extends ComponentController {
 
+  root = null
+
   constructor(props) {
     super(props)
     s.dashboard = this
@@ -30,14 +32,17 @@ export default new class extends ComponentController {
       var file = await File.byId(settings.recentFileId)
     else
       file = new FileSample(sampleData)
-    await this.loadToPort(file)
+    await this.displayFile(file)
   }
 
-  async loadToPort(file) {
+  async displayFile(file) {
     this.file = file
+    if (this.root)
+      this.root.unsubscribe(this)
     this.update({root: null})
     var data = await file.parseData()
     this.update({root: new Node('root', data)})
+    this.root.subscribe(this)
   }
 
   async save() {

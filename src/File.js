@@ -23,7 +23,7 @@ export default class File {
   }
 
   async openFile() {
-    s.dashboard.loadToPort(this)
+    s.dashboard.displayFile(this)
     settings.update({recentFileId: this.id})
   }
 

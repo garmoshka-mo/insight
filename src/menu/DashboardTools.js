@@ -6,12 +6,13 @@ import React from "../../utils/react-tuned";
 import files from "../files";
 import menuController from "../menuController";
 import SettingsMenu from "./SettingsMenu";
+import dashboard from "../dashboard";
 
 export default class DashboardTools extends ComponentController {
 
   tools = [
     {icon: 'refresh', action: this.sync},
-    {icon: 'bath', action: _=> showFlash('Test')},
+    {icon: 'bath', action: this.bath},
     {icon: 'cog', action: this.showSettings},
     {icon: 'folder-open', action: _=>
         actionsSheetController.open(<FilesList />)
@@ -25,6 +26,12 @@ export default class DashboardTools extends ComponentController {
     await files.sync()
     refreshButton.disabled = false
     this.refresh()
+  }
+
+  async bath() {
+    showFlash('Test')
+
+
   }
 
   showSettings() {

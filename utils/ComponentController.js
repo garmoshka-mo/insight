@@ -10,8 +10,16 @@ export default class ComponentController {
     this.init?.(params)
   }
 
+  subscribe(subscriber) {
+    this._subscribers.push(subscriber)
+  }
+
+  unsubscribe(subscriber) {
+    this._subscribers.delete(subscriber)
+  }
+
   refresh() {
-    this._subscribers.each(component => component.forceUpdate())
+    this._subscribers.each(subscriber => subscriber.refresh())
   }
 
   update(state) {
