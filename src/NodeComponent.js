@@ -33,6 +33,7 @@ export default class NodeComponent extends Component {
 
   get wrapStyle() {
     return {
+      width: '100%',
       flexDirection:'row',
       marginLeft: this.node.level > 1 ? 20 : 0,
       marginBottom: 4,

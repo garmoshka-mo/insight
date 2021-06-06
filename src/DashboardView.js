@@ -3,10 +3,6 @@
 
 import React, {Component} from "../utils/react-tuned"
 import {View, ActivityIndicator, FlatList} from 'react-native'
-import sample from './sampleData'
-import _ from 'lodash'
-import files from "./files"
-import auth from "./auth"
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './Menu'
 import FlashMessage from "react-native-flash-message"

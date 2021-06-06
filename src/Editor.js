@@ -21,7 +21,7 @@ export default class extends Component {
     super(props)
     var {node} = props
     this.node = node
-    var value = `${node.name}: ${node.description}`
+    var value = `${node.name}: ${node.description || ''}`
     if (value.startsWith('New record')) value = ''
     this.state = {value}
     this.undo = new Undo(this.state.value)
@@ -56,13 +56,14 @@ export default class extends Component {
   save() {
     var {node} = this.props, v = this.state.value, data
     var splitter = v.indexOf(':')
-    if (splitter > 0)
+    if (splitter >= 0)
       data = {
         name: v.slice(0, splitter).trim(),
         description: v.slice(splitter + 1).trim()
       }
     else
       data = { name: v, description: "" }
+    if (!data.name) data.name = Date.now()
     data.editing = false
     node.update(data)
     menuController.pop()
