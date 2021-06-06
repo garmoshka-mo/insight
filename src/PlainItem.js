@@ -23,7 +23,7 @@ export default class PlainItem extends Component {
     super()
     var {node} = props
     this.state = {
-      expanded: node.expanded
+      expanded: node.expanded || node.isNew
     }
     this.node = node
     this.subscribeTo(node)
@@ -50,7 +50,7 @@ export default class PlainItem extends Component {
       return <Editor parent={this} node={this.node} />
 
     return <Text
-      onPress={this.edit}
+      onPress={this.node.edit}
     >
       <Text
         onPress={this.toggle}
@@ -71,9 +71,11 @@ export default class PlainItem extends Component {
     var icons = [node.expandedEmoji]
     if (!this.state.expanded) {
       if (node.children.length > 0)
-        icons.push(<Icon name={"list"}>{' ' + node.children.length}</Icon>)
+        icons.push(<Icon key='list' name={"list"}>
+          {' ' + node.children.length}
+        </Icon>)
       else if (!node.expandedEmoji && node.description)
-        icons.push(<Icon name={"sticky-note"}/>)
+        icons.push(<Icon key='note' name={"sticky-note"}/>)
     }
     return icons
   }
@@ -94,11 +96,7 @@ export default class PlainItem extends Component {
     if (this.node.description)
       this.setState({expanded: !this.state.expanded})
     else
-      this.edit()
-  }
-
-  edit() {
-    this.node.update({editing: true})
+      this.node.edit()
   }
 
   renderSubItems() {

@@ -3,6 +3,8 @@ import ComponentController from "../utils/ComponentController"
 import React from "../utils/react-tuned";
 import PlainItem from "./PlainItem"
 import RichItem from "./RichItem"
+import menuController from "./menuController";
+import dashboard from "./dashboard";
 
 const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
 const EXPANDED = "⏩️"
@@ -13,8 +15,9 @@ export default class Node extends ComponentController {
   expanded = false
   children = []
 
-  constructor(name, content, parent) {
+  constructor(name, content, parent, props) {
     super()
+    Object.assign(this, props)
     Object.entries(IMPORTANCES).some(([key, icon]) => {
       if (name.startsWith(icon)) {
         this.importance = key
@@ -97,24 +100,37 @@ export default class Node extends ComponentController {
     }
   }
 
+  edit() {
+    this.update({editing: true})
+  }
+
   addSibling() {
     var ch = this.parent.children
     var at = ch.indexOf(this) + 1
-    ch.insert(at, this._newNode())
+    var n = this._newNode(this.parent)
+    ch.insert(at, n)
+    this.parent.refresh()
+    n.edit()
   }
 
   addChild() {
-    this.children.push(this._newNode())
+    var n = this._newNode(this)
+    this.children.push(n)
+    n.refresh()
+    n.edit()
   }
 
   delete() {
     this.parent.children.delete(this)
+    this.parent.refresh()
+    menuController.reset()
+    dashboard.save()
   }
 
   // private
 
-  _newNode() {
-    return new Node("New record", "", this)
+  _newNode(parent) {
+    return new Node("New record", "", parent, {isNew: true})
   }
 
 }

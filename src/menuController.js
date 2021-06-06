@@ -33,6 +33,11 @@ export default new class extends ComponentController {
     this.refresh()
   }
 
+  reset() {
+    this.stack.length = 1
+    this.refresh()
+  }
+
   handleBack() {
     if (this.stack.length > 1) {
       this.pop()
