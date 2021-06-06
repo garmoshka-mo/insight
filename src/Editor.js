@@ -26,14 +26,15 @@ export default class extends Component {
     }
     this.undo = new Undo(this.state.value)
 
-    menuController.push([
+    this.tools = [
       {icon: 'suitcase', action: this.showNodeTools},
       {icon: 'undo', action: _=>
           this.setState({value: this.undo.undo()})},
 
       {icon: 'ellipsis-v', action: this.split},
       {icon: 'check', action: this.save}
-    ])
+    ]
+    menuController.push(this)
   }
 
   showNodeTools() {

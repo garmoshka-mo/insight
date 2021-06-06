@@ -46,7 +46,7 @@ export default class PlainItem extends Component {
   }
 
   header() {
-    if (this.state.editing)
+    if (this.node.editing)
       return <Editor parent={this} node={this.node} />
 
     return <Text

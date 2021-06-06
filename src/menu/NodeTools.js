@@ -4,6 +4,7 @@ import menuController from "../menuController";
 export default class NodeTools extends ComponentController {
 
   init(node) {
+    this.node = node
     this.tools = [
       {icon: 'chevron-left', left: true, action: _=> {
         node.update({editing: false})
@@ -21,15 +22,15 @@ export default class NodeTools extends ComponentController {
       {icon: `emoji:🔥`, selected: node.importance == 'important',
         action: this.updateNode({importance: 'important'})},
       {icon: `emoji:❔`, selected: node.importance == 'guess',
-        action: node.updateNode({importance: 'guess'})},
+        action: this.updateNode({importance: 'guess'})},
       {icon: `emoji:⏩`, selected: node.expanded,
-        action: node.update({expanded: !node.expanded})},
+        action: this.updateNode({expanded: !node.expanded})},
     ]
+  }
 
-    const update = (state) => {
-      node.update(state)
-      this.refresh()
-    }
+  updateNode() {
+    this.node.update(state)
+    this.refresh()
   }
 
 

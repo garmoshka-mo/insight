@@ -4,23 +4,41 @@ import React from "../utils/react-tuned";
 import PlainItem from "./PlainItem"
 import RichItem from "./RichItem"
 
+const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
+const EXPANDED = "⏩️"
+
 export default class Node extends ComponentController {
 
+  importance = 'normal'
+  expanded = false
   children = []
+
+  constructor(name, content, parent) {
+    super()
+    Object.entries(IMPORTANCES).some(([key, icon]) => {
+      if (name.startsWith(icon)) {
+        this.importance = key
+        name = name.substr(icon.length)
+        return true
+      }
+    })
+    this.name = name
+    this.parent = parent
+    this.level = parent ? parent.level + 1 : 0
+    this.parseContent(content)
+
+    var {description} = this
+    if (description?.startsWith(EXPANDED)) {
+      this.expanded = true
+      this.description = description.substr(EXPANDED.length)
+    }
+  }
 
   render() {
     var component = this.children.length ? RichItem : PlainItem
     return React.createElement(
       component, {key: this.name, node: this}
     )
-  }
-
-  constructor(name, content, parent) {
-    super()
-    this.name = name
-    this.parent = parent
-    this.level = parent ? parent.level + 1 : 0
-    this.parseContent(content)
   }
 
   parseContent(content) {
@@ -40,16 +58,20 @@ export default class Node extends ComponentController {
   }
 
   dump() {
+    var {description} = this
+    if (this.expanded) description = EXPANDED + description
     if (this.children.length > 0) {
       var result = {}
       if (this.description)
-        result["_"] = this.description
+        result["_"] = description
       this.children.each(node => {
-        result[node.name] = node.dump()
+        var icon = IMPORTANCES[this.importance]
+        var key = `${icon}${node.name}`
+        result[key] = node.dump()
       })
      return result
     } else
-      return this.description
+      return description
   }
 
   move(dir = -1) {

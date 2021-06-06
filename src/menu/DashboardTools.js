@@ -5,7 +5,7 @@ import FilesList from "../FilesList";
 import React from "../../utils/react-tuned";
 import files from "../files";
 import menuController from "../menuController";
-import SettingsMenu from "./settingsMenu";
+import SettingsMenu from "./SettingsMenu";
 
 export default class DashboardTools extends ComponentController {
 
