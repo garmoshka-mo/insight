@@ -28,7 +28,7 @@ export default class RichItem extends PlainItem {
 
   renderSubItems() {
     var {node} = this
-    if (!this.state.expanded) return
+    if (!this.node.expanded) return
     return node.children.map(
       child => child.render()
     )

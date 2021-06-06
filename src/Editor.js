@@ -31,8 +31,8 @@ export default class extends Component {
         action: _=> this.updateNode('importance', 'important', 'normal')},
       {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
         action: _=> this.updateNode('importance', 'guess', 'normal')},
-      {icon: `emoji:⏩`, selected: _=> node.expanded,
-        action: _=> this.updateNode('expanded', true, false)},
+      {icon: `emoji:⏩`, selected: _=> node.alwaysExpanded,
+        action: _=> this.updateNode('alwaysExpanded', true, false)},
       'break',
 
       {icon: 'chevron-left', left: true, action: menuController.pop},

@@ -22,9 +22,6 @@ export default class PlainItem extends Component {
   constructor(props) {
     super()
     var {node} = props
-    this.state = {
-      expanded: node.expanded || node.isNew
-    }
     this.node = node
     this.subscribeTo(node)
   }
@@ -69,7 +66,7 @@ export default class PlainItem extends Component {
   get rightIcons() {
     var {node} = this
     var icons = [node.expandedEmoji]
-    if (!this.state.expanded) {
+    if (!this.node.expanded) {
       if (node.children.length > 0)
         icons.push(<Icon key='list' name={"list"}>
           {' ' + node.children.length}
@@ -81,7 +78,7 @@ export default class PlainItem extends Component {
   }
 
   renderDescription() {
-    if (this.state.expanded)
+    if (this.node.expanded)
       return <Text
         style={styles.text}>
         {this.node.description || this.editIcon()}
@@ -94,7 +91,7 @@ export default class PlainItem extends Component {
 
   toggle() {
     if (this.node.description)
-      this.setState({expanded: !this.state.expanded})
+      this.node.update({expanded: !this.node.expanded})
     else
       this.node.edit()
   }

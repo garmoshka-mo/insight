@@ -12,7 +12,7 @@ const EXPANDED = "⏩️"
 export default class Node extends ComponentController {
 
   importance = 'normal'
-  expanded = false
+  alwaysExpanded = false
   children = []
 
   constructor(name, content, parent, props) {
@@ -32,9 +32,10 @@ export default class Node extends ComponentController {
 
     var {description} = this
     if (description?.startsWith(EXPANDED)) {
-      this.expanded = true
+      this.alwaysExpanded = true
       this.description = description.substr(EXPANDED.length).trim()
     }
+    this.expanded = this.alwaysExpanded || this.isNew
   }
 
   render() {
@@ -81,7 +82,7 @@ export default class Node extends ComponentController {
   }
 
   get expandedEmoji() {
-    return this.expanded ? `${EXPANDED} ` : ''
+    return this.alwaysExpanded ? `${EXPANDED} ` : ''
   }
 
   move(dir = -1) {
@@ -116,7 +117,7 @@ export default class Node extends ComponentController {
   addChild() {
     var n = this._newNode(this)
     this.children.push(n)
-    n.refresh()
+    n.expanded = true
     n.edit()
   }
 
