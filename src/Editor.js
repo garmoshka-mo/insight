@@ -43,7 +43,6 @@ export default class extends Component {
       {icon: 'ellipsis-v', action: this.split},
       {icon: 'check', action: this.save}
     ]
-    menuController.push(this)
   }
 
   onMenuPop() {
@@ -82,7 +81,11 @@ export default class extends Component {
     })
   }
 
-  blur() {
+  onFocus() {
+    menuController.push(this)
+  }
+
+  onBlur() {
     this.save()
   }
 
@@ -94,7 +97,8 @@ export default class extends Component {
   render() {
     return <View>
       <TextInput
-        onBlur={this.blur}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
         onChangeText={this.onChangeText}
         onSelectionChange={
           (event) => this.cursor = event.nativeEvent.selection?.start
