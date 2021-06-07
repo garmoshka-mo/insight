@@ -2,15 +2,16 @@
  **/
 
 import React, {Component} from "../utils/react-tuned"
-import {View, ActivityIndicator, FlatList} from 'react-native'
+import {View, ActivityIndicator, FlatList, ScrollView} from 'react-native'
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './Menu'
 import FlashMessage from "react-native-flash-message"
 import dashboard from "./dashboard";
+import {swipeController} from "../utils/ComponentController";
 
 export default class extends Component {
 
-  controllers = [dashboard]
+  controllers = [dashboard, swipeController]
 
   componentDidMount() {
     dashboard.loadDashboard()
@@ -31,6 +32,7 @@ export default class extends Component {
     return <FlatList
       contentContainerStyle={{paddingHorizontal: 8,
         paddingVertical: 15}}
+      scrollEnabled={!swipeController.swipeStarted}
       keyboardShouldPersistTaps="always"
       data={dashboard.root.children}
       keyExtractor={item => item.name}

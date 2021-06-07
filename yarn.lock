@@ -5883,10 +5883,9 @@ react-native-randombytes@^3.6.0:
     buffer "^4.9.1"
     sjcl "^1.0.3"
 
-react-native-swipeout@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/react-native-swipeout/-/react-native-swipeout-2.3.6.tgz#47dac8a835825cf3f2eef9e495574a3d9ab6d3fa"
-  integrity sha512-t9suUCspzck4vp2pWggWe0frS/QOtX6yYCawHnEes75A7dZCEE74bxX2A1bQzGH9cUMjq6xsdfC94RbiDKIkJg==
+"react-native-swipeout@https://github.com/davidck/react-native-swipeout.git#davidck-dayone":
+  version "2.2.2"
+  resolved "https://github.com/davidck/react-native-swipeout.git#80937beb44e376cb41300b1c8116cc0899005248"
   dependencies:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"

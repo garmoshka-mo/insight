@@ -15,6 +15,9 @@ import Editor from './Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
 import Swipeout from 'react-native-swipeout'
 import menuController from "./menuController";
+import {swipeController} from "../utils/ComponentController";
+import dashboard from "./dashboard";
+import Swipeable from './Swipeable'
 
 export default class NodeComponent extends Component {
 
@@ -46,64 +49,24 @@ export default class NodeComponent extends Component {
     if (this.node.editing)
       return <Editor parent={this} node={this.node} />
 
-    return this.swipeable(<Text
-      onPress={this.node.edit}
-    >
+    return <Swipeable node={this.node}>
       <Text
-        onPress={this.toggle}
-        style={{color: this.node.children.length == 0 ?
-            '#8d7627' : '#2280a5'}}
+        onPress={this.node.edit}
       >
-        {this.node.importanceEmoji}
-        {this.node.name}
-        {' '}
-        {this.rightIcons}
-        {' '}
+        <Text
+          onPress={this.toggle}
+          style={{color: this.node.children.length == 0 ?
+              '#8d7627' : '#2280a5'}}
+        >
+          {this.node.importanceEmoji}
+          {this.node.name}
+          {' '}
+          {this.rightIcons}
+          {' '}
+        </Text>
+        {this.renderDescription()}
       </Text>
-      {this.renderDescription()}
-    </Text>)
-  }
-
-  updateNode(key, value, neutral) {
-    var state = {[key]: value}
-    if (this.node[key] == value) state[key] = neutral
-    this.node.update(state)
-    menuController.refresh()
-  }
-
-  swipeable(content) {
-    var {node} = this
-    var left = [{
-      text: '🔥',
-      selected: node.importance == 'important',
-      onPress: _=> this.updateNode('importance', 'important', 'normal')
-    },{
-      text: '❔',
-      selected: node.importance == 'guess',
-      onPress: _=> this.updateNode('importance', 'guess', 'normal')
-    },{
-      text: '⏩',
-      selected: node.alwaysExpanded,
-      onPress: _=> this.updateNode('alwaysExpanded', true, false)
-    },
-
-    ].map(props => ({
-      ...props,
-      backgroundColor: props.selected ? colors.selected : 'transparent',
-    }))
-
-    var right = [{
-      text: '🚮',
-      type: 'delete',
-      onPress: node.delete
-    }]
-
-    return <Swipeout backgroundColor={'transparent'}
-                     buttonWidth={40}
-                     style={{width: '100%'}}
-                     right={right} left={left}>
-      {content}
-    </Swipeout>
+    </Swipeable>
   }
 
   get rightIcons() {

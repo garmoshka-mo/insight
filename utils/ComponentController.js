@@ -28,3 +28,5 @@ export default class ComponentController {
   }
 
 }
+
+export const swipeController = new ComponentController()

@@ -1,0 +1,26 @@
+diff --git a/node_modules/react-native-swipeout/index.js b/node_modules/react-native-swipeout/index.js
+index 17a860c..1757a45 100644
+--- a/node_modules/react-native-swipeout/index.js
++++ b/node_modules/react-native-swipeout/index.js
+@@ -142,14 +142,19 @@ const Swipeout = createReactClass({
+     };
+   },
+ 
++  _onMoveShouldSetPanResponder: function(event, gestureState) {
++    return Math.abs(gestureState.dx) > this.props.sensitivity;
++  },
++
+   componentWillMount: function() {
+     this._panResponder = PanResponder.create({
+       onStartShouldSetPanResponder: (event, gestureState) => true,
+       onStartShouldSetPanResponderCapture: (event, gestureState) =>
+         this.state.openedLeft || this.state.openedRight,
+       onMoveShouldSetPanResponderCapture: (event, gestureState) =>
+-        Math.abs(gestureState.dx) > this.props.sensitivity &&
+-        Math.abs(gestureState.dy) <= this.props.sensitivity,
++        this._onMoveShouldSetPanResponder(event, gestureState),
++      onMoveShouldSetPanResponderCapture: (event, gestureState) =>
++        this._onMoveShouldSetPanResponder(event, gestureState),
+       onPanResponderGrant: this._handlePanResponderGrant,
+       onPanResponderMove: this._handlePanResponderMove,
+       onPanResponderRelease: this._handlePanResponderEnd,
