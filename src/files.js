@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import s from './services'
 import File from "./File";
 import dashboard from "./dashboard";
+import _ from "lodash"
 
 export default new class Files extends ComponentController {
 
@@ -27,7 +28,10 @@ export default new class Files extends ComponentController {
     keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
     this.list =
-      items.map((row) => new File(JSON.parse(row[1])))
+      _.sortBy(
+        items.map((row) => new File(JSON.parse(row[1]))),
+        'name'
+      )
   }
 
   async resetFiles() {
