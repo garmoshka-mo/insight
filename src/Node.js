@@ -6,7 +6,7 @@ import menuController from "./menuController";
 import dashboard from "./dashboard";
 
 const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
-const EXPANDED = "⏩️"
+const EXPANDED = ">>"
 
 export default class Node extends ComponentController {
 
@@ -30,6 +30,10 @@ export default class Node extends ComponentController {
     this.parseContent(content)
 
     var {description} = this
+    // temporary hotfix:
+    if (description?.startsWith("⏩️"))
+      description = description.replace("⏩️", EXPANDED)
+
     if (description?.startsWith(EXPANDED)) {
       this.alwaysExpanded = true
       this.description = description.substr(EXPANDED.length).trim()
@@ -80,7 +84,16 @@ export default class Node extends ComponentController {
   }
 
   get expandedEmoji() {
-    return this.alwaysExpanded ? `${EXPANDED} ` : ''
+    // `${EXPANDED} `
+    return this.alwaysExpanded ? `>> ` : ''
+  }
+
+  updateFlag(key, value, neutral) {
+    var state = {[key]: value}
+    if (this[key] == value) state[key] = neutral
+    if (key == 'alwaysExpanded') state.expanded = state[key]
+    this.update(state)
+    menuController.refresh()
   }
 
   move(dir = -1) {

@@ -74,12 +74,8 @@ export default class Swipeable extends Component {
   }
 
   updateNode(key, value, neutral) {
-    var state = {[key]: value}
-    if (this.node[key] == value) state[key] = neutral
-    if (state.alwaysExpanded) state.expanded = true
-    this.node.update(state)
+    this.node.updateFlag(key, value, neutral)
     dashboard.save()
-    menuController.refresh()
   }
 
 }

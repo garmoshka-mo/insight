@@ -114,10 +114,8 @@ export default class extends Component {
     </View>
   }
 
-  updateNode(key, value, neutral) {
-    var state = {[key]: value}
-    if (this.node[key] == value) state[key] = neutral
-    this.node.update(state)
+  updateNode(...args) {
+    this.node.updateFlag(...args)
     menuController.refresh()
   }
 
