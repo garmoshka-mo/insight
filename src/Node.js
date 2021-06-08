@@ -4,6 +4,9 @@ import React from "../utils/react-tuned";
 import NodeComponent from "./NodeComponent"
 import menuController from "./menuController";
 import dashboard from "./dashboard";
+import {logr, showFlash} from "./commonFunctions";
+import {Text, TouchableOpacity} from "react-native";
+import { hideMessage } from "react-native-flash-message"
 
 const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
 const EXPANDED = ">>"
@@ -132,10 +135,30 @@ export default class Node extends ComponentController {
   }
 
   delete() {
+    var index = this.parent.children.indexOf(this)
+
     this.parent.children.delete(this)
     this.parent.refresh()
     menuController.reset()
     dashboard.save()
+
+    var restore = () => {
+      this.parent.children.insert(index, this)
+      this.parent.refresh()
+      dashboard.save()
+      hideMessage()
+    }
+
+    showFlash('Node deleted', {
+      duration: 4000,
+      type: 'default',
+      renderCustomContent: _=>
+        <TouchableOpacity
+          style={{alignSelf: 'center', padding: 10, backgroundColor: 'white' }}
+          onPress={restore}>
+          <Text>Undo</Text>
+        </TouchableOpacity>
+    })
   }
 
   // private
