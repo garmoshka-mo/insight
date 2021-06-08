@@ -4,6 +4,7 @@ import {colors} from "./styles";
 import dashboard from "./dashboard";
 import menuController from "./menuController";
 import {swipeController} from "../utils/ComponentController";
+import NodeMoving from "./menu/NodeMoving";
 
 
 export default class Swipeable extends Component {
@@ -37,7 +38,7 @@ export default class Swipeable extends Component {
     var right = this.swipeButtons([
       {
         text: '⇕',
-        onPress: this.edit
+        onPress: this.showNodeTools
       },
       {
       text: '🚮',
@@ -65,6 +66,7 @@ export default class Swipeable extends Component {
   }
 
   handleGestureStart() {
+    this.setState({closeSwipe: false})
     swipeController.update({swipeStarted: true})
   }
 
@@ -74,9 +76,12 @@ export default class Swipeable extends Component {
 
   edit() {
     this.node.edit()
-    this.setState({closeSwipe: true},
-      _=> this.setState({closeSwipe: false})
-    )
+    this.setState({closeSwipe: true})
+  }
+
+  showNodeTools() {
+    menuController.push(new NodeMoving(this.node))
+    this.setState({closeSwipe: true})
   }
 
   updateNode(key, value, neutral) {

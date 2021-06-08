@@ -12,7 +12,6 @@ import {
 import menuController from "./menuController";
 import dashboard from "./dashboard";
 import Undo from "./Undo";
-import NodeTools from "./menu/NodeTools";
 
 
 export default class extends Component {
@@ -36,7 +35,6 @@ export default class extends Component {
       'break',
 
       {icon: 'chevron-left', left: true, action: menuController.pop},
-      {icon: 'suitcase', action: this.showNodeTools},
       {icon: 'undo', action: _=>
           this.setState({value: this.undo.undo()})},
 
@@ -47,10 +45,6 @@ export default class extends Component {
 
   onMenuPop() {
     this.node.update({editing: false})
-  }
-
-  showNodeTools() {
-    menuController.push(new NodeTools(this.props.node))
   }
 
   save() {
