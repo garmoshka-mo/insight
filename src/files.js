@@ -70,7 +70,7 @@ export default new class Files extends ComponentController {
     }
     if (!message) message = "Up to date"
     logr(`♻️  ${message}`)
-    showFlash(message, type)
+    showFlash(message, {type})
   }
 
   async processFile(meta) {

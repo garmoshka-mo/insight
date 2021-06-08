@@ -7,13 +7,13 @@ import actionsSheetController from "./actionsSheetController";
 
 
 var flashShownAt = Date.now()
-export function showFlash(message, type="success") {
+export function showFlash(message, options = {}) {
   if (!message) return
 
   flashShownAt = Date.now()
-  let options = {
+  options = {
     message: message.trim(),
-    type,
+    type: "success",
     style: {
       justifyContent: 'center',
       alignItems: 'center'
@@ -22,7 +22,8 @@ export function showFlash(message, type="success") {
     titleStyle: {
       fontSize: 18
     },
-    autoHide: true
+    autoHide: true,
+    ...options,
   }
   showMessage(options)
 }

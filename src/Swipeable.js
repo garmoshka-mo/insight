@@ -13,7 +13,8 @@ export default class Swipeable extends Component {
   render() {
     var {node, children} = this.props
     this.node = node
-    var left = [{
+
+    var left = this.swipeButtons([{
       text: '🔥',
       selected: node.importance == 'important',
       onPress: _=> this.updateNode('importance', 'important', 'normal')
@@ -30,21 +31,19 @@ export default class Swipeable extends Component {
     {
       text: '✐',
       onPress: this.edit
-    }, {
-      text: '⇕',
-      onPress: this.edit
-    },
+    }
+    ])
 
-    ].map(props => ({
-      ...props,
-      backgroundColor: props.selected ? colors.selected : 'transparent',
-    }))
-
-    var right = [{
+    var right = this.swipeButtons([
+      {
+        text: '⇕',
+        onPress: this.edit
+      },
+      {
       text: '🚮',
       type: 'delete',
       onPress: node.delete
-    }]
+    }])
 
     return <Swipeout backgroundColor={'transparent'}
                      sensitivity={2}
@@ -56,6 +55,13 @@ export default class Swipeable extends Component {
                      right={right} left={left}>
       {children}
     </Swipeout>
+  }
+
+  swipeButtons(buttons) {
+    return buttons.map(props => ({
+      ...props,
+      backgroundColor: props.selected ? colors.selected : 'transparent',
+    }))
   }
 
   handleGestureStart() {
