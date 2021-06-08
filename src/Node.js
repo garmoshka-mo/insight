@@ -64,11 +64,10 @@ export default class Node extends ComponentController {
   }
 
   dump() {
-    var description = this.expandedEmoji + this.description
+    var description = this.expandedEmoji + (this.description || '')
     if (this.children.length > 0) {
       var result = {}
-      if (this.description)
-        result["_"] = description
+      if (description) result["_"] = description
       this.children.each(node => {
         var key = `${node.importanceEmoji}${node.name}`
         result[key] = node.dump()
