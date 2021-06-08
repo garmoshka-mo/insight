@@ -46,20 +46,26 @@ export default class NodeComponent extends Component {
   }
 
   header() {
-    if (this.node.editing)
-      return <Editor parent={this} node={this.node} />
+    var {node} = this
+    if (node.editing)
+      return <Editor parent={this} node={node} />
 
-    return <Swipeable node={this.node}>
+    if (node.moving) var style = {
+      borderWidth: 2, borderColor: '#00dbff40',
+      borderRadius: 10}
+
+    return <Swipeable node={node}>
       <Text
-        onPress={this.node.edit}
+        onPress={node.edit}
+        style={style}
       >
         <Text
           onPress={this.toggle}
-          style={{color: this.node.children.length == 0 ?
+          style={{color: node.children.length == 0 ?
               '#8d7627' : '#2280a5'}}
         >
-          {this.node.importanceEmoji}
-          {this.node.name}
+          {node.importanceEmoji}
+          {node.name}
           {' '}
           {this.rightIcons}
           {' '}

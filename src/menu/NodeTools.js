@@ -4,9 +4,10 @@ import menuController from "../menuController";
 export default class NodeMoving extends ComponentController {
 
   init(node) {
+    node.update({editing: false, moving: true})
     this.tools = [
       {icon: 'chevron-left', left: true, action: _=> {
-        // node.update({editing: false})
+        node.update({moving: false})
         menuController.pop()
       }},
 
