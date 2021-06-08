@@ -73,33 +73,34 @@ export default new class Files extends ComponentController {
     showFlash(message, {type})
   }
 
-  async processFile(meta) {
+  async processFile(remote) {
     try {
-      if (!meta.name.endsWith('.yml') ||
-        meta.name.includes('conflict') ||
-        meta.size > 2000000
+      if (!remote.name.endsWith('.yml') ||
+        remote.name.includes('conflict') ||
+        remote.size > 2000000
       ) return
 
-      var localFile = this.fileById(meta.id)
+      var localFile = this.fileById(remote.id)
 
       if (localFile) {
-        if (this.wasChangedOnServer(localFile, meta)) {
+        await localFile.updateName(remote)
+        if (this.wasChangedOnServer(localFile, remote)) {
           if (localFile.changed)
             throw('Local file changed during sync. Re-sync needed.')
           else
-            logr(`File ${meta.name} changed on server`, localFile.content_hash, meta.content_hash)
+            logr(`File ${remote.name} changed on server`, localFile.content_hash, remote.content_hash)
         } else {
           return 'latest version already downloaded'
         }
       } else {
-        localFile = new File(meta)
+        localFile = new File(remote)
         this.list.push(localFile)
       }
 
       await localFile.download()
 
-      meta.changed = false
-      localFile.updateMeta(meta)
+      remote.changed = false
+      localFile.updateMeta(remote)
       this.stats.downloaded++
 
       if (localFile.id == dashboard.file?.id)

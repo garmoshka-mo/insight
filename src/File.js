@@ -8,7 +8,7 @@ import settings from './settings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import conflictResolver from "./conflictResolver";
 import {logr} from "./commonFunctions";
-
+import _ from "lodash"
 export default class File {
 
   constructor(meta) {
@@ -55,6 +55,17 @@ export default class File {
   async save(obj) {
     await fs.saveFile(this.filePath, yaml.dump(obj))
     this.updateMeta({changed: true})
+  }
+
+  updateName(remote) {
+    if (this.name != remote.name ||
+      this.path_display != remote.path_display ||
+      this.path_lower != remote.path_lower
+    ) {
+      return this.updateMeta(_.pick(remote,
+        ['name', 'path_display', 'path_lower'])
+      )
+    }
   }
 
   async download() {
