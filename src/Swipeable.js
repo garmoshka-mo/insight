@@ -5,7 +5,13 @@ import dashboard from "./dashboard";
 import menuController from "./menuController";
 import {swipeController} from "../utils/ComponentController";
 import NodeMoving from "./menu/NodeMoving";
+import Icon from "react-native-vector-icons/FontAwesome"
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
 
+const iconProps = {
+  color: "white", size: 20,
+  style: {textAlign: 'center'}
+}
 
 export default class Swipeable extends Component {
 
@@ -30,14 +36,22 @@ export default class Swipeable extends Component {
     },
 
     {
-      text: '✐',
+      component: <Icon name='pencil-square' {...iconProps}/>,
       onPress: this.edit
     }
     ])
 
     var right = this.swipeButtons([
       {
-        text: '⇕',
+        component: <MaterialIcon name='table-row-plus-after' {...iconProps}/>,
+        onPress: node.addSibling
+      },
+      {
+        component: <Icon name='child' {...iconProps}/>,
+        onPress: node.addChild
+      },
+      {
+        component: <Icon name='arrows' {...iconProps}/>,
         onPress: this.showNodeTools
       },
       {
@@ -47,6 +61,7 @@ export default class Swipeable extends Component {
     }])
 
     return <Swipeout backgroundColor={'transparent'}
+                     autoClose={true}
                      sensitivity={2}
                      close={this.state.closeSwipe}
                      onGestureStart={this.handleGestureStart}
