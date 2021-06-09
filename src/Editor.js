@@ -38,7 +38,7 @@ export default class extends Component {
         ]} />
         <MenuRow size={.8} buttons={[
           {action: node.addSibling, icon: 'material/table-row-plus-after'},
-          {action: node.addChild, icon: 'material/table-column-plus-after'},
+          {action: node.addChild, icon: 'child'},
         ]} style={{flex: 1, justifyContent: "flex-end"}} />
       </View>
       <View style={{flexDirection: 'row'}}>
