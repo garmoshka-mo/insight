@@ -12,6 +12,7 @@ import {
 import menuController from "./menuController";
 import dashboard from "./dashboard";
 import Undo from "./Undo";
+import MenuRow from "./menu/MenuRow";
 
 
 export default class extends Component {
@@ -25,22 +26,32 @@ export default class extends Component {
     this.state = {value}
     this.undo = new Undo(this.state.value)
 
-    this.tools = [
-      {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
-        action: _=> this.updateNode('importance', 'important', 'normal')},
-      {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
-        action: _=> this.updateNode('importance', 'guess', 'normal')},
-      {icon: `emoji:⏩`, selected: _=> node.alwaysExpanded,
-        action: _=> this.updateNode('alwaysExpanded', true, false)},
-      'break',
+    this.tools = <View style={{flexDirection: 'column'}}>
+      <View style={{flexDirection: 'row', paddingBottom: 10}}>
+        <MenuRow size={.8} buttons={[
+          {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
+            action: _=> this.updateNode('importance', 'important', 'normal')},
+          {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
+            action: _=> this.updateNode('importance', 'guess', 'normal')},
+          {icon: `emoji:⏩`, selected: _=> node.alwaysExpanded,
+            action: _=> this.updateNode('alwaysExpanded', true, false)},
+        ]} />
+        <MenuRow size={.8} buttons={[
+          {action: node.addSibling, icon: 'material/table-row-plus-after'},
+          {action: node.addChild, icon: 'material/table-column-plus-after'},
+        ]} style={{flex: 1, justifyContent: "flex-end"}} />
+      </View>
+      <View style={{flexDirection: 'row'}}>
+        <MenuRow size={.8} buttons={[
+          {action: menuController.pop, icon: 'chevron-left', left: true},
+          {icon: 'undo', action: _=>
+              this.setState({value: this.undo.undo()})},
 
-      {icon: 'chevron-left', left: true, action: menuController.pop},
-      {icon: 'undo', action: _=>
-          this.setState({value: this.undo.undo()})},
-
-      {icon: 'ellipsis-v', action: this.split},
-      {icon: 'check', action: this.save}
-    ]
+          {action: this.split, icon: 'ellipsis-v'},
+          {action: this.save, icon: 'check'}
+        ]} />
+      </View>
+    </View>
   }
 
   onMenuPop() {
