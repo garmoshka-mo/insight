@@ -25,9 +25,13 @@ export default new class extends ComponentController {
 
   async loadDashboard() {
     // await files.resetFiles()
-    await files.loadList()
-    await auth.load()
     await settings.load()
+    await files.loadList()
+    await this.loadInitialFile()
+    await auth.load()
+  }
+
+  async loadInitialFile() {
     if (!forceSample && settings.recentFileId)
       var file = await File.byId(settings.recentFileId)
     else
