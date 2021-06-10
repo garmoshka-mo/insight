@@ -47,6 +47,7 @@ export default class extends Component {
   }
 
   getValue(node) {
+    if (!node.description) return node.name
     return `${node.name}: ${node.description || ''}`
   }
 

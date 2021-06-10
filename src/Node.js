@@ -137,15 +137,16 @@ export default class Node extends ComponentController {
     this.update({editing: true})
   }
 
-  editSibling() {
+  editSibling(dir) {
     var n = this._newNode(this.parent)
-    this.addSibling(n)
+    this.addSibling(n, dir)
     n.edit()
   }
 
-  addSibling(n) {
+  addSibling(n, dir = +1) {
     var ch = this.parent.children
-    var at = ch.indexOf(this) + 1
+    var at = ch.indexOf(this)
+    if (dir == +1) at++
     ch.insert(at, n)
     this.parent.refresh()
   }
