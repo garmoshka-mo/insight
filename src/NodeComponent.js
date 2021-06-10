@@ -60,8 +60,10 @@ export default class NodeComponent extends Component {
       >
         <Text
           onPress={this.toggle}
-          style={{color: node.children.length == 0 ?
-              '#8d7627' : '#2280a5'}}
+          style={{color:
+              '#4495ae'
+            // '#ab902f'
+          }}
         >
           {node.importanceEmoji}
           {node.name}
