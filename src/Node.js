@@ -104,14 +104,31 @@ export default class Node extends ComponentController {
     var to = from + dir
     if (to >= 0 && to < ch.length) {
       ch.move(from, to)
-      this.parent.refresh()
     } else if (this.parent.parent) {
       ch.delete(this)
-      ch = this.parent.parent.children
-      var at = ch.indexOf(this.parent)
+      var exParent = this.parent
+      this.parent = this.parent.parent
+      this.level--
+      ch = this.parent.children
+      var at = ch.indexOf(exParent)
       if (dir > 0) at++
       ch.insert(at, this)
     }
+    this.parent.refresh()
+  }
+
+  moveToChild(dir = -1) {
+    var ch = this.parent.children
+    var i = ch.indexOf(this)
+    var to = i + dir
+    if (!(to >= 0 && to < ch.length)) return
+
+    var newParent = ch[to]
+    this.parent = newParent
+    ch.delete(this)
+    newParent.addChild(this, dir == -1)
+    newParent.refresh()
+    this.level++
   }
 
   edit() {
