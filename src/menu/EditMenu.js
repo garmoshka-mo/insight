@@ -30,9 +30,9 @@ export default class {
             action: _=> this.updateNode('alwaysExpanded', true, false)},
         ]} />
         <MenuRow size={.8} buttons={[
-          {action: this.parseSubItems, icon: 'list-alt'},
-          {action: node.addSibling, icon: 'material/table-row-plus-after'},
-          {action: node.addChild, icon: 'child'},
+          {action: editor.parseSubItems, icon: 'list-alt'},
+          {action: node.editSibling, icon: 'material/table-row-plus-after'},
+          {action: node.editChild, icon: 'child'},
         ]} style={{flex: 1, justifyContent: "flex-end"}} />
       </View>
       <View style={{flexDirection: 'row'}}>
@@ -54,11 +54,6 @@ export default class {
   updateNode(...args) {
     this.node.updateFlag(...args)
     menuController.refresh()
-  }
-
-  parseSubItems() {
-
-    showFlash('ToDo')
   }
 
 }

@@ -44,11 +44,11 @@ export default class Swipeable extends Component {
     var right = this.swipeButtons([
       {
         component: <MaterialIcon name='table-row-plus-after' {...iconProps}/>,
-        onPress: node.addSibling
+        onPress: node.editSibling
       },
       {
         component: <Icon name='child' {...iconProps}/>,
-        onPress: node.addChild
+        onPress: node.editChild
       },
       {
         component: <Icon name='arrows' {...iconProps}/>,

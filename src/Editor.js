@@ -14,22 +14,53 @@ import dashboard from "./dashboard";
 import Undo from "./Undo";
 import {showFlash} from "./commonFunctions";
 import EditMenu from "./menu/EditMenu";
-
+import Node from "./Node"
 
 export default class extends Component {
 
   constructor(props) {
     super(props)
     var {node} = props
-    var value = `${node.name}: ${node.description || ''}`
+    var value = this.getValue(node)
     if (value.startsWith('New record')) value = ''
     this.state = {value}
     this.undo = new Undo(this.state.value)
   }
 
+  render() {
+    return <View>
+      <TextInput
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        onChangeText={this.onChangeText}
+        onSelectionChange={
+          (event) => this.cursor = event.nativeEvent.selection?.start
+        }
+        value={this.state.value}
+        style={{}}
+        multiline={true}
+        autoFocus={true}
+        autoCapitalize={'none'}
+        autoCorrect={false}
+      />
+    </View>
+  }
+
+  getValue(node) {
+    return `${node.name}: ${node.description || ''}`
+  }
+
   save() {
-    var {node} = this.props, v = this.state.value, data
-    var splitter = v.indexOf(':')
+    var {node} = this.props
+    var data = this.parseItem(this.state.value)
+    data.editing = false
+    node.update(data)
+    menuController.pop()
+    dashboard.save()
+  }
+
+  parseItem(v) {
+    var splitter = v.indexOf(':'), data
     if (splitter >= 0)
       data = {
         name: v.slice(0, splitter).trim(),
@@ -38,9 +69,35 @@ export default class extends Component {
     else
       data = { name: v, description: "" }
     if (!data.name) data.name = Date.now()
-    data.editing = false
-    node.update(data)
-    menuController.pop()
+    return data
+  }
+
+  parseSubItems() {
+    var data, prevParent, isChild
+    this.state.value.split("\n").each(line => {
+      if (line.trim().length < 2) return
+      isChild = prevParent && line.startsWith('-')
+      if (isChild) line.replace(/^-/, '')
+      data = this.parseItem(line)
+
+      if (prevParent) {
+        var node = new Node(data.name, data.description,
+          isChild ? prevParent : prevParent.parent,
+          {isNew: true})
+        if (isChild)
+          prevParent.addChild(node, 'toEnd')
+        else {
+          prevParent.addSibling(node)
+          prevParent = node
+        }
+      } else {
+        node = this.props.node
+        node.update(data)
+        this.setState({value: this.getValue(node)})
+        prevParent = node
+      }
+    })
+
     dashboard.save()
   }
 
@@ -71,25 +128,6 @@ export default class extends Component {
 
   doUndo() {
     this.setState({value: this.undo.undo()})
-  }
-
-  render() {
-    return <View>
-      <TextInput
-        onBlur={this.onBlur}
-        onFocus={this.onFocus}
-        onChangeText={this.onChangeText}
-        onSelectionChange={
-          (event) => this.cursor = event.nativeEvent.selection?.start
-        }
-        value={this.state.value}
-        style={{}}
-        multiline={true}
-        autoFocus={true}
-        autoCapitalize={'none'}
-        autoCorrect={false}
-      />
-    </View>
   }
 
 }

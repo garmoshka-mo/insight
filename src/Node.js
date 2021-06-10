@@ -118,20 +118,29 @@ export default class Node extends ComponentController {
     this.update({editing: true})
   }
 
-  addSibling() {
-    var ch = this.parent.children
-    var at = ch.indexOf(this) + 1
+  editSibling() {
     var n = this._newNode(this.parent)
-    ch.insert(at, n)
-    this.parent.refresh()
+    this.addSibling(n)
     n.edit()
   }
 
-  addChild() {
+  addSibling(n) {
+    var ch = this.parent.children
+    var at = ch.indexOf(this) + 1
+    ch.insert(at, n)
+    this.parent.refresh()
+  }
+
+  editChild() {
     var n = this._newNode(this)
-    this.children.unshift(n)
-    this.update({expanded: true})
+    this.addChild(n)
     n.edit()
+  }
+
+  addChild(n, toEnd = false) {
+    if (toEnd) this.children.push(n)
+    else this.children.unshift(n)
+    this.update({expanded: true})
   }
 
   delete() {
