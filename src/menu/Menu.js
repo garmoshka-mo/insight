@@ -1,10 +1,9 @@
-import React, {Component} from "../utils/react-tuned";
+import React, {Component} from "../../utils/react-tuned";
 import {Text, TouchableOpacity, View} from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
-import {colors} from './styles'
 import menuController from "./menuController"
-import MenuRow from "./menu/MenuRow";
+import MenuRow from "./MenuRow";
 
 export default class Menu extends Component {
 

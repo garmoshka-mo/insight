@@ -2,7 +2,7 @@ import Swipeout from "react-native-swipeout";
 import React, {Component} from "../utils/react-tuned";
 import {colors} from "./styles";
 import dashboard from "./dashboard";
-import menuController from "./menuController";
+import menuController from "./menu/menuController";
 import {swipeController} from "../utils/ComponentController";
 import NodeMoving from "./menu/NodeMoving";
 import Icon from "react-native-vector-icons/FontAwesome"

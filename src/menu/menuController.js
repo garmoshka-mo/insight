@@ -1,10 +1,10 @@
 /** @providesModule menuController
  **/
 
-import ComponentController from "../utils/ComponentController"
+import ComponentController from "../../utils/ComponentController"
 import {BackHandler} from 'react-native'
-import React from "../utils/react-tuned";
-import DashboardTools from "./menu/DashboardTools";
+import React from "../../utils/react-tuned";
+import DashboardTools from "./DashboardTools";
 
 export default new class extends ComponentController {
 

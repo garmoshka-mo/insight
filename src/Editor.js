@@ -9,10 +9,11 @@ import {
   Alert,
   Appearance
 } from 'react-native'
-import menuController from "./menuController";
+import menuController from "./menu/menuController";
 import dashboard from "./dashboard";
 import Undo from "./Undo";
-import MenuRow from "./menu/MenuRow";
+import {showFlash} from "./commonFunctions";
+import EditMenu from "./menu/EditMenu";
 
 
 export default class extends Component {
@@ -20,42 +21,10 @@ export default class extends Component {
   constructor(props) {
     super(props)
     var {node} = props
-    this.node = node
     var value = `${node.name}: ${node.description || ''}`
     if (value.startsWith('New record')) value = ''
     this.state = {value}
     this.undo = new Undo(this.state.value)
-
-    this.tools = <View style={{flexDirection: 'column'}}>
-      <View style={{flexDirection: 'row', paddingBottom: 10}}>
-        <MenuRow size={.8} buttons={[
-          {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
-            action: _=> this.updateNode('importance', 'important', 'normal')},
-          {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
-            action: _=> this.updateNode('importance', 'guess', 'normal')},
-          {icon: `emoji:⏩`, selected: _=> node.alwaysExpanded,
-            action: _=> this.updateNode('alwaysExpanded', true, false)},
-        ]} />
-        <MenuRow size={.8} buttons={[
-          {action: node.addSibling, icon: 'material/table-row-plus-after'},
-          {action: node.addChild, icon: 'child'},
-        ]} style={{flex: 1, justifyContent: "flex-end"}} />
-      </View>
-      <View style={{flexDirection: 'row'}}>
-        <MenuRow size={.8} buttons={[
-          {action: menuController.pop, icon: 'chevron-left', left: true},
-          {icon: 'undo', action: _=>
-              this.setState({value: this.undo.undo()})},
-
-          {action: this.split, icon: 'ellipsis-v'},
-          {action: this.save, icon: 'check'}
-        ]} />
-      </View>
-    </View>
-  }
-
-  onMenuPop() {
-    this.node.update({editing: false})
   }
 
   save() {
@@ -88,7 +57,7 @@ export default class extends Component {
   }
 
   onFocus() {
-    menuController.push(this)
+    new EditMenu(this.props.node, this)
   }
 
   onBlur() {
@@ -98,6 +67,10 @@ export default class extends Component {
   onChangeText(value) {
     this.undo.changed(value)
     this.setState({value})
+  }
+
+  doUndo() {
+    this.setState({value: this.undo.undo()})
   }
 
   render() {
@@ -117,11 +90,6 @@ export default class extends Component {
         autoCorrect={false}
       />
     </View>
-  }
-
-  updateNode(...args) {
-    this.node.updateFlag(...args)
-    menuController.refresh()
   }
 
 }

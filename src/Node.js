@@ -2,7 +2,7 @@
 import ComponentController from "../utils/ComponentController"
 import React from "../utils/react-tuned";
 import NodeComponent from "./NodeComponent"
-import menuController from "./menuController";
+import menuController from "./menu/menuController";
 import dashboard from "./dashboard";
 import {logr, showFlash} from "./commonFunctions";
 import {Text, TouchableOpacity} from "react-native";

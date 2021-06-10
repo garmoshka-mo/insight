@@ -13,7 +13,6 @@ import {
 import auth from './auth'
 import filesService from "./files"
 import {logr} from './commonFunctions'
-import menuController from "./menuController";
 
 
 export default class extends Component {

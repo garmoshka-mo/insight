@@ -1,5 +1,5 @@
 import ComponentController from "../../utils/ComponentController";
-import menuController from "../menuController";
+import menuController from "./menuController";
 
 export default class NodeMoving extends ComponentController {
 

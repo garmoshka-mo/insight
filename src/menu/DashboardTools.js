@@ -4,7 +4,7 @@ import actionsSheetController from "../actionsSheetController";
 import FilesList from "../FilesList";
 import React from "../../utils/react-tuned";
 import files from "../files";
-import menuController from "../menuController";
+import menuController from "./menuController";
 import SettingsMenu from "./SettingsMenu";
 import dashboard from "../dashboard";
 

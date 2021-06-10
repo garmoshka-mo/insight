@@ -3,9 +3,13 @@ import {Text, TouchableOpacity, View} from 'react-native'
 import Icon from "react-native-vector-icons/FontAwesome"
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import {colors} from '../styles'
-import menuController from "../menuController"
 
 export default class MenuRow extends Component {
+
+  constructor({controller}) {
+    super()
+    if (controller) this.subscribeTo(controller)
+  }
 
   render() {
     return <View style={[{flexDirection: 'row'}, this.props.style]}>

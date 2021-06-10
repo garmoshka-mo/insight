@@ -14,7 +14,6 @@ import styles, {colors} from './styles'
 import Editor from './Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
 import Swipeout from 'react-native-swipeout'
-import menuController from "./menuController";
 import {swipeController} from "../utils/ComponentController";
 import dashboard from "./dashboard";
 import Swipeable from './Swipeable'

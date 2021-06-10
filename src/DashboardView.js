@@ -4,7 +4,7 @@
 import React, {Component} from "../utils/react-tuned"
 import {View, ActivityIndicator, FlatList, ScrollView} from 'react-native'
 import ActionsSheetDialog from './ActionsSheetDialog'
-import Menu from './Menu'
+import Menu from './menu/Menu'
 import FlashMessage from "react-native-flash-message"
 import dashboard from "./dashboard";
 import {swipeController} from "../utils/ComponentController";
