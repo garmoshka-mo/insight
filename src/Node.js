@@ -123,10 +123,12 @@ export default class Node extends ComponentController {
     var to = i + dir
     if (!(to >= 0 && to < ch.length)) return
 
+    var oldParent = this.parent
     var newParent = ch[to]
     this.parent = newParent
     ch.delete(this)
     newParent.addChild(this, dir == -1)
+    oldParent.refresh()
     newParent.refresh()
     this.level++
   }
