@@ -2,6 +2,7 @@ import Swipeout from "react-native-swipeout";
 import React, {Component} from "../utils/react-tuned";
 import {colors} from "./styles";
 import dashboard from "./dashboard";
+import {Text} from "react-native";
 import menuController from "./menu/menuController";
 import {swipeController} from "../utils/ComponentController";
 import NodeMoving from "./menu/NodeMoving";
@@ -22,16 +23,13 @@ export default class Swipeable extends Component {
     this.node = node
 
     var left = this.swipeButtons([{
-      text: '🔥',
-      selected: node.importance == 'important',
+      component: this.emoji('🔥', node.importance == 'important'),
       onPress: _=> this.updateNode('importance', 'important', 'normal')
     },{
-      text: '❔',
-      selected: node.importance == 'guess',
+      component: this.emoji('❔', node.importance == 'guess'),
       onPress: _=> this.updateNode('importance', 'guess', 'normal')
     },{
-      text: '⏩',
-      selected: node.alwaysExpanded,
+      component: this.emoji('⏩', node.alwaysExpanded),
       onPress: _=> this.updateNode('alwaysExpanded', true, false)
     },
 
@@ -83,6 +81,14 @@ export default class Swipeable extends Component {
   handleGestureStart() {
     this.setState({closeSwipe: false})
     swipeController.update({swipeStarted: true})
+  }
+
+  emoji(emoji, selected) {
+    var color = '#000'
+    if (!selected) color = 'rgba(0,0,0,.2)'
+    return <Text style={{color, textAlign: 'center'}}>
+      {emoji}
+    </Text>
   }
 
   async handleGestureEnd() {

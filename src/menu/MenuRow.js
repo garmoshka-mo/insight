@@ -57,7 +57,7 @@ export default class MenuRow extends Component {
     var style = {}, color = '#000'
     if (!button.selected?.()) color = 'rgba(0,0,0,.2)'
     return <View style={style}>
-      <Text style={{fontSize: this.scale(22), color: color}} >
+      <Text style={{fontSize: this.scale(22), color}} >
         {emoji}
       </Text>
     </View>
