@@ -42,6 +42,9 @@ export default class {
           {action: editor.split, icon: 'ellipsis-v'},
           {action: editor.save, icon: 'check'}
         ]} />
+        <MenuRow size={.8} buttons={[
+          {action: node.delete, icon: 'trash'}
+        ]} style={{flex: 1, justifyContent: "flex-end"}} />
       </View>
     </View>
     menuController.push(this)
