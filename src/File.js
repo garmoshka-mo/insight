@@ -39,7 +39,6 @@ export default class File {
       return yaml.load(content)
     } catch (err) {
       showError(err, "Can't load file")
-      throw err
     }
   }
 

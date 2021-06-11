@@ -45,8 +45,10 @@ export default new class extends ComponentController {
       this.root.unsubscribe(this)
     this.update({root: null})
     var data = await file.parseData()
-    this.update({root: new Node('root', data)})
-    this.root.subscribe(this)
+    if (data) {
+      this.update({root: new Node('root', data)})
+      this.root.subscribe(this)
+    }
   }
 
   async save() {

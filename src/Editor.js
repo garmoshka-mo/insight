@@ -69,7 +69,7 @@ export default class extends Component {
       }
     else
       data = { name: v, description: "" }
-    if (!data.name) data.name = Date.now()
+    if (!data.name) data.name = `${Date.now()}`
     return data
   }
 
