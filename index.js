@@ -12,6 +12,7 @@ LogBox.ignoreLogs([
   'Remote debugger',
   'Require cycle',
   'Async Storage has been extracted',
+  'Clipboard has been extracted',
   'ListView is deprecated',
   'componentWillMount',
   "requireNativeComponent",

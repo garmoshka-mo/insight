@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
   Alert,
-  Appearance
+  Clipboard
 } from 'react-native'
 import menuController from "./menu/menuController";
 import dashboard from "./dashboard";
@@ -115,6 +115,23 @@ export default class extends Component {
     })
   }
 
+  insert(piece) {
+    var c = this.cursor, v = this.state.value
+    if (!v[c - 1].match([/\s\n/]) && !piece.startsWith(' ')) {
+      piece = " " + piece
+      c++
+    }
+    if (v[c].match(/\w/) && !piece.endsWith(' ')) {
+      piece += " "
+      c++
+    }
+    this.setState({
+      value: v.slice(0, c) + piece + v.slice(c)
+    })
+    c += piece.length
+    this.ref.setNativeProps({ selection:{ start:c, end:c } })
+  }
+
   onFocus() {
     new EditMenu(this.props.node, this)
     setTimeout(_=> this.focused = true, 200) // hotfix for self-blurring
@@ -132,6 +149,11 @@ export default class extends Component {
 
   doUndo() {
     this.setState({value: this.undo.undo()})
+  }
+
+  async paste() {
+    var value = await Clipboard.getString()
+    this.insert(value)
   }
 
 }

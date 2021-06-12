@@ -42,6 +42,7 @@ export default class {
           {action: menuController.pop, icon: 'chevron-left', left: true},
           {icon: 'undo', action: editor.doUndo},
           {action: editor.split, icon: 'ellipsis-v'},
+          {action: editor.paste, icon: 'paste'},
           {action: editor.save, icon: 'check'}
         ]} />
         <MenuRow size={.8} buttons={[
