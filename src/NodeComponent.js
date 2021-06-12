@@ -55,11 +55,11 @@ export default class NodeComponent extends Component {
 
     return <Swipeable node={node}>
       <Text
-        onPress={node.edit}
+        onPress={this.pressBody}
         style={style}
       >
         <Text
-          onPress={this.toggle}
+          onPress={this.pressHeader}
           style={{color:
               '#4495ae'
             // '#ab902f'
@@ -102,11 +102,20 @@ export default class NodeComponent extends Component {
     return <Icon name={"edit"} size={14} style={styles.text} />
   }
 
-  toggle() {
-    if (!this.node.description && !this.node.children.length)
-      return this.node.edit()
+  pressBody() {
+    if (!this.node.expanded && this.hasContent)
+      return this.node.update({expanded: true})
+    this.node.edit()
+  }
+
+  pressHeader() {
+    if (!this.hasContent) return this.node.edit()
 
     this.node.update({expanded: !this.node.expanded})
+  }
+  
+  get hasContent() {
+    return this.node.description || this.node.children.length
   }
 
   renderSubItems() {
