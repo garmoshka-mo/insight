@@ -23,8 +23,12 @@ export default new class extends ComponentController {
     this.update({_menu: this[menuName]})
   }
 
-  push(tools) {
-    this.stack.push(tools)
+  push(tools, reset = false) {
+    if (reset) {
+      this.stack[1] = tools
+      this.stack.length = 2
+    } else
+      this.stack.push(tools)
     this.refresh()
   }
 

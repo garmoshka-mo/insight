@@ -30,6 +30,7 @@ export default class extends Component {
   render() {
     return <View>
       <TextInput
+        ref={ref => this.ref = ref}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
         onChangeText={this.onChangeText}
@@ -116,9 +117,11 @@ export default class extends Component {
 
   onFocus() {
     new EditMenu(this.props.node, this)
+    setTimeout(_=> this.focused = true, 200) // hotfix for self-blurring
   }
 
   onBlur() {
+    if (!this.focused) return this.ref.focus()
     this.save()
   }
 
