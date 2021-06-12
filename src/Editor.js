@@ -117,13 +117,11 @@ export default class extends Component {
 
   insert(piece) {
     var c = this.cursor, v = this.state.value
-    if (!v[c - 1].match([/\s\n/]) && !piece.startsWith(' ')) {
+    if (v[c - 1] && !v[c - 1].match(/[\s\n]/) && !piece.startsWith(' ')) {
       piece = " " + piece
-      c++
     }
-    if (v[c].match(/\w/) && !piece.endsWith(' ')) {
+    if (v[c]?.match(/[\wа-яА-Я]/) && !piece.endsWith(' ')) {
       piece += " "
-      c++
     }
     this.setState({
       value: v.slice(0, c) + piece + v.slice(c)
