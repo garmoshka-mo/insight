@@ -1,3 +1,9 @@
+# DEV
+
+```
+yarn patch-package package_name
+yarn patch-package metro-config/metro
+```
 
 ## Android 
 

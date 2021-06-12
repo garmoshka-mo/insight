@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-native-actions-sheet/src/index.js b/node_modules/react-native-actions-sheet/src/index.js
+index dfa8fad..b7d3db0 100644
+--- a/node_modules/react-native-actions-sheet/src/index.js
++++ b/node_modules/react-native-actions-sheet/src/index.js
+@@ -130,7 +130,7 @@ export default class ActionSheet extends Component {
+         useNativeDriver: true,
+       }),
+       Animated.timing(this.transformValue, {
+-        toValue: closable ? this.actionSheetHeight * 2 : 0,
++        toValue: closable ? (this.actionSheetHeight || 0) * 2 : 0,
+         duration: animated ? closeAnimationDuration : 1,
+         useNativeDriver: true,
+       }),
+@@ -468,7 +468,7 @@ export default class ActionSheet extends Component {
+             return;
+           }
+           Animated.timing(this.transformValue, {
+-            toValue: gap - 10,
++            toValue: (gap || 0) - 10,
+             duration: 250,
+             useNativeDriver: true,
+           }).start();
