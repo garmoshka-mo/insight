@@ -9,7 +9,8 @@ import {Text, TouchableOpacity} from "react-native";
 import { hideMessage } from "react-native-flash-message"
 
 const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
-const EXPANDED = ">>"
+const IMPORTANCE_ALIASES = {important: '*', guess: '?'}
+const EXPANDED = "=>"
 
 export default class Node extends ComponentController {
 
@@ -20,9 +21,10 @@ export default class Node extends ComponentController {
   constructor(name, content, parent, props) {
     super()
     Object.assign(this, props)
-    Object.entries(IMPORTANCES).some(([key, icon]) => {
-      if (name.startsWith(icon)) {
-        this.importance = key
+    Object.entries(IMPORTANCES).some(([importance, icon]) => {
+      if (name.startsWith(icon) ||
+          name.startsWith(IMPORTANCE_ALIASES[importance])) {
+        this.importance = importance
         name = name.substr(icon.length).trim()
         return true
       }
@@ -34,8 +36,8 @@ export default class Node extends ComponentController {
 
     var {description} = this
     // temporary hotfix:
-    if (description?.startsWith("⏩️"))
-      description = description.replace("⏩️", EXPANDED)
+    if (description?.startsWith(">>"))
+      description = description.replace(/^>>/, EXPANDED)
 
     if (description?.startsWith(EXPANDED)) {
       this.alwaysExpanded = true

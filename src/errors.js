@@ -19,6 +19,7 @@ export function showError(error, title = 'Error', data) {
     message = t('messages.internet_required')
     details = serialize(error)
   } else {
+    if (typeof error == 'string') error = new Error(error)
     message = (error.message || error).toString()
   }
 

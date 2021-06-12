@@ -26,7 +26,7 @@ export default class Undo {
   changed(value) {
     if (value.length == 0) return
 
-    var [change, changedText] = diff(this.current, value)
+    var [change, changedText] = diff(this.current, value) || []
       .find(_ => _[0] != diff.EQUAL)
 
     var [prevChange, prevText] = this.prev

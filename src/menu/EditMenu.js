@@ -18,6 +18,7 @@ export default class {
 
   constructor(node, editor) {
     this.node = node
+    this.editor = editor
 
     this.tools = <View style={{flexDirection: 'column'}}>
       <View style={{flexDirection: 'row', paddingBottom: 10}}>
@@ -31,8 +32,8 @@ export default class {
         ]} />
         <MenuRow size={.8} buttons={[
           {action: editor.parseSubItems, icon: 'list-alt'},
-          {action: _=> node.editSibling(-1), icon: 'material/table-row-plus-before'},
-          {action: _=> node.editSibling(+1), icon: 'material/table-row-plus-after'},
+          {action: _=> this.editSibling(-1), icon: 'material/table-row-plus-before'},
+          {action: _=> this.editSibling(+1), icon: 'material/table-row-plus-after'},
           {action: node.editChild, icon: 'child'},
         ]} style={{flex: 1, justifyContent: "flex-end"}} />
       </View>
@@ -58,6 +59,11 @@ export default class {
   updateNode(...args) {
     this.node.updateFlag(...args)
     menuController.refresh()
+  }
+
+  editSibling(dir) {
+    this.editor.save()
+    this.node.editSibling(dir)
   }
 
 }

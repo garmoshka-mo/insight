@@ -5,6 +5,7 @@ import ComponentController from "../../utils/ComponentController"
 import {BackHandler} from 'react-native'
 import React from "../../utils/react-tuned";
 import DashboardTools from "./DashboardTools";
+import {showError} from "../errors";
 
 export default new class extends ComponentController {
 
@@ -28,7 +29,8 @@ export default new class extends ComponentController {
   }
 
   pop() {
-    if (this.stack.length == 1) throw('Trying to pop root menu')
+    if (this.stack.length == 1)
+      return showError('Trying to pop root menu')
     this.stack.pop().onMenuPop?.()
     this.refresh()
   }
