@@ -29,8 +29,8 @@ class Auth extends ComponentController {
 
   async loadDropboxData(token) {
     try {
-      await s.initDropbox(token)
       this.update({ token, loading: false })
+      await s.initDropbox(token)
       await files.sync()
       this.update({ loading: false })
     } catch(err) {

@@ -18,6 +18,8 @@ import Node from "./Node"
 
 export default class extends Component {
 
+  cursor = 0
+
   constructor(props) {
     super(props)
     var {node} = props

@@ -17,6 +17,7 @@ import Swipeout from 'react-native-swipeout'
 import {swipeController} from "../utils/ComponentController";
 import dashboard from "./dashboard";
 import Swipeable from './Swipeable'
+import linking from './linking'
 
 export default class NodeComponent extends Component {
 
@@ -103,12 +104,14 @@ export default class NodeComponent extends Component {
   }
 
   pressBody() {
+    if (linking.capture(this)) return
     if (!this.node.expanded && this.hasContent)
       return this.node.update({expanded: true})
     this.node.edit()
   }
 
   pressHeader() {
+    if (linking.capture(this)) return
     if (!this.hasContent) return this.node.edit()
 
     this.node.update({expanded: !this.node.expanded})

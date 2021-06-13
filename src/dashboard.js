@@ -24,7 +24,6 @@ export default new class extends ComponentController {
   }
 
   async loadDashboard() {
-    // await files.resetFiles()
     await settings.load()
     await files.loadList()
     await this.loadInitialFile()
@@ -33,9 +32,9 @@ export default new class extends ComponentController {
 
   async loadInitialFile() {
     if (!forceSample && settings.recentFileId)
-      var file = await File.byId(settings.recentFileId)
-    else
-      file = new FileSample(sampleData)
+      var file = files.fileById(settings.recentFileId)
+
+    if (!file) file = new FileSample(sampleData)
     await this.displayFile(file)
   }
 

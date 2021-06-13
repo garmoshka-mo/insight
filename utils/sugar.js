@@ -59,6 +59,8 @@ Array.prototype.min = function() {
   return result == Infinity ? null : result
 }
 
+Array.prototype.clone = Array.prototype.slice
+
 Array.prototype.delete =
 Array.prototype.remove = function() {
   var victim,

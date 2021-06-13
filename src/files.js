@@ -12,6 +12,7 @@ import s from './services'
 import File from "./File";
 import dashboard from "./dashboard";
 import _ from "lodash"
+import settings from "./settings";
 
 export default new class Files extends ComponentController {
 
@@ -27,19 +28,25 @@ export default new class Files extends ComponentController {
     var keys = await AsyncStorage.getAllKeys()
     keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
-    this.list =
-      _.sortBy(
-        items.map((row) => new File(JSON.parse(row[1]))),
-        'name'
-      )
+    this.lists = items.map((row) => new File(JSON.parse(row[1])))
+    this.sort()
+  }
+
+  sort() {
+    this.list = _.sortBy(this.list, 'name')
   }
 
   async resetFiles() {
+    await this.uploadChanges()
+
     var keys = await AsyncStorage.getAllKeys()
     keys = keys.filter(_ => _.startsWith("meta_id"))
     await Promise.all(
       keys.map(key => AsyncStorage.removeItem(key))
     )
+    this.list.length = 0
+    settings.update({recentFileId: ''})
+    showFlash(`Files deleted: ${keys.length}`)
   }
 
   async sync() {
@@ -47,6 +54,7 @@ export default new class Files extends ComponentController {
     if (!this.list.length) await this.loadList()
     await this.uploadChanges()
     await this.downloadUpdates()
+    this.sort()
     this.report()
     this.refresh()
     return true

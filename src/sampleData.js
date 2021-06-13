@@ -6,7 +6,7 @@ export default `
   how CSS works on the web, except names are written using camel casing, e.g. backgroundColor
   rather than background-color.
 ScrollView:
-  _: 💆‍♀️️ Component that wraps platform ScrollView while providing integration
+  _: => 💆‍♀️️ Component that wraps platform ScrollView while providing integration
     with touch locking "responder" system.
   🔥 ScrollView renders all: its react child components at once, but this has a performance
     downside.
@@ -38,7 +38,6 @@ TextInput:
     🔥 autoCapitalize:
       _: ⏩️ Tells TextInput to automatically capitalize certain characters. This property
         is not supported by some keyboard types such as name-phone-pad.
-      🔥 characters:️ ⏩ all characters
       words: ⏩️ first letter of each word
       sentences: ⏩ first letter of each sentence (default) THE END!
 `

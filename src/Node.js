@@ -7,6 +7,7 @@ import dashboard from "./dashboard";
 import {logr, showFlash} from "./commonFunctions";
 import {Text, TouchableOpacity} from "react-native";
 import { hideMessage } from "react-native-flash-message"
+import {move, moveToChild} from './node/moving'
 
 const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
 const IMPORTANCE_ALIASES = {important: '*', guess: '?'}
@@ -61,6 +62,8 @@ export default class Node extends ComponentController {
     for(const key in content) {
       if (key == "_")
         this.description = content["_"]
+      else if (key == "_id")
+        this.id = content._id
       else
         this.children.push(
           new Node(key, content[key], this)
@@ -70,6 +73,11 @@ export default class Node extends ComponentController {
 
   dump() {
     var description = this.expandedEmoji + (this.description || '')
+    var {children} = this
+    if (this.id) {
+      children = children.clone()
+      children._id = this.id
+    }
     if (this.children.length > 0) {
       var result = {}
       if (description) result["_"] = description
@@ -101,38 +109,11 @@ export default class Node extends ComponentController {
   }
 
   move(dir = -1) {
-    var ch = this.parent.children
-    var from = ch.indexOf(this)
-    var to = from + dir
-    if (to >= 0 && to < ch.length) {
-      ch.move(from, to)
-    } else if (this.parent.parent) {
-      ch.delete(this)
-      var exParent = this.parent
-      this.parent = this.parent.parent
-      this.level--
-      ch = this.parent.children
-      var at = ch.indexOf(exParent)
-      if (dir > 0) at++
-      ch.insert(at, this)
-    }
-    this.parent.refresh()
+    move(this, dir)
   }
 
   moveToChild(dir = -1) {
-    var ch = this.parent.children
-    var i = ch.indexOf(this)
-    var to = i + dir
-    if (!(to >= 0 && to < ch.length)) return
-
-    var oldParent = this.parent
-    var newParent = ch[to]
-    this.parent = newParent
-    ch.delete(this)
-    newParent.addChild(this, dir == -1)
-    oldParent.refresh()
-    newParent.refresh()
-    this.level++
+    moveToChild(this, dir)
   }
 
   edit() {
@@ -190,6 +171,15 @@ export default class Node extends ComponentController {
           <Text>Undo</Text>
         </TouchableOpacity>
     })
+  }
+
+  get root() {
+    return this.parent?.root || this
+  }
+
+  find(id) {
+    if (this.id == id) return this
+    return this.children.extractOne(ch => ch.find(id))
   }
 
   // private
