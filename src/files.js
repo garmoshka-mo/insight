@@ -29,7 +29,7 @@ export default new class Files extends ComponentController {
     var keys = await AsyncStorage.getAllKeys()
     keys = keys.filter(_ => _.startsWith("meta_id"))
     var items = await AsyncStorage.multiGet(keys)
-    this.lists = items.map((row) => new File(JSON.parse(row[1])))
+    this.list = items.map((row) => new File(JSON.parse(row[1])))
     this.sort()
   }
 
