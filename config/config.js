@@ -2,5 +2,5 @@
  **/
 
 export default {
-  clientId: 'djd8smd9xwidgz4'
+  clientId: 'j7iw987ksil9mvw'
 }
