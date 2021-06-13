@@ -90,7 +90,7 @@ export default class ActionsSheetDialog extends Component {
 
   async doAction(handler) {
     await handler() // await action reason: Alert window for ios hides with this window
-    actionsSheetController.hide()
+    actionsSheetController.close()
   }
 
 }

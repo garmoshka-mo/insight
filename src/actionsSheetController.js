@@ -16,7 +16,7 @@ class ActionsSheetController extends ComponentController {
     this.ref.current?.show()
   }
 
-  hide() {
+  close() {
     this.ref.current?.hide()
   }
 
