@@ -13,6 +13,7 @@ import File from "./File";
 import dashboard from "./dashboard";
 import _ from "lodash"
 import settings from "./settings";
+import pickFolder from "./pickFolder";
 
 export default new class Files extends ComponentController {
 
@@ -51,6 +52,10 @@ export default new class Files extends ComponentController {
 
   async sync() {
     this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
+    if (!settings.path) {
+      var path = await pickFolder('')
+      settings.update({path})
+    }
     if (!this.list.length) await this.loadList()
     await this.uploadChanges()
     await this.downloadUpdates()
@@ -61,7 +66,8 @@ export default new class Files extends ComponentController {
   }
 
   async downloadUpdates() {
-    let response = await s.dropbox.filesListFolder({path: ''}) // todo: handle response.result.has_more
+    var {path} = settings
+    let response = await s.dropbox.filesListFolder({path}) // todo: handle response.result.has_more
     var promises = response?.result?.entries.map(this.processFile)
     await Promise.all(promises)
   }
