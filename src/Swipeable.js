@@ -16,8 +16,6 @@ const iconProps = {
 
 export default class Swipeable extends Component {
 
-  state = {closeSwipe: false}
-
   render() {
     var {node, children} = this.props
     this.node = node
@@ -61,7 +59,6 @@ export default class Swipeable extends Component {
     return <Swipeout backgroundColor={'transparent'}
                      autoClose={true}
                      sensitivity={2}
-                     close={this.state.closeSwipe}
                      onGestureStart={this.handleGestureStart}
                      onGestureEnd={this.handleGestureEnd}
                      buttonWidth={40}
@@ -79,7 +76,6 @@ export default class Swipeable extends Component {
   }
 
   handleGestureStart() {
-    this.setState({closeSwipe: false})
     swipeController.update({swipeStarted: true})
   }
 
@@ -97,12 +93,10 @@ export default class Swipeable extends Component {
 
   edit() {
     this.node.edit()
-    this.setState({closeSwipe: true})
   }
 
   showNodeTools() {
     menuController.push(new NodeMoving(this.node))
-    this.setState({closeSwipe: true})
   }
 
   updateNode(key, value, neutral) {

@@ -130,6 +130,7 @@ export default class extends Component {
     })
     c += piece.length
     this.ref.setNativeProps({ selection:{ start:c, end:c } })
+    this.ref.setNativeProps({ selection:{ } })
   }
 
   onFocus() {

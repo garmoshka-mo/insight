@@ -35,7 +35,7 @@ export default class File {
   async parseData() {
     try {
       var content = await this.data()
-      content = content.replace(/\t/g, '    ')
+      content = content.replace(/\t/g, '  ')
       return yaml.load(content)
     } catch (err) {
       showError(err, "Can't load file")
