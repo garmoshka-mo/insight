@@ -11,6 +11,7 @@ import Dashboard from './src/DashboardView.js'
 LogBox.ignoreLogs([
   'Remote debugger',
   'Require cycle',
+  'React state update on an unmounted component',
   'Async Storage has been extracted',
   'Clipboard has been extracted',
   'ListView is deprecated',

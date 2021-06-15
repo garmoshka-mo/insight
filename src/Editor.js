@@ -71,7 +71,7 @@ export default class extends Component {
         description: v.slice(splitter + 1).trim()
       }
     else
-      data = { name: v, description: "" }
+      data = { name: v.trim(), description: "" }
     if (!data.name) data.name = `${Date.now()}`
     return data
   }
@@ -118,6 +118,8 @@ export default class extends Component {
   }
 
   insert(piece) {
+    piece = piece.replace(/Источник: .*/, '')
+
     var c = this.cursor, v = this.state.value
     if (v[c - 1] && !v[c - 1].match(/[\s\n]/) && !piece.startsWith(' ')) {
       piece = " " + piece
