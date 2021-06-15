@@ -2,7 +2,7 @@
  **/
 
 import React, {Component} from "../utils/react-tuned"
-import {View, ActivityIndicator, FlatList, ScrollView} from 'react-native'
+import {View, ActivityIndicator, FlatList, Dimensions} from 'react-native'
 import ActionsSheetDialog from './ActionsSheetDialog'
 import Menu from './menu/Menu'
 import FlashMessage from "react-native-flash-message"
@@ -30,8 +30,11 @@ export default class extends Component {
     if (!dashboard.root) return this.preloader()
 
     return <FlatList
-      contentContainerStyle={{paddingHorizontal: 8,
-        paddingVertical: 15}}
+      contentContainerStyle={{
+        paddingHorizontal: 8,
+        paddingVertical: 15,
+        paddingBottom: Dimensions.get('window').height / 2
+      }}
       scrollEnabled={!swipeController.swipeStarted}
       keyboardShouldPersistTaps="always"
       data={dashboard.root.children}

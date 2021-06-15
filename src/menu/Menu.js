@@ -22,9 +22,10 @@ export default class Menu extends Component {
   }
 
   tools() {
-    var tools = menuController.currentTools
+    var controller = menuController.head
+    var {tools} = controller
     if (Array.isArray(tools))
-      return <MenuRow buttons={tools}
+      return <MenuRow buttons={tools} controller={controller}
               style={{flexWrap: 'wrap', justifyContent: 'center'}}
             />
     else

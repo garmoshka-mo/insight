@@ -15,8 +15,8 @@ export default new class extends ComponentController {
     BackHandler.addEventListener('hardwareBackPress', this.handleBack)
   }
 
-  get currentTools() {
-    return this.stack.last().tools
+  get head() {
+    return this.stack.last()
   }
 
   switch(menuName) {

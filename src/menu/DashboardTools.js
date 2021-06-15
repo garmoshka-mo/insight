@@ -11,7 +11,7 @@ import dashboard from "../dashboard";
 export default class DashboardTools extends ComponentController {
 
   tools = [
-    {icon: 'refresh', action: this.sync},
+    this.syncButton,
     {icon: 'bath', action: this.bath},
     {icon: 'cog', action: this.showSettings},
     {icon: 'folder-open', action: _=>
@@ -19,13 +19,15 @@ export default class DashboardTools extends ComponentController {
     },
   ]
 
-  async sync() {
-    var refreshButton = this.tools.find(_ => _.icon=='refresh')
-    refreshButton.disabled = true
-    this.refresh()
-    await files.sync()
-    refreshButton.disabled = false
-    this.refresh()
+  get syncButton() {
+    var button = {icon: 'refresh', action: async _=> {
+        button.disabled = true
+        this.refresh()
+        await files.sync()
+        button.disabled = false
+        this.refresh()
+    }}
+    return button
   }
 
   async bath() {
