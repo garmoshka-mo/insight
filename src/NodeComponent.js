@@ -13,9 +13,7 @@ import {
 import styles, {colors} from './styles'
 import Editor from './Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
-import Swipeout from 'react-native-swipeout'
-import {swipeController} from "../utils/ComponentController";
-import dashboard from "./dashboard";
+import Hyperlink from 'react-native-hyperlink'
 import Swipeable from './Swipeable'
 import linking from './linking'
 
@@ -30,7 +28,7 @@ export default class NodeComponent extends Component {
 
   render() {
     return <View style={this.wrapStyle}>
-      {this.header()}
+      {this.body()}
       {this.renderSubItems()}
     </View>
   }
@@ -45,7 +43,7 @@ export default class NodeComponent extends Component {
     }
   }
 
-  header() {
+  body() {
     var {node} = this
     if (node.editing)
       return <Editor parent={this} node={node} />
@@ -55,26 +53,37 @@ export default class NodeComponent extends Component {
       borderRadius: 10}
 
     return <Swipeable node={node}>
-      <Text
-        onPress={this.pressBody}
-        style={style}
+      <Hyperlink
+        linkDefault
+        linkStyle={ { color: colors.link } }
+        linkText={ url => 'link' }
       >
         <Text
-          onPress={this.pressHeader}
-          style={{color:
-              '#4495ae'
-            // '#ab902f'
-          }}
+          onPress={this.pressBody}
+          style={style}
         >
-          {node.importanceEmoji}
-          {node.name}
-          {' '}
-          {this.rightIcons}
-          {' '}
+          {this.header()}
+          {this.renderDescription()}
         </Text>
-        {this.renderDescription()}
-      </Text>
+      </Hyperlink>
     </Swipeable>
+  }
+
+  header() {
+    var {node} = this
+    return <Text
+      onPress={this.pressHeader}
+      style={{color:
+          '#4495ae'
+        // '#ab902f'
+      }}
+    >
+      {node.importanceEmoji}
+      {node.name}
+      {' '}
+      {this.rightIcons}
+      {' '}
+    </Text>
   }
 
   get rightIcons() {

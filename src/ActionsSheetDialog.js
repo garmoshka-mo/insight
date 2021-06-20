@@ -16,7 +16,7 @@ export default class ActionsSheetDialog extends Component {
     return (
       <ActionSheet
         containerStyle={{backgroundColor:
-          actionsSheetController.error ? colors.violet : colors.background,
+          actionsSheetController.error ? colors.bad : colors.background,
           zIndex: 10
         }}
         gestureEnabled={true}
