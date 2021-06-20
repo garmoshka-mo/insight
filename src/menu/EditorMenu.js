@@ -1,4 +1,4 @@
-/** @providesModule EditMenu
+/** @providesModule EditorMenu
  **/
 
 import React, {Component} from "../../utils/react-tuned"
@@ -50,7 +50,7 @@ export default class {
         ]} style={{flex: 1, justifyContent: "flex-end"}} />
       </View>
     </View>
-    menuController.push(this, 'reset')
+    menuController.push(this)
   }
 
   onMenuPop() {

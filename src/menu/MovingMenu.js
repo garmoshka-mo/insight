@@ -2,9 +2,10 @@ import ComponentController from "../../utils/ComponentController";
 import menuController from "./menuController";
 import dashboard from "../dashboard";
 
-export default class NodeMoving extends ComponentController {
+export default class MovingMenu extends ComponentController {
 
   init(node) {
+    this.node = node
     node.update({editing: false, moving: true})
     this.tools = [
 
@@ -14,15 +15,13 @@ export default class NodeMoving extends ComponentController {
       {icon: 'material/arrow-top-right-thick', action: _=> node.moveToChild(-1)},
       {icon: 'material/arrow-bottom-right-thick', action: _=> node.moveToChild(+1)},
 
-      {icon: 'check', left: true, action: _=> {
-        node.update({moving: false})
-        menuController.pop()
-      }},
+      {icon: 'check', left: true, action: menuController.pop},
 
     ]
   }
 
   onMenuPop() {
+    this.node.update({moving: false})
     dashboard.save()
   }
 
