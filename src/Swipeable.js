@@ -5,7 +5,7 @@ import dashboard from "./dashboard";
 import {Text} from "react-native";
 import menuController from "./menu/menuController";
 import {swipeController} from "../utils/ComponentController";
-import NodeMoving from "./menu/NodeMoving";
+import MovingMenu from "./menu/MovingMenu";
 import Icon from "react-native-vector-icons/FontAwesome"
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
 
@@ -96,7 +96,7 @@ export default class Swipeable extends Component {
   }
 
   showNodeTools() {
-    menuController.push(new NodeMoving(this.node))
+    menuController.push(new MovingMenu(this.node))
   }
 
   updateNode(key, value, neutral) {

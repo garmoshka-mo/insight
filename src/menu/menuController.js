@@ -23,7 +23,7 @@ export default new class extends ComponentController {
     this.update({_menu: this[menuName]})
   }
 
-  push(tools, reset = false) {
+  push(tools, reset = true) {
     if (reset) {
       while(this.stack.length > 1) this.pop()
     }

@@ -13,7 +13,7 @@ import menuController from "./menu/menuController";
 import dashboard from "./dashboard";
 import Undo from "./Undo";
 import {showFlash} from "./commonFunctions";
-import EditMenu from "./menu/EditMenu";
+import EditorMenu from "./menu/EditorMenu";
 import Node from "./Node"
 
 export default class extends Component {
@@ -137,7 +137,7 @@ export default class extends Component {
   }
 
   onFocus() {
-    new EditMenu(this.props.node, this)
+    new EditorMenu(this.props.node, this)
     setTimeout(_=> this.focused = true, 200) // hotfix for self-blurring
   }
 
