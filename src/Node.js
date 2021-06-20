@@ -10,7 +10,7 @@ import { hideMessage } from "react-native-flash-message"
 import {move, moveToChild} from './node/moving'
 
 const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
-const IMPORTANCE_ALIASES = {important: '*', guess: '?'}
+const IMPORTANCE_ALIASES = {important: '=*', guess: '=?'}
 const EXPANDED = "=>"
 
 export default class Node extends ComponentController {

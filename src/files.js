@@ -22,6 +22,7 @@ export default new class Files extends ComponentController {
   async init() {
     AppState.addEventListener('change', (appState) => {
       if (appState == 'background') this.uploadChanges()
+      if (appState == 'active' && s.dropbox) this.sync({skipUpToDate: true})
     })
   }
 
@@ -50,7 +51,7 @@ export default new class Files extends ComponentController {
     showFlash(`Files deleted: ${keys.length}`)
   }
 
-  async sync() {
+  async sync(options = {}) {
     this.stats = {downloaded: 0, conflicts: 0, uploaded: 0 }
     if (!settings.path) {
       var path = await pickFolder('')
@@ -60,7 +61,7 @@ export default new class Files extends ComponentController {
     await this.uploadChanges()
     await this.downloadUpdates()
     this.sort()
-    this.report()
+    this.report(options)
     this.refresh()
     return true
   }
@@ -72,7 +73,7 @@ export default new class Files extends ComponentController {
     await Promise.all(promises)
   }
 
-  report() {
+  report(options) {
     var type = "default", message = ""
     if (this.stats.downloaded) {
       type = "success"
@@ -86,7 +87,10 @@ export default new class Files extends ComponentController {
       type = "warning"
       message += ` Conflicts ${this.stats.conflicts}`
     }
-    if (!message) message = "Up to date"
+    if (!message) {
+      message = "Up to date"
+      if (options.skipUpToDate) return logr(message)
+    }
     logr(`♻️  ${message}`)
     showFlash(message, {type})
   }
