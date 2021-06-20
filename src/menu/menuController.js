@@ -25,10 +25,9 @@ export default new class extends ComponentController {
 
   push(tools, reset = false) {
     if (reset) {
-      this.stack[1] = tools
-      this.stack.length = 2
-    } else
-      this.stack.push(tools)
+      while(this.stack.length > 1) this.pop()
+    }
+    this.stack.push(tools)
     this.refresh()
   }
 

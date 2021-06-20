@@ -149,8 +149,7 @@ export default class Node extends ComponentController {
   delete() {
     var index = this.parent.children.indexOf(this)
 
-    this.parent.children.delete(this)
-    this.parent.refresh()
+    this.delete_()
     menuController.reset()
     dashboard.save()
 
@@ -171,6 +170,11 @@ export default class Node extends ComponentController {
           <Text>Undo</Text>
         </TouchableOpacity>
     })
+  }
+
+  delete_() {
+    this.parent.children.delete(this)
+    this.parent.refresh()
   }
 
   get root() {

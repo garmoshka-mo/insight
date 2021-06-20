@@ -58,6 +58,7 @@ export default class extends Component {
     var {node} = this.props
     var data = this.parseItem(this.state.value)
     data.editing = false
+    data.isNew = false
     node.update(data)
     menuController.pop()
     dashboard.save()
@@ -142,7 +143,16 @@ export default class extends Component {
 
   onBlur() {
     if (!this.focused) return this.ref.focus()
+    if (!this.state.value && this.cancelNewNode()) return
     this.save()
+  }
+
+  cancelNewNode() {
+    var {node} = this.props
+    if (node.isNew) {
+      node.delete_()
+      return true
+    }
   }
 
   onChangeText(value) {

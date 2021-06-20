@@ -2,15 +2,11 @@
  **/
 
 import ComponentController from "../utils/ComponentController"
-import {createRef} from 'react'
 import Node from "./Node";
-import _ from "lodash";
 import s from "./services";
 import sampleData, {forceSample} from "./sampleData";
 import settings from "./settings";
-import File from './File'
 import FileSample from "./FileSample";
-import {logr} from "./commonFunctions";
 import files from "./files";
 import auth from "./auth";
 

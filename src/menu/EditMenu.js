@@ -54,7 +54,8 @@ export default class {
   }
 
   onMenuPop() {
-    this.node.update({editing: false})
+    if (!this.editor.cancelNewNode())
+      this.node.update({editing: false})
   }
 
   updateNode(...args) {
