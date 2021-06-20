@@ -88,7 +88,7 @@ export default class extends Component {
       if (prevParent) {
         var node = new Node(data.name, data.description,
           isChild ? prevParent : prevParent.parent,
-          {isNew: true})
+          {expanded: true})
         if (isChild)
           prevParent.addChild(node, 'toEnd')
         else {
@@ -137,7 +137,8 @@ export default class extends Component {
   }
 
   onFocus() {
-    new EditorMenu(this.props.node, this)
+    if (!this.menu)
+      this.menu = new EditorMenu(this.props.node, this)
     setTimeout(_=> this.focused = true, 200) // hotfix for self-blurring
   }
 

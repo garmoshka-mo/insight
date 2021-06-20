@@ -44,7 +44,7 @@ export default class Node extends ComponentController {
       this.alwaysExpanded = true
       this.description = description.substr(EXPANDED.length).trim()
     }
-    this.expanded = this.alwaysExpanded || this.isNew
+    if (this.alwaysExpanded || this.isNew) this.expanded = true
   }
 
   render() {
