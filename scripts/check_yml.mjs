@@ -4,7 +4,7 @@ import fs from 'fs'
 function parse(path) {
   try {
     var content = fs.readFileSync(path, 'utf8')
-    content = content.replace(/\t/g, '    ')
+    content = content.replace(/\t/g, '  ')
     return yaml.load(content)
   } catch (err) {
     console.error(path)
