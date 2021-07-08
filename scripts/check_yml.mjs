@@ -1,3 +1,12 @@
+/*
+Paste to iTerm send text:
+
+echo "Monitoring..."
+fswatch -0 /Users/garmoshka-mo/Dropbox/Docs/тян | while read -d "" file; do
+  node --experimental-modules ~/repos/insight/scripts/check_yml.mjs "$file"
+done
+ */
+
 import yaml from 'js-yaml'
 import fs from 'fs'
 import {exec} from "child_process"
@@ -15,7 +24,7 @@ function parse(path) {
     var htmlReport = '/tmp/check_yml.html'
     writeFileSync(htmlReport, `<h3>${path}</h3>\n<pre style="font-family: Courier New">${err.message}</pre>`)
     exec(`osascript -e 'tell application "Finder" to open "Macintosh HD:tmp:check_yml.html"'`)
-    
+
     throw('⛔️  yml error found')
   }
 }
@@ -40,7 +49,7 @@ function handleArgs() {
       parseDir(args[0])
     else {
       var data = parse(args[0])
-      console.log(JSON.stringify(data, null, 2))
+      // console.log(JSON.stringify(data, null, 2))
       console.log('✅  Verified')
     }
   } else
