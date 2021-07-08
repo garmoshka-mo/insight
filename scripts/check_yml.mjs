@@ -1,5 +1,7 @@
 import yaml from 'js-yaml'
 import fs from 'fs'
+import {exec} from "child_process"
+import {writeFileSync} from "fs"
 
 function parse(path) {
   try {
@@ -9,6 +11,11 @@ function parse(path) {
   } catch (err) {
     console.error(path)
     console.error(err.message)
+
+    var htmlReport = '/tmp/check_yml.html'
+    writeFileSync(htmlReport, `<h3>${path}</h3>\n<pre style="font-family: Courier New">${err.message}</pre>`)
+    exec(`osascript -e 'tell application "Finder" to open "Macintosh HD:tmp:check_yml.html"'`)
+    
     throw('⛔️  yml error found')
   }
 }
