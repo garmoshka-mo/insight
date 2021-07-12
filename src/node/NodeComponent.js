@@ -62,6 +62,7 @@ export default class NodeComponent extends Component {
       >
         <Text
           onPress={this.pressBody}
+          onLongPress={this.switchTools}
           style={style}
         >
           {this.header()}
@@ -80,6 +81,7 @@ export default class NodeComponent extends Component {
     var {node} = this
     return <Text
       onPress={this.pressHeader}
+      onLongPress={this.switchTools}
       style={{color:
           '#4495ae'
         // '#ab902f'
@@ -135,9 +137,13 @@ export default class NodeComponent extends Component {
     this.node.update({expanded: !this.node.expanded})
   }
 
+  switchTools() {
+    this.setState({showTools: !this.state.showTools})
+  }
+
   swipe(e) {
     if (Math.abs(this.touchStartX - e.nativeEvent.locationX) > 20) {
-      this.setState({showTools: !this.state.showTools})
+      this.switchTools()
       return true
     }
   }
