@@ -1,7 +1,7 @@
 
 import ComponentController from "../utils/ComponentController"
 import React from "../utils/react-tuned";
-import NodeComponent from "./NodeComponent"
+import NodeComponent from "./node/NodeComponent"
 import menuController from "./menu/menuController";
 import dashboard from "./dashboard";
 import {logr, showFlash} from "./commonFunctions";

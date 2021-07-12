@@ -39,7 +39,7 @@ export default class {
       </View>
       <View style={{flexDirection: 'row'}}>
         <MenuRow size={.8} buttons={[
-          {action: menuController.pop, icon: 'chevron-left', left: true},
+          {action: menuController.pop, icon: 'times-circle-o', left: true},
           {icon: 'undo', action: editor.doUndo},
           {action: editor.split, icon: 'ellipsis-v'},
           {action: editor.paste, icon: 'paste'},

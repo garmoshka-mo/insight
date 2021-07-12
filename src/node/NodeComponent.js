@@ -1,23 +1,21 @@
 /** @providesModule NodeComponent
  **/
 
-import React, {Component} from "../utils/react-tuned"
+import React, {Component} from "../../utils/react-tuned"
 import {
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
-  TouchableHighlight,
-  Appearance
 } from 'react-native'
-import styles, {colors} from './styles'
-import Editor from './Editor'
+import styles, {colors} from '../styles'
+import Editor from '../Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
 import Hyperlink from 'react-native-hyperlink'
-import Swipeable from './Swipeable'
-import linking from './linking'
+import NodeTools from './NodeTools'
+import linking from '../linking'
 
 export default class NodeComponent extends Component {
+
+  state = {}
 
   constructor(props) {
     super()
@@ -52,7 +50,11 @@ export default class NodeComponent extends Component {
       borderWidth: 2, borderColor: '#00dbff40',
       borderRadius: 10}
 
-    return <Swipeable node={node}>
+    return <View
+      style={{width: '100%'}}
+      onTouchStart={ e => this.touchStartX = e.nativeEvent.locationX}
+    >
+      {this.nodeTools()}
       <Hyperlink
         linkDefault
         linkStyle={ { color: colors.link } }
@@ -66,7 +68,12 @@ export default class NodeComponent extends Component {
           {this.renderDescription()}
         </Text>
       </Hyperlink>
-    </Swipeable>
+    </View>
+  }
+
+  nodeTools() {
+    if (!this.state.showTools) return
+    return <NodeTools node={this.node}/>
   }
 
   header() {
@@ -112,18 +119,27 @@ export default class NodeComponent extends Component {
     return <Icon name={"edit"} size={14} style={styles.text} />
   }
 
-  pressBody() {
+  pressBody(e) {
+    if (this.swipe(e)) return
     if (linking.capture(this)) return
     if (!this.node.expanded && this.hasContent)
       return this.node.update({expanded: true})
     this.node.edit()
   }
 
-  pressHeader() {
+  pressHeader(e) {
+    if (this.swipe(e)) return
     if (linking.capture(this)) return
     if (!this.hasContent) return this.node.edit()
 
     this.node.update({expanded: !this.node.expanded})
+  }
+
+  swipe(e) {
+    if (Math.abs(this.touchStartX - e.nativeEvent.locationX) > 20) {
+      this.setState({showTools: !this.state.showTools})
+      return true
+    }
   }
   
   get hasContent() {
