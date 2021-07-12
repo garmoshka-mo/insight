@@ -1,12 +1,3 @@
-/*
-Paste to iTerm send text:
-
-echo "Monitoring..."
-fswatch -0 /Users/garmoshka-mo/Dropbox/Docs/тян | while read -d "" file; do
-  node --experimental-modules ~/repos/insight/scripts/check_yml.mjs "$file"
-done
- */
-
 import yaml from 'js-yaml'
 import fs from 'fs'
 import {exec} from "child_process"
