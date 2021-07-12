@@ -59,9 +59,17 @@ export default class extends Component {
     var data = this.parseItem(this.state.value)
     data.editing = false
     data.isNew = false
+    this.ensureUniqueName(data)
     node.update(data)
     menuController.pop()
     dashboard.save()
+  }
+
+  ensureUniqueName(data) {
+    var originalName = data.name, i = 0
+    while (this.props.node.parent.children.some(n => n.name == data.name)) {
+      data.name = originalName + ++i
+    }
   }
 
   parseItem(v) {
