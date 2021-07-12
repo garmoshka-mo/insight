@@ -65,7 +65,7 @@ export default class NodeTools extends Component {
       width: 40,
       backgroundColor: b.selected ? colors.selected : 'transparent'
     }
-    return <TouchableOpacity onPress={_ => {
+    return <TouchableOpacity key={b.onPress} onPress={_ => {
       this.props.hide()
       b.onPress()
     }}>

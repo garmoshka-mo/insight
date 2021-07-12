@@ -23,10 +23,11 @@ export default class Node extends ComponentController {
     super()
     Object.assign(this, props)
     Object.entries(IMPORTANCES).some(([importance, icon]) => {
-      if (name.startsWith(icon) ||
-          name.startsWith(IMPORTANCE_ALIASES[importance])) {
+      var iconAlias = IMPORTANCE_ALIASES[importance]
+      if (name.startsWith(icon) || name.startsWith(iconAlias)) {
         this.importance = importance
-        name = name.substr(icon.length).trim()
+        var l = name.startsWith(icon) ? icon.length : iconAlias.length
+        name = name.substr(l).trim()
         return true
       }
     })
