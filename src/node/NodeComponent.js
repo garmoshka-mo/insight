@@ -51,7 +51,8 @@ export default class NodeComponent extends Component {
       borderRadius: 10}
 
     return <View
-      style={{width: '100%'}}
+      style={{width: '100%',
+        backgroundColor: this.state.showTools ? '#292929' : null}}
       onTouchStart={ e => this.touchStartX = e.nativeEvent.locationX}
     >
       {this.nodeTools()}
@@ -74,7 +75,7 @@ export default class NodeComponent extends Component {
 
   nodeTools() {
     if (!this.state.showTools) return
-    return <NodeTools node={this.node}/>
+    return <NodeTools node={this.node} hide={this.switchTools}/>
   }
 
   header() {
