@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
 import menuController from "./menuController"
 import MenuRow from "./MenuRow";
+import {colors} from "../styles";
 
 export default class Menu extends Component {
 
@@ -15,7 +16,7 @@ export default class Menu extends Component {
       paddingTop: 15,
       paddingBottom: 15,
       borderRadius: 20,
-      backgroundColor: '#262626'
+      backgroundColor: colors.menuBackground
     }}>
       {this.tools()}
     </View>

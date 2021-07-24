@@ -4,7 +4,10 @@ export const colors = {
   light: '#d0d0d0',
   link: '#8d700f',
   bad: '#860e0e',
-  background: '#323232',
+  background: Appearance.getColorScheme() == 'dark' ?
+    '#323232' : '#d0d0d0',
+  menuBackground: Appearance.getColorScheme() == 'dark' ?
+    '#262626' : '#d0d0d0',
   selected: '#484848',
   shadow: '#444',
   disabled: '#484848',
