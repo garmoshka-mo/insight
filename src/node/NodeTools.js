@@ -33,6 +33,9 @@ export default class NodeTools extends Component {
     }]
 
     var right = [{
+        component: <MaterialIcon name='table-row-plus-before' {...iconProps}/>,
+        onPress: () => node.editSibling(-1)
+      }, {
         component: <MaterialIcon name='table-row-plus-after' {...iconProps}/>,
         onPress: node.editSibling
       }, {
