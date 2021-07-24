@@ -7,7 +7,7 @@ import config from "../config/config"
 import files from './files'
 import {logr, showFlash} from "./commonFunctions";
 import {showError} from './errors'
-import {Linking} from "react-native";
+import {Linking, Platform} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import s from './services'
 import 'react-native-url-polyfill/auto'
@@ -22,7 +22,7 @@ class Auth extends ComponentController {
   }
 
   async load() {
-    var token = await AsyncStorage.getItem('token')
+    var token = config.token || await AsyncStorage.getItem('token')
     if (token) await this.loadDropboxData(token)
     else await this.login()
   }
