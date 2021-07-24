@@ -1,7 +1,7 @@
 import React, {Component} from "../../utils/react-tuned";
 import {colors} from "../styles";
 import dashboard from "../dashboard";
-import {Text, View, TouchableOpacity} from "react-native";
+import {Text, View, TouchableOpacity, Clipboard} from "react-native";
 import menuController from "../menu/menuController";
 import MovingMenu from "../menu/MovingMenu";
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -28,8 +28,8 @@ export default class NodeTools extends Component {
       component: this.emoji('⏩', node.alwaysExpanded),
       onPress: _=> this.updateNode('alwaysExpanded', true, false)
     }, {
-      component: <Icon name='pencil-square' {...iconProps}/>,
-      onPress: this.edit
+      component: <Icon name='copy' {...iconProps}/>,
+      onPress: this.copy
     }]
 
     var right = [{
@@ -84,8 +84,8 @@ export default class NodeTools extends Component {
     </Text>
   }
 
-  edit() {
-    this.node.edit()
+  copy() {
+    Clipboard.setString(this.node.name)
   }
 
   showNodeTools() {
