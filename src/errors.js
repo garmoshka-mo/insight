@@ -3,11 +3,11 @@
 
 import React, {Component} from "../utils/react-tuned"
 import { Alert } from 'react-native'
-import { showMessage, hideMessage } from "react-native-flash-message"
 import actionsSheetController from "./actionsSheetController";
 import {formatObjects, logr, serialize} from './commonFunctions'
 import {Text, ScrollView, View} from 'react-native'
 import {colors} from "./styles";
+import DeviceInfo from 'react-native-device-info'
 
 
 export function showError(error, title = 'Error', data) {
@@ -49,10 +49,11 @@ export function showError(error, title = 'Error', data) {
 }
 
 function errorSheet(message) {
+  var fontFamily = DeviceInfo.isEmulator() ? null : 'monospace'
   actionsSheetController.open(
     <ScrollView horizontal={true}>
       <View style={{width: 1000}}>
-        <Text style={{fontFamily: 'monospace', color: colors.light}}>
+        <Text style={{fontFamily, color: colors.light}}>
           {message}
         </Text>
       </View>
