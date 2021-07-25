@@ -49,9 +49,7 @@ export default class Node extends ComponentController {
   }
 
   render() {
-    return React.createElement(
-      NodeComponent, {key: this.name, node: this}
-    )
+    return <NodeComponent key={this.name} node={this} />
   }
 
   parseContent(content) {

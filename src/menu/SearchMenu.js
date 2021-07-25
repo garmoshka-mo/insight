@@ -4,6 +4,7 @@ import files from "../files";
 import {View, TextInput} from "react-native";
 import MenuRow from "./MenuRow";
 import React from "../../utils/react-tuned";
+import dashboard from "../dashboard";
 
 export default class SearchMenu extends ComponentController {
 
@@ -14,15 +15,26 @@ export default class SearchMenu extends ComponentController {
       ]} />
       <TextInput
         autoFocus={true}
-        value={"Test value"}
         onChangeText={this.search}
       />
     </View>
   }
 
-  search(text) {
-
+  search(substr) {
+    dashboard.foundNodes = []
+    pickNodes(dashboard.root, substr, dashboard.foundNodes)
+    dashboard.refresh()
   }
 
+}
 
+function pickNodes(n, substr, result) {
+  if (match(n.name, substr) || match(n.description, substr))
+    result.push(n)
+  n.children.each(child => pickNodes(child, substr, result))
+}
+
+function match(text, substr) {
+  if (text)
+    return text.toLowerCase().includes(substr.toLowerCase())
 }

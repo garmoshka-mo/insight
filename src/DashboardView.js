@@ -8,6 +8,7 @@ import Menu from './menu/Menu'
 import FlashMessage from "react-native-flash-message"
 import dashboard from "./dashboard";
 import {swipeController} from "../utils/ComponentController";
+import FoundNodeComponent from "./node/FoundNodeComponent";
 
 export default class extends Component {
 
@@ -37,7 +38,7 @@ export default class extends Component {
       }}
       scrollEnabled={!swipeController.swipeStarted}
       keyboardShouldPersistTaps="always"
-      data={dashboard.root.children}
+      data={dashboard.dataSource}
       keyExtractor={item => item.name}
       renderItem={this.renderItem}/>
   }
@@ -59,6 +60,9 @@ export default class extends Component {
   }
 
   renderItem(row) {
-    return row.item.render()
+    if (dashboard.foundNodes)
+      return <FoundNodeComponent key={this.name} node={this} />
+    else
+      return row.item.render()
   }
 }

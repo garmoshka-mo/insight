@@ -13,10 +13,15 @@ import auth from "./auth";
 export default new class extends ComponentController {
 
   root = null
+  foundNodes = null
 
   constructor(props) {
     super(props)
     s.dashboard = this
+  }
+
+  get dataSource() {
+    return this.foundNodes || this.root.children
   }
 
   async loadDashboard() {
