@@ -40,6 +40,7 @@ export default function pickFolder(path = '') {
         borderBottomColor: colors.shadow
       }}
       onPress={callback}
+      rejectResponderTermination // Hotfix for touches on iOS
     >
       <Text style={[styles.text, style]}>
         {title}
