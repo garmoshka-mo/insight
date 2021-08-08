@@ -60,9 +60,10 @@ export default class extends Component {
   }
 
   renderItem(row) {
+    var node = row.item
     if (dashboard.foundNodes)
-      return <FoundNodeComponent key={this.name} node={this} />
+      return <FoundNodeComponent key={node.name} node={node} />
     else
-      return row.item.render()
+      return node.render()
   }
 }

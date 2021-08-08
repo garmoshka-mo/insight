@@ -19,7 +19,6 @@ export default class FoundNodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
-    this.subscribeTo(node)
   }
 
   render() {
