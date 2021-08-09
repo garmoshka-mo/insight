@@ -60,7 +60,7 @@ export default class NodeComponent extends Component {
 
     return <Animated.View
       style={{width: '100%', backgroundColor}}
-      renderToHardwareTextureAndroid={true}
+      collapsable={false}
       ref={ref => this.node.viewRef = ref}
       onTouchStart={ e => this.touchStartX = e.nativeEvent.locationX}
     >

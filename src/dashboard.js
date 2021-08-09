@@ -1,6 +1,7 @@
 /** @providesModule dashboard
  **/
 
+import React, {Component} from "../utils/react-tuned"
 import ComponentController from "../utils/ComponentController"
 import Node from "./Node";
 import s from "./services";
@@ -9,12 +10,14 @@ import settings from "./settings";
 import FileSample from "./FileSample";
 import files from "./files";
 import auth from "./auth";
+import NodesList from "./views/NodesList";
 
 export default new class extends ComponentController {
 
   root = null
   show = 'nodesTree'
   scrollRef = null
+  routes = [<NodesList/>]
 
   constructor(props) {
     super(props)
@@ -22,8 +25,7 @@ export default new class extends ComponentController {
   }
 
   get dataSource() {
-    return this.show == 'foundNodes' ? s.searchMenu.foundNodes
-      : this.root.children
+    return this.root.children
   }
 
   async loadDashboard() {
@@ -57,8 +59,8 @@ export default new class extends ComponentController {
     this.file.save(this.root.dump())
   }
 
-  scrollTo(offset) {
-    this.scrollRef.scrollToOffset({offset})
+  scrollTo(y) {
+    this.scrollRef.scrollTo({y})
   }
 
 }

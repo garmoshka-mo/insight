@@ -1,4 +1,4 @@
-/** @providesModule Dashboard
+/** @providesModule DashboardView
  **/
 
 import React, {Component} from "../utils/react-tuned"
@@ -10,6 +10,8 @@ import dashboard from "./dashboard";
 import {swipeController} from "../utils/ComponentController";
 import FoundNodeComponent from "./node/FoundNodeComponent";
 import searchMenu from "./menu/searchMenu";
+import NodesList from "./views/NodesList";
+import SearchView from "./views/SearchView";
 
 export default class extends Component {
 
@@ -31,18 +33,7 @@ export default class extends Component {
   content() {
     if (!dashboard.root) return this.preloader()
 
-    return <FlatList
-      ref={ref => dashboard.scrollRef = ref }
-      contentContainerStyle={{
-        paddingHorizontal: 8,
-        paddingVertical: 15,
-        paddingBottom: Dimensions.get('window').height / 2
-      }}
-      scrollEnabled={!swipeController.swipeStarted}
-      keyboardShouldPersistTaps="always"
-      data={dashboard.dataSource}
-      keyExtractor={item => item.name}
-      renderItem={this.renderItem}/>
+    return dashboard.routes.last()
   }
 
   preloader() {
@@ -61,11 +52,4 @@ export default class extends Component {
     </View>
   }
 
-  renderItem(row) {
-    var node = row.item
-    if (dashboard.show == 'foundNodes')
-      return <FoundNodeComponent key={node.name} node={node} />
-    else
-      return node.render()
-  }
 }

@@ -6,7 +6,7 @@ import './utils/sugar'
 import {AppRegistry, LogBox} from 'react-native'
 import {name as appName} from './app.json'
 import settings from './src/settings' // preload
-import Dashboard from './src/DashboardView.js'
+import DashboardView from './src/DashboardView.js'
 
 LogBox.ignoreLogs([
   'Remote debugger',
@@ -28,5 +28,5 @@ LogBox.ignoreLogs([
 ])
 
 AppRegistry.registerComponent(appName,
-  () => Dashboard
+  () => DashboardView
 )

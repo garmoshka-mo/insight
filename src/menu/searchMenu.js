@@ -9,10 +9,12 @@ import React from "../../utils/react-tuned";
 import dashboard from "../dashboard";
 import {strMatch} from "../commonFunctions";
 import services from "../services";
+import SearchView from "../views/SearchView";
 
 const searchMenu = new class SearchMenu extends ComponentController {
 
   init() {
+    this.searchView = <SearchView controller={this}/>
     this.tools = <View style={{flexDirection: 'row'}}>
       <MenuRow size={.8} buttons={[
         {action: menuController.pop, icon: 'times-circle-o', left: true},
@@ -29,15 +31,17 @@ const searchMenu = new class SearchMenu extends ComponentController {
     this.searchString = substr
     if (substr.length >= 2)
       pickNodes(dashboard.root, substr, this.foundNodes)
-    dashboard.refresh()
+    this.refresh()
   }
 
   onShow() {
-    dashboard.update({show: 'foundNodes'})
+    dashboard.routes.push(this.searchView)
+    dashboard.refresh()
   }
 
   onMenuPop() {
-    dashboard.update({show: 'nodesTree'})
+    dashboard.routes.pop()
+    dashboard.refresh()
   }
 
 }
