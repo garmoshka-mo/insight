@@ -23,16 +23,15 @@ export default class NodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
+    this.node.backgroundAnim = new Animated.Value(0)
     this.subscribeTo(node)
   }
 
   render() {
-    return <Animated.View style={this.wrapStyle}
-                 renderToHardwareTextureAndroid={true}
-                 ref={ref => this.node.viewRef = ref}>
+    return <View style={this.wrapStyle}>
       {this.body()}
       {this.renderSubItems()}
-    </Animated.View>
+    </View>
   }
 
   get wrapStyle() {
@@ -54,8 +53,15 @@ export default class NodeComponent extends Component {
       borderWidth: 2, borderColor: '#00dbff40',
       borderRadius: 10}
 
-    return <View
-      style={{width: '100%'}}
+    var backgroundColor = this.node.backgroundAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['rgba(0, 0, 0, 0)', 'rgb(20,212,255)']
+    })
+
+    return <Animated.View
+      style={{width: '100%', backgroundColor}}
+      renderToHardwareTextureAndroid={true}
+      ref={ref => this.node.viewRef = ref}
       onTouchStart={ e => this.touchStartX = e.nativeEvent.locationX}
     >
       <Hyperlink
@@ -72,7 +78,7 @@ export default class NodeComponent extends Component {
           {this.renderDescription()}
         </Text>
       </Hyperlink>
-    </View>
+    </Animated.View>
   }
 
   header() {

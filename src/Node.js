@@ -5,7 +5,7 @@ import NodeComponent from "./node/NodeComponent"
 import menuController from "./menu/menuController";
 import dashboard from "./dashboard";
 import {logr, showFlash} from "./commonFunctions";
-import {Text, TouchableOpacity} from "react-native";
+import {Animated, Text, TouchableOpacity} from "react-native";
 import { hideMessage } from "react-native-flash-message"
 import {move, moveToChild} from './node/moving'
 
@@ -193,8 +193,17 @@ export default class Node extends ComponentController {
 
   focus() {
     this.viewRef.measure( (fx, fy, width, height, px, py) => {
-      dashboard.scrollTo(py)
+      dashboard.scrollTo(py - 100)
     })
+
+    this.backgroundAnim.setValue(1)
+    Animated.timing(
+      this.backgroundAnim,
+      {
+        toValue: 0,
+        duration: 1500,
+      }
+    ).start()
   }
 
 }
