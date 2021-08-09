@@ -31,6 +31,7 @@ export default class extends Component {
     if (!dashboard.root) return this.preloader()
 
     return <FlatList
+      ref={ref => dashboard.scrollRef = ref }
       contentContainerStyle={{
         paddingHorizontal: 8,
         paddingVertical: 15,

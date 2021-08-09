@@ -14,6 +14,7 @@ export default new class extends ComponentController {
 
   root = null
   foundNodes = null
+  scrollRef = null
 
   constructor(props) {
     super(props)
@@ -53,6 +54,10 @@ export default new class extends ComponentController {
 
   async save() {
     this.file.save(this.root.dump())
+  }
+
+  scrollTo(offset) {
+    this.scrollRef.scrollToOffset({offset})
   }
 
 }

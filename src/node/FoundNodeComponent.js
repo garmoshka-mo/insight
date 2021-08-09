@@ -13,7 +13,8 @@ import Hyperlink from 'react-native-hyperlink'
 import NodeTools from './NodeTools'
 import Highlighter from 'react-native-highlight-words';
 import dashboard from "../dashboard";
-import {strMatch} from "../commonFunctions";
+import {sleep, strMatch} from "../commonFunctions";
+import menuController from "../menu/menuController";
 
 export default class FoundNodeComponent extends Component {
 
@@ -21,6 +22,7 @@ export default class FoundNodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
+    this.expand = strMatch(node.description, dashboard.searchString)
   }
 
   render() {
@@ -87,18 +89,22 @@ export default class FoundNodeComponent extends Component {
   }
 
   renderDescription() {
-    if (strMatch(this.node.description, dashboard.searchString))
+    if (this.expand)
       return <Text
         style={styles.text}>
         {this.highlightText(this.node.description)}
       </Text>
   }
 
-  pressBody(e) {
+  async pressBody(e) {
     var parent = this.node
+    if (this.expanded) this.node.expanded = true
     while ((parent = parent.parent)) {
       parent.update({expanded: true})
     }
+    menuController.pop()
+    await sleep(300)
+    this.node.focus()
   }
 
 }

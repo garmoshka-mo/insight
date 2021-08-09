@@ -191,4 +191,10 @@ export default class Node extends ComponentController {
     return new Node(`New record ${Date.now()}`, "", parent, {isNew: true})
   }
 
+  focus() {
+    this.viewRef.measure( (fx, fy, width, height, px, py) => {
+      dashboard.scrollTo(py)
+    })
+  }
+
 }

@@ -25,7 +25,9 @@ export default class NodeComponent extends Component {
   }
 
   render() {
-    return <View style={this.wrapStyle}>
+    return <View style={this.wrapStyle}
+                 renderToHardwareTextureAndroid={true}
+                 ref={ref => this.node.viewRef = ref}>
       {this.body()}
       {this.renderSubItems()}
     </View>
