@@ -1,10 +1,10 @@
 import ComponentController from "../../utils/ComponentController";
 import menuController from "./menuController";
-import files from "../files";
 import {View, TextInput} from "react-native";
 import MenuRow from "./MenuRow";
 import React from "../../utils/react-tuned";
 import dashboard from "../dashboard";
+import {strMatch} from "../commonFunctions";
 
 export default class SearchMenu extends ComponentController {
 
@@ -22,19 +22,21 @@ export default class SearchMenu extends ComponentController {
 
   search(substr) {
     dashboard.foundNodes = []
-    pickNodes(dashboard.root, substr, dashboard.foundNodes)
+    dashboard.searchString = substr
+    if (substr.length >= 2)
+      pickNodes(dashboard.root, substr, dashboard.foundNodes)
     dashboard.refresh()
+  }
+
+  onMenuPop() {
+    dashboard.update({foundNodes: null})
   }
 
 }
 
 function pickNodes(n, substr, result) {
-  if (match(n.name, substr) || match(n.description, substr))
+  if (strMatch(n.name, substr) || strMatch(n.description, substr))
     result.push(n)
   n.children.each(child => pickNodes(child, substr, result))
 }
 
-function match(text, substr) {
-  if (text)
-    return text.toLowerCase().includes(substr.toLowerCase())
-}

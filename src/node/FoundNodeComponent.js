@@ -11,7 +11,9 @@ import Editor from '../Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
 import Hyperlink from 'react-native-hyperlink'
 import NodeTools from './NodeTools'
-import linking from '../linking'
+import Highlighter from 'react-native-highlight-words';
+import dashboard from "../dashboard";
+import {strMatch} from "../commonFunctions";
 
 export default class FoundNodeComponent extends Component {
 
@@ -55,11 +57,19 @@ export default class FoundNodeComponent extends Component {
       style={{color: '#4495ae'}}
     >
       {node.importanceEmoji}
-      {node.name}
+      {this.highlightText(node.name)}
       {' '}
       {this.rightIcons}
       {' '}
     </Text>
+  }
+
+  highlightText(text) {
+    return <Highlighter
+      highlightStyle={{backgroundColor: 'yellow'}}
+      searchWords={[dashboard.searchString]}
+      textToHighlight={text}
+    />
   }
 
   get rightIcons() {
@@ -77,10 +87,10 @@ export default class FoundNodeComponent extends Component {
   }
 
   renderDescription() {
-    if (this.node.expanded)
+    if (strMatch(this.node.description, dashboard.searchString))
       return <Text
         style={styles.text}>
-        {this.node.description}
+        {this.highlightText(this.node.description)}
       </Text>
   }
 
