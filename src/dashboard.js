@@ -15,7 +15,6 @@ import NodesList from "./views/NodesList";
 export default new class extends ComponentController {
 
   root = null
-  show = 'nodesTree'
   scrollRef = null
   routes = [<NodesList/>]
 
