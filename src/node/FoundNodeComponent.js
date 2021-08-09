@@ -19,7 +19,10 @@ export default class FoundNodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
-    this.expanded = strMatch(node.description, searchMenu.searchString)
+  }
+
+  get expanded() {
+    return strMatch(this.node.description, searchMenu.searchString)
   }
 
   render() {
