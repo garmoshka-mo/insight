@@ -50,13 +50,12 @@ export default class NodeComponent extends Component {
     if (node.editing)
       return <Editor parent={this} node={node} />
 
-    if (node.moving) var style = {
+    if (node.moving || this.state.showTools) var style = {
       borderWidth: 2, borderColor: '#00dbff40',
       borderRadius: 10}
 
     return <View
-      style={{width: '100%',
-        backgroundColor: this.state.showTools ? '#292929' : null}}
+      style={{width: '100%'}}
       onTouchStart={ e => this.touchStartX = e.nativeEvent.locationX}
     >
       <Hyperlink
