@@ -22,7 +22,7 @@ export default class FoundNodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
-    this.expand = strMatch(node.description, dashboard.searchString)
+    this.expanded = strMatch(node.description, dashboard.searchString)
   }
 
   render() {
@@ -89,7 +89,7 @@ export default class FoundNodeComponent extends Component {
   }
 
   renderDescription() {
-    if (this.expand)
+    if (this.expanded)
       return <Text
         style={styles.text}>
         {this.highlightText(this.node.description)}
@@ -98,7 +98,7 @@ export default class FoundNodeComponent extends Component {
 
   async pressBody(e) {
     var parent = this.node
-    if (this.expanded) this.node.expanded = true
+    if (this.expanded) this.node.update({expanded: true})
     while ((parent = parent.parent)) {
       parent.update({expanded: true})
     }
