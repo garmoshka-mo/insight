@@ -1,3 +1,6 @@
+/** @providesModule searchMenu
+ **/
+
 import ComponentController from "../../utils/ComponentController";
 import menuController from "./menuController";
 import {View, TextInput} from "react-native";
@@ -5,8 +8,9 @@ import MenuRow from "./MenuRow";
 import React from "../../utils/react-tuned";
 import dashboard from "../dashboard";
 import {strMatch} from "../commonFunctions";
+import services from "../services";
 
-export default class SearchMenu extends ComponentController {
+const searchMenu = new class SearchMenu extends ComponentController {
 
   init() {
     this.tools = <View style={{flexDirection: 'row'}}>
@@ -21,18 +25,25 @@ export default class SearchMenu extends ComponentController {
   }
 
   search(substr) {
-    dashboard.foundNodes = []
-    dashboard.searchString = substr
+    this.foundNodes = []
+    this.searchString = substr
     if (substr.length >= 2)
-      pickNodes(dashboard.root, substr, dashboard.foundNodes)
+      pickNodes(dashboard.root, substr, this.foundNodes)
     dashboard.refresh()
   }
 
+  onShow() {
+    dashboard.update({show: 'foundNodes'})
+  }
+
   onMenuPop() {
-    dashboard.update({foundNodes: null})
+    dashboard.update({show: 'nodesTree'})
   }
 
 }
+
+services.searchMenu = searchMenu
+export default searchMenu
 
 function pickNodes(n, substr, result) {
   if (strMatch(n.name, substr) || strMatch(n.description, substr))

@@ -27,6 +27,7 @@ export default new class extends ComponentController {
     if (reset) {
       while(this.stack.length > 1) this.pop()
     }
+    tools.onShow?.()
     this.stack.push(tools)
     this.refresh()
   }

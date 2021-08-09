@@ -6,7 +6,7 @@ import React from "../../utils/react-tuned";
 import files from "../files";
 import menuController from "./menuController";
 import SettingsMenu from "./SettingsMenu";
-import SearchMenu from "./SearchMenu";
+import services from "../services";
 
 export default class DashboardTools extends ComponentController {
 
@@ -43,7 +43,7 @@ export default class DashboardTools extends ComponentController {
   }
 
   showSearch() {
-    menuController.push(new SearchMenu())
+    menuController.push(services.searchMenu)
   }
 
 

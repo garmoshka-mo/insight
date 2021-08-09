@@ -7,14 +7,11 @@ import {
   View,
 } from 'react-native'
 import styles, {colors} from '../styles'
-import Editor from '../Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
-import Hyperlink from 'react-native-hyperlink'
-import NodeTools from './NodeTools'
 import Highlighter from 'react-native-highlight-words';
-import dashboard from "../dashboard";
 import {sleep, strMatch} from "../commonFunctions";
 import menuController from "../menu/menuController";
+import searchMenu from "../menu/searchMenu";
 
 export default class FoundNodeComponent extends Component {
 
@@ -22,7 +19,7 @@ export default class FoundNodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
-    this.expanded = strMatch(node.description, dashboard.searchString)
+    this.expanded = strMatch(node.description, searchMenu.searchString)
   }
 
   render() {
@@ -69,7 +66,7 @@ export default class FoundNodeComponent extends Component {
   highlightText(text) {
     return <Highlighter
       highlightStyle={{backgroundColor: 'yellow'}}
-      searchWords={[dashboard.searchString]}
+      searchWords={[searchMenu.searchString]}
       textToHighlight={text}
     />
   }

@@ -13,7 +13,7 @@ import auth from "./auth";
 export default new class extends ComponentController {
 
   root = null
-  foundNodes = null
+  show = 'nodesTree'
   scrollRef = null
 
   constructor(props) {
@@ -22,7 +22,8 @@ export default new class extends ComponentController {
   }
 
   get dataSource() {
-    return this.foundNodes || this.root.children
+    return this.show == 'foundNodes' ? s.searchMenu.foundNodes
+      : this.root.children
   }
 
   async loadDashboard() {

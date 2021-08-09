@@ -9,6 +9,7 @@ import FlashMessage from "react-native-flash-message"
 import dashboard from "./dashboard";
 import {swipeController} from "../utils/ComponentController";
 import FoundNodeComponent from "./node/FoundNodeComponent";
+import searchMenu from "./menu/searchMenu";
 
 export default class extends Component {
 
@@ -62,7 +63,7 @@ export default class extends Component {
 
   renderItem(row) {
     var node = row.item
-    if (dashboard.foundNodes)
+    if (dashboard.show == 'foundNodes')
       return <FoundNodeComponent key={node.name} node={node} />
     else
       return node.render()
