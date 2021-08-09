@@ -3,6 +3,7 @@
 
 import React, {Component} from "../../utils/react-tuned"
 import {
+  Animated,
   Text,
   View,
 } from 'react-native'
@@ -12,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import Hyperlink from 'react-native-hyperlink'
 import NodeTools from './NodeTools'
 import linking from '../linking'
+import actionsSheetController from "../actionsSheetController";
 
 export default class NodeComponent extends Component {
 
@@ -25,12 +27,12 @@ export default class NodeComponent extends Component {
   }
 
   render() {
-    return <View style={this.wrapStyle}
+    return <Animated.View style={this.wrapStyle}
                  renderToHardwareTextureAndroid={true}
                  ref={ref => this.node.viewRef = ref}>
       {this.body()}
       {this.renderSubItems()}
-    </View>
+    </Animated.View>
   }
 
   get wrapStyle() {
@@ -57,7 +59,6 @@ export default class NodeComponent extends Component {
         backgroundColor: this.state.showTools ? '#292929' : null}}
       onTouchStart={ e => this.touchStartX = e.nativeEvent.locationX}
     >
-      {this.nodeTools()}
       <Hyperlink
         linkDefault
         linkStyle={ { color: colors.link } }
@@ -65,7 +66,7 @@ export default class NodeComponent extends Component {
       >
         <Text
           onPress={this.pressBody}
-          onLongPress={this.switchTools}
+          onLongPress={this.showTools}
           style={style}
         >
           {this.header()}
@@ -75,16 +76,11 @@ export default class NodeComponent extends Component {
     </View>
   }
 
-  nodeTools() {
-    if (!this.state.showTools) return
-    return <NodeTools node={this.node} hide={this.switchTools}/>
-  }
-
   header() {
     var {node} = this
     return <Text
       onPress={this.pressHeader}
-      onLongPress={this.switchTools}
+      onLongPress={this.showTools}
       style={{color:
           '#4495ae'
         // '#ab902f'
@@ -140,13 +136,16 @@ export default class NodeComponent extends Component {
     this.node.update({expanded: !this.node.expanded})
   }
 
-  switchTools() {
-    this.setState({showTools: !this.state.showTools})
+  showTools() {
+    actionsSheetController.open(
+      <NodeTools node={this.node} onHide={_=> this.setState({showTools: false})}/>
+    )
+    this.setState({showTools: true})
   }
 
   swipe(e) {
     if (Math.abs(this.touchStartX - e.nativeEvent.locationX) > 20) {
-      this.switchTools()
+      this.showTools()
       return true
     }
   }

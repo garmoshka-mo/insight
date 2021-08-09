@@ -20,6 +20,11 @@ class ActionsSheetController extends ComponentController {
     this.ref.current?.hide()
   }
 
+  onCloseOnce() {
+    if (this.onClose) this.onClose()
+    this.onClose = null
+  }
+
 }
 
 export default new ActionsSheetController()

@@ -20,6 +20,7 @@ export default class ActionsSheetDialog extends Component {
           zIndex: 10
         }}
         gestureEnabled={true}
+        onClose={actionsSheetController.onCloseOnce}
         ref={actionsSheetController.ref}
       >
         <View style={{ paddingTop: 20, paddingBottom: 30}}>

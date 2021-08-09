@@ -6,6 +6,7 @@ import menuController from "../menu/menuController";
 import MovingMenu from "../menu/MovingMenu";
 import Icon from "react-native-vector-icons/FontAwesome"
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons"
+import actionsSheetController from "../actionsSheetController";
 
 const iconProps = {
   color: "white", size: 20,
@@ -13,6 +14,11 @@ const iconProps = {
 }
 
 export default class NodeTools extends Component {
+
+  constructor(props) {
+    super(props)
+    actionsSheetController.onClose = props.onHide
+  }
 
   render() {
     var {node} = this.props
@@ -27,12 +33,12 @@ export default class NodeTools extends Component {
     },{
       component: this.emoji('⏩', node.alwaysExpanded),
       onPress: _=> this.updateNode('alwaysExpanded', true, false)
-    }, {
-      component: <Icon name='copy' {...iconProps}/>,
-      onPress: this.copy
     }]
 
     var right = [{
+        component: <Icon name='copy' {...iconProps}/>,
+        onPress: this.copy
+      }, {
         component: <MaterialIcon name='table-row-plus-before' {...iconProps}/>,
         onPress: () => node.editSibling(-1)
       }, {
@@ -49,11 +55,11 @@ export default class NodeTools extends Component {
         onPress: node.delete
       }]
 
-    return <View style={{flexDirection: 'row'}}>
-      <View style={{flex: 1, flexDirection: 'row'}}>
+    return <View style={{}}>
+      <View style={{flexDirection: 'row', justifyContent: "flex-end", marginBottom: 40}}>
         {this.buttons(left)}
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{flexDirection: 'row', justifyContent: "flex-end"}}>
         {this.buttons(right)}
       </View>
     </View>
@@ -69,7 +75,8 @@ export default class NodeTools extends Component {
       backgroundColor: b.selected ? colors.selected : 'transparent'
     }
     return <TouchableOpacity key={b.onPress} onPress={_ => {
-      this.props.hide()
+      actionsSheetController.close()
+      this.props.onHide()
       b.onPress()
     }}>
       <View style={style}>{b.component}</View>
