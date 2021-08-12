@@ -12,7 +12,7 @@ import files from "./files";
 import auth from "./auth";
 import NodesList from "./views/NodesList";
 
-export default new class extends ComponentController {
+export default new class Dashboard extends ComponentController {
 
   root = null
   scrollRef = null

@@ -8,7 +8,7 @@ import {swipeController} from "../../utils/ComponentController";
 
 export default class extends Component {
 
-  controllers = [swipeController]
+  controllers = [swipeController, dashboard]
 
   render() {
     return <ScrollView
