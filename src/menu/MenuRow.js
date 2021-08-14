@@ -33,10 +33,10 @@ export default class MenuRow extends Component {
   }
 
   icon(button) {
-    var {icon} = button, m
-    if ((m = icon.match(/^emoji:(.+)/))) {
-      return this.emoji(button, m[1])
-    } else if (icon.startsWith('material/')) {
+    var {icon, emoji} = button
+    if (emoji) return this.emoji(button, emoji)
+
+    if (icon.startsWith('material/')) {
       var material = true
       icon = icon.replace('material/', '')
     }

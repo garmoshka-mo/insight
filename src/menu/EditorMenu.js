@@ -12,6 +12,7 @@ import {
 import menuController from "./menuController";
 import MenuRow from "./MenuRow";
 import {showFlash} from "../commonFunctions";
+import StatusMenu from "./StatusMenu";
 
 
 export default class {
@@ -22,14 +23,7 @@ export default class {
 
     this.tools = <View style={{flexDirection: 'column'}}>
       <View style={{flexDirection: 'row', paddingBottom: 10}}>
-        <MenuRow size={.8} controller={node} buttons={[
-          {icon: `emoji:🔥`, selected: _=> node.importance == 'important',
-            action: _=> this.updateNode('importance', 'important', 'normal')},
-          {icon: `emoji:❔`, selected: _=> node.importance == 'guess',
-            action: _=> this.updateNode('importance', 'guess', 'normal')},
-          {icon: `emoji:⏩`, selected: _=> node.alwaysExpanded,
-            action: _=> this.updateNode('alwaysExpanded', true, false)},
-        ]} />
+        <StatusMenu node={node}/>
         <MenuRow size={.8} buttons={[
           {action: editor.parseSubItems, icon: 'list-alt'},
           {action: _=> this.editSibling(-1), icon: 'material/table-row-plus-before'},
@@ -56,11 +50,6 @@ export default class {
   onMenuPop() {
     if (!this.editor.cancelNewNode())
       this.node.update({editing: false})
-  }
-
-  updateNode(...args) {
-    this.node.updateFlag(...args)
-    menuController.refresh()
   }
 
   editSibling(dir) {

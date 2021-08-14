@@ -11,9 +11,8 @@ import styles, {colors} from '../styles'
 import Editor from '../Editor'
 import Icon from "react-native-vector-icons/FontAwesome"
 import Hyperlink from 'react-native-hyperlink'
-import NodeTools from './NodeTools'
 import linking from '../linking'
-import actionsSheetController from "../actionsSheetController";
+import NodeMenu from "../menu/NodeMenu";
 
 export default class NodeComponent extends Component {
 
@@ -49,7 +48,7 @@ export default class NodeComponent extends Component {
     if (node.editing)
       return <Editor parent={this} node={node} />
 
-    if (node.moving || this.state.showTools) var style = {
+    if (this.state.highlight) var style = {
       borderWidth: 2, borderColor: '#00dbff40',
       borderRadius: 10}
 
@@ -142,10 +141,9 @@ export default class NodeComponent extends Component {
   }
 
   showTools() {
-    actionsSheetController.open(
-      <NodeTools node={this.node} onHide={_=> this.setState({showTools: false})}/>
-    )
-    this.setState({showTools: true})
+    var menu = new NodeMenu(this.node)
+    menu.onHide = _=> this.setState({highlight: false})
+    this.setState({highlight: true})
   }
 
   swipe(e) {

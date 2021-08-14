@@ -2,7 +2,7 @@
  **/
 
 import React, {Component} from "../../utils/react-tuned"
-import {View, ActivityIndicator, FlatList, Dimensions, ScrollView} from 'react-native'
+import { Dimensions, ScrollView} from 'react-native'
 import dashboard from "../dashboard";
 import {swipeController} from "../../utils/ComponentController";
 
@@ -20,8 +20,6 @@ export default class extends Component {
       }}
       scrollEnabled={!swipeController.swipeStarted}
       keyboardShouldPersistTaps="always"
-      keyExtractor={item => item.name}
-      renderItem={({item}) => item.render()}
     >
       { this.nodes() }
     </ScrollView>
