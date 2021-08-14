@@ -23,6 +23,7 @@ export default class extends Component {
   constructor(props) {
     super(props)
     var {node} = props
+    this.node = node
     var value = this.getValue(node)
     if (value.startsWith('New record')) value = ''
     this.state = {value}
@@ -67,7 +68,8 @@ export default class extends Component {
 
   ensureUniqueName(data) {
     var originalName = data.name, i = 0
-    while (this.props.node.parent.children.some(n => n.name == data.name)) {
+    while (this.props.node.parent.children
+        .some(n => n != this.node && n.name == data.name)) {
       data.name = originalName + ++i
     }
   }
