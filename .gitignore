@@ -59,4 +59,4 @@ buck-out/
 /ios/Pods/
 /.project
 /config/config.dev.js
-/scripts/check_monitor.sh
+/scripts/monitor_config.sh

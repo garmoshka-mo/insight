@@ -3,6 +3,8 @@ import fs from 'fs'
 import {exec} from "child_process"
 import {writeFileSync} from "fs"
 
+const ENV = process.env
+
 function parse(path) {
   try {
     var content = fs.readFileSync(path, 'utf8')
@@ -14,7 +16,7 @@ function parse(path) {
 
     var htmlReport = '/tmp/check_yml.html'
     writeFileSync(htmlReport, `<h3>${path}</h3>\n<pre style="font-family: Courier New">${err.message}</pre>`)
-    exec(`osascript -e 'tell application "Finder" to open "Macintosh HD:tmp:check_yml.html"'`)
+    exec(`osascript -e 'tell application "Finder" to open "${ENV.OSA_SCRIPT_ROOT}:tmp:check_yml.html"'`)
 
     throw('⛔️  yml error found')
   }
