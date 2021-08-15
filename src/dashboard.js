@@ -17,6 +17,7 @@ export default new class Dashboard extends ComponentController {
   root = null
   scrollRef = null
   routes = [<NodesList/>]
+  showArchived = false
 
   constructor(props) {
     super(props)

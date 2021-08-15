@@ -7,12 +7,14 @@ import files from "../files";
 import menuController from "./menuController";
 import SettingsMenu from "./SettingsMenu";
 import services from "../services";
+import dashboard from "../dashboard";
 
 export default class DashboardTools extends ComponentController {
 
   tools = [
     this.syncButton,
     {icon: 'search', action: this.showSearch},
+    {icon: 'archive', action: this.switchArchived},
     {icon: 'bath', action: this.bath},
     {icon: 'cog', action: this.showSettings},
     {icon: 'folder-open', action: _=>
@@ -44,6 +46,10 @@ export default class DashboardTools extends ComponentController {
 
   showSearch() {
     menuController.push(services.searchMenu)
+  }
+
+  switchArchived() {
+    dashboard.update({showArchived: !dashboard.showArchived })
   }
 
 

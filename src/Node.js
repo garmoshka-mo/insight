@@ -9,7 +9,7 @@ import {Animated, Text, TouchableOpacity} from "react-native";
 import { hideMessage } from "react-native-flash-message"
 import {move, moveToChild} from './node/moving'
 
-const IMPORTANCES = {important: "🔥", guess: "❔", normal: ""}
+const IMPORTANCES = {important: "🔥", guess: "❔", archived: "📦", normal: ""}
 const IMPORTANCE_ALIASES = {important: '=*', guess: '=?'}
 const EXPANDED = "=>"
 

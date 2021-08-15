@@ -17,6 +17,8 @@ export default class StatusMenu extends Component {
         action: _=> this.updateNode('importance', 'important', 'normal')},
       {emoji: `❔`, selected: _=> node.importance == 'guess',
         action: _=> this.updateNode('importance', 'guess', 'normal')},
+      {icon: `archive`, selected: _=> node.importance == 'archived',
+        action: _=> this.updateNode('importance', 'archived', 'normal')},
       {emoji: `⏩`, selected: _=> node.alwaysExpanded,
         action: _=> this.updateNode('alwaysExpanded', true, false)},
     ]} />
