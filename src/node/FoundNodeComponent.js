@@ -7,13 +7,13 @@ import {
   View,
 } from 'react-native'
 import styles, {colors} from '../styles'
-import Icon from "react-native-vector-icons/FontAwesome"
 import Highlighter from 'react-native-highlight-words';
 import {sleep, strMatch} from "../commonFunctions";
 import menuController from "../menu/menuController";
 import searchMenu from "../menu/searchMenu";
+import NodeComponent from "./NodeComponent";
 
-export default class FoundNodeComponent extends Component {
+export default class FoundNodeComponent extends NodeComponent {
 
   constructor(props) {
     super()
@@ -31,16 +31,6 @@ export default class FoundNodeComponent extends Component {
     </View>
   }
 
-  get wrapStyle() {
-    return {
-      width: '100%',
-      flexDirection:'row',
-      paddingLeft: this.node.level > 1 ? 20 : 0,
-      marginBottom: 4,
-      flexWrap:'wrap'
-    }
-  }
-
   body() {
     return <View
       style={{width: '100%'}}
@@ -55,9 +45,7 @@ export default class FoundNodeComponent extends Component {
 
   header() {
     var {node} = this
-    return <Text
-      style={{color: '#4495ae'}}
-    >
+    return <Text style={this.headerStyle}>
       {node.importanceEmoji}
       {this.highlightText(node.name)}
       {' '}
@@ -72,20 +60,6 @@ export default class FoundNodeComponent extends Component {
       searchWords={[searchMenu.searchString]}
       textToHighlight={text}
     />
-  }
-
-  get rightIcons() {
-    var {node} = this
-    var icons = [node.expandedEmoji]
-    if (!this.node.expanded) {
-      if (node.children.length > 0)
-        icons.push(<Icon key='list' name={"list"}>
-          {' ' + node.children.length}
-        </Icon>)
-      else if (!node.expandedEmoji && node.description)
-        icons.push(<Icon key='note' name={"sticky-note"}/>)
-    }
-    return icons
   }
 
   renderDescription() {

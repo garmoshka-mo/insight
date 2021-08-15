@@ -85,10 +85,7 @@ export default class NodeComponent extends Component {
     return <Text
       onPress={this.pressHeader}
       onLongPress={this.showTools}
-      style={{color:
-          '#4495ae'
-        // '#ab902f'
-      }}
+      style={this.headerStyle}
     >
       {node.importanceEmoji}
       {node.name}
@@ -96,6 +93,12 @@ export default class NodeComponent extends Component {
       {this.rightIcons}
       {' '}
     </Text>
+  }
+
+  get headerStyle() {
+    var color = '#4495ae' // '#ab902f'
+    if (this.importance == 'archived') color = '#7c7c7c'
+    return {color}
   }
 
   get rightIcons() {
