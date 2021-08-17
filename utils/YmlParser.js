@@ -7,13 +7,19 @@ export default class YmlParser {
 
   static parse(content) {
     var lines = content.replace(/\t/g, '  ').split("\n")
+
     var prevLine, prevSpaces = 0
     lines.forEach((line, i) => {
       var m = line.match(/^(\s*)/)
       var spaces = m ? m[1].length : 0
+
+      if (prevSpaces == spaces && line.trim() &&
+          !line.includes(":") && prevLine.includes(":"))
+        lines[i] = line = line + ":"
+
       if (prevSpaces < spaces) {
-        var ke = this.pup(prevLine, spaces)
-        if (ke) lines[i - 1] = ke
+        var normalized = this.normalizeDescription(prevLine, spaces)
+        if (normalized) lines[i - 1] = normalized
       }
       prevLine = line
       prevSpaces = spaces
@@ -21,7 +27,7 @@ export default class YmlParser {
     return yaml.load(lines.join("\n"))
   }
 
-  static pup(line, spaces) {
+  static normalizeDescription(line, spaces) {
     var separator = line.indexOf(':')
     if (separator < 0) return
 
