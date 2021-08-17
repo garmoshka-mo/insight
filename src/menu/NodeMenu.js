@@ -6,17 +6,17 @@ import {
   Text,
   TextInput,
   View,
-  Alert,
+  Alert, Clipboard,
 } from 'react-native'
 import menuController from "./menuController";
 import MenuRow from "./MenuRow";
 import StatusMenu from "./StatusMenu";
-import NodeTools from "../node/NodeTools";
 import dashboard from "../dashboard";
 
 
-export default class {
+export default class NodeMenu {
 
+  node = this.props.node
   onHide = null
 
   constructor(node) {
@@ -31,7 +31,7 @@ export default class {
         {this.movingMenu()}
       </View>
       <View style={style}>
-        <NodeTools node={node} />
+        {this.bottomMenu()}
       </View>
     </View>
     menuController.push(this)
@@ -46,6 +46,25 @@ export default class {
       {action: _=> node.moveToChild(+1), icon: 'material/arrow-bottom-right-thick'},
       {action: menuController.pop, icon: 'check'},
     ]} />
+  }
+
+  bottomMenu() {
+    var {node} = this
+    return <MenuRow size={.8} buttons={[
+      {action: menuController.pop, icon: 'times-circle-o', left: true},
+
+      {action: this.copy, icon: 'copy'},
+
+      {action: _=> node.editSibling(-1), icon: 'material/table-row-plus-before'},
+      {action: _=> node.editSibling(+1), icon: 'material/table-row-plus-after'},
+      {action: node.editChild, icon: 'child'},
+
+      {action: node.delete, emoji: '🚮'},
+    ]} />
+  }
+
+  copy() {
+    Clipboard.setString(this.node.name)
   }
 
   onMenuPop() {
