@@ -22,7 +22,7 @@ export default class NodeMenu {
     this.node = node
     var style = {flexDirection: 'row', paddingBottom: 20, justifyContent: 'center'}
 
-    this.tools = <View style={{flexDirection: 'column'}}>
+    this.tools = <View key={Date.now()} style={{flexDirection: 'column'}}>
       <View style={style}>
         <StatusMenu node={node}/>
       </View>

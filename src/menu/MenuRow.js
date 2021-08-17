@@ -33,7 +33,8 @@ export default class MenuRow extends Component {
   }
 
   icon(button) {
-    var {icon, emoji} = button
+    var {icon, emoji, disabled, selected} = button
+    if (selected && !selected()) disabled = true
     if (emoji) return this.emoji(button, emoji)
 
     if (icon.startsWith('material/')) {
@@ -43,7 +44,7 @@ export default class MenuRow extends Component {
     var props = {
       name: icon,
       size: this.scale(30),
-      style: {color: button.disabled ?
+      style: {color: disabled ?
           colors.disabled :
           colors.text}
     }
