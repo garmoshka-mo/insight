@@ -89,7 +89,7 @@ export default class Node extends ComponentController {
       })
      return result
     } else
-      return description
+      return description || null
   }
 
   get importanceEmoji() {

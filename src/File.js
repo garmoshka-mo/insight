@@ -52,7 +52,9 @@ export default class File {
   }
 
   async save(obj) {
-    await fs.saveFile(this.filePath, yaml.dump(obj))
+    var result = yaml.dump(obj)
+    result = result.replace(/: null/g, ":")
+    await fs.saveFile(this.filePath, result)
     this.updateMeta({changed: true})
   }
 
