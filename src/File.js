@@ -9,6 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import conflictResolver from "./conflictResolver";
 import {logr} from "./commonFunctions";
 import _ from "lodash"
+import YmlParser from "../utils/YmlParser.js";
+
 export default class File {
 
   constructor(meta) {
@@ -34,9 +36,7 @@ export default class File {
 
   async parseData() {
     try {
-      var content = await this.data()
-      content = content.replace(/\t/g, '  ')
-      return yaml.load(content)
+      return YmlParser.parse(await this.data())
     } catch (err) {
       showError(err, "Can't load file")
     }

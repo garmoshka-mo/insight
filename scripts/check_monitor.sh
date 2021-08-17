@@ -6,6 +6,11 @@
 source ~/repos/insight/scripts/monitor_config.sh
 
 echo "Monitoring..."
-fswatch -0 $MONITOR_DIR | while read -d "" file; do
-  node --experimental-modules ~/repos/insight/scripts/check_yml.mjs "$file"
+fswatch -0 --batch-marker $MONITOR_DIR | while read -d "" file; do
+	if [[ "$file" == "NoOp" ]] || [[ $PREV_LINE == "NoOp" ]]; then
+    echo .
+	else
+    node --experimental-modules ~/repos/insight/scripts/check_yml.mjs "$file"
+	fi
+  PREV_LINE="$file"
 done

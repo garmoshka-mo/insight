@@ -1,22 +1,24 @@
-import yaml from 'js-yaml'
 import fs from 'fs'
 import {exec} from "child_process"
 import {writeFileSync} from "fs"
+import YmlParser from "../utils/YmlParser.mjs";
 
 const ENV = process.env
+const OSA_SCRIPT_ROOT = ENV.OSA_SCRIPT_ROOT
 
 function parse(path) {
   try {
     var content = fs.readFileSync(path, 'utf8')
-    content = content.replace(/\t/g, '  ')
-    return yaml.load(content)
+    return YmlParser.parse(content)
   } catch (err) {
     console.error(path)
     console.error(err.message)
 
-    var htmlReport = '/tmp/check_yml.html'
-    writeFileSync(htmlReport, `<h3>${path}</h3>\n<pre style="font-family: Courier New">${err.message}</pre>`)
-    exec(`osascript -e 'tell application "Finder" to open "${ENV.OSA_SCRIPT_ROOT}:tmp:check_yml.html"'`)
+    if (OSA_SCRIPT_ROOT) {
+      var htmlReport = '/tmp/check_yml.html'
+      writeFileSync(htmlReport, `<h3>${path}</h3>\n<pre style="font-family: Courier New">${err.message}</pre>`)
+      exec(`osascript -e 'tell application "Finder" to open "${OSA_SCRIPT_ROOT}:tmp:check_yml.html"'`)
+    }
 
     throw('⛔️  yml error found')
   }
