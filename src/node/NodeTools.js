@@ -14,8 +14,8 @@ export default class NodeTools extends Component {
 
       {action: this.copy, icon: 'copy'},
 
-      {action: _=> this.editSibling(-1), icon: 'material/table-row-plus-before'},
-      {action: _=> this.editSibling(+1), icon: 'material/table-row-plus-after'},
+      {action: _=> node.editSibling(-1), icon: 'material/table-row-plus-before'},
+      {action: _=> node.editSibling(+1), icon: 'material/table-row-plus-after'},
       {action: node.editChild, icon: 'child'},
 
       {action: node.delete, emoji: '🚮'},

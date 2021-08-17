@@ -30,7 +30,7 @@ export default class {
         {this.movingMenu()}
       </View>
       <View style={{flexDirection: 'row'}}>
-        <NodeTools/>
+        <NodeTools node={node} />
       </View>
     </View>
     menuController.push(this)
