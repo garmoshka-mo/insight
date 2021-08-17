@@ -16,7 +16,6 @@ import dashboard from "../dashboard";
 
 export default class NodeMenu {
 
-  node = this.props.node
   onHide = null
 
   constructor(node) {
