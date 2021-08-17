@@ -9,8 +9,12 @@ import {Animated, Text, TouchableOpacity} from "react-native";
 import { hideMessage } from "react-native-flash-message"
 import {move, moveToChild} from './node/moving'
 
-const IMPORTANCES = {important: "🔥", guess: "❔", archived: "📦", normal: ""}
-const IMPORTANCE_ALIASES = {important: '=*', guess: '=?'}
+const IMPORTANCES = {
+  important: ["🔥", '=*'],
+  guess: ["❔", '=?'],
+  archived: ["📦", "=0"],
+  normal: ["", null]
+}
 const EXPANDED = "=>"
 
 export default class Node extends ComponentController {
@@ -22,11 +26,10 @@ export default class Node extends ComponentController {
   constructor(name, content, parent, props) {
     super()
     Object.assign(this, props)
-    Object.entries(IMPORTANCES).some(([importance, icon]) => {
-      var iconAlias = IMPORTANCE_ALIASES[importance]
-      if (name.startsWith(icon) || name.startsWith(iconAlias)) {
+    Object.entries(IMPORTANCES).some(([importance, [emoji, alias]]) => {
+      if (name.startsWith(emoji) || name.startsWith(alias)) {
         this.importance = importance
-        var l = name.startsWith(icon) ? icon.length : iconAlias.length
+        var l = name.startsWith(emoji) ? emoji.length : alias.length
         name = name.substr(l).trim()
         return true
       }
@@ -90,7 +93,7 @@ export default class Node extends ComponentController {
   }
 
   get importanceEmoji() {
-    var emoji = IMPORTANCES[this.importance]
+    var emoji = IMPORTANCES[this.importance][0]
     return emoji.length > 0 ? `${emoji} ` : emoji
   }
 
