@@ -1,7 +1,7 @@
 import fs from 'fs'
 import {exec} from "child_process"
 import {writeFileSync} from "fs"
-import YmlParser from "../utils/YmlParser.mjs";
+import YmlParser from "../utils/YmlParser.js";
 
 const ENV = process.env
 const OSA_SCRIPT_ROOT = ENV.OSA_SCRIPT_ROOT

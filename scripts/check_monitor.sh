@@ -10,7 +10,7 @@ fswatch -0 --batch-marker $MONITOR_DIR | while read -d "" file; do
 	if [[ "$file" == "NoOp" ]] || [[ $PREV_LINE == "NoOp" ]]; then
     echo .
 	else
-    node --experimental-modules ~/repos/insight/scripts/check_yml.mjs "$file"
+    node ~/repos/insight/scripts/check_yml.js "$file"
 	fi
   PREV_LINE="$file"
 done
