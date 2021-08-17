@@ -21,15 +21,16 @@ export default class {
 
   constructor(node) {
     this.node = node
+    var style = {flexDirection: 'row', paddingBottom: 20, justifyContent: 'center'}
 
     this.tools = <View style={{flexDirection: 'column'}}>
-      <View style={{flexDirection: 'row', paddingBottom: 10}}>
+      <View style={style}>
         <StatusMenu node={node}/>
       </View>
-      <View style={{flexDirection: 'row', paddingBottom: 10}}>
+      <View style={style}>
         {this.movingMenu()}
       </View>
-      <View style={{flexDirection: 'row'}}>
+      <View style={style}>
         <NodeTools node={node} />
       </View>
     </View>
@@ -38,13 +39,13 @@ export default class {
 
   movingMenu() {
     var {node} = this
-    return <MenuRow size={.8} buttons={[
+    return <MenuRow buttons={[
       {action: _=> node.move(-1), icon: 'angle-double-up'},
       {action: _=> node.move(+1), icon: 'angle-double-down'},
       {action: _=> node.moveToChild(-1), icon: 'material/arrow-top-right-thick'},
       {action: _=> node.moveToChild(+1), icon: 'material/arrow-bottom-right-thick'},
       {action: menuController.pop, icon: 'check'},
-    ]} style={{flex: 1, justifyContent: "flex-end"}} />
+    ]} />
   }
 
   onMenuPop() {

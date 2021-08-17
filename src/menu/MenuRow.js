@@ -24,7 +24,7 @@ export default class MenuRow extends Component {
   button(button) {
     var style = {paddingHorizontal: 12}
     return <TouchableOpacity
-      key={button.icon}
+      key={button.icon || button.emoji}
       style={style}
       onPress={button.disabled ? null : button.action}
     >
