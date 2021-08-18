@@ -15,10 +15,8 @@ import NodeComponent from "./NodeComponent";
 
 export default class FoundNodeComponent extends NodeComponent {
 
-  constructor(props) {
-    super()
-    var {node} = props
-    this.node = node
+  attachToNode() {
+    // don't attach to node
   }
 
   get expanded() {

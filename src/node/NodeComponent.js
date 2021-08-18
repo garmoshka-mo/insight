@@ -22,8 +22,12 @@ export default class NodeComponent extends Component {
     super()
     var {node} = props
     this.node = node
+    this.attachToNode()
+  }
+
+  attachToNode() {
     this.node.backgroundAnim = new Animated.Value(0)
-    this.subscribeTo(node)
+    this.subscribeTo(this.node)
   }
 
   render() {
