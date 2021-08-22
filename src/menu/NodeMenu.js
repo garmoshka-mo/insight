@@ -52,6 +52,7 @@ export default class NodeMenu {
     return <MenuRow size={.8} buttons={[
       {action: menuController.pop, icon: 'times-circle-o', left: true},
 
+      {action: node.edit, icon: 'pencil'},
       {action: this.copy, icon: 'copy'},
 
       {action: _=> node.editSibling(-1), icon: 'material/table-row-plus-before'},
