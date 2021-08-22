@@ -55,17 +55,6 @@ export default class extends Component {
     return `${node.name}: ${node.description || ''}`
   }
 
-  save() {
-    var {node} = this.props
-    var data = this.parseItem(this.state.value)
-    data.editing = false
-    data.isNew = false
-    this.ensureUniqueName(data)
-    node.update(data)
-    menuController.pop()
-    dashboard.save()
-  }
-
   ensureUniqueName(data) {
     var originalName = data.name, i = 0
     while (this.props.node.parent.children
@@ -152,10 +141,27 @@ export default class extends Component {
     setTimeout(_=> this.focused = true, 200) // hotfix for self-blurring
   }
 
+  close() {
+    this.node.update({editing: false})
+  }
+
   onBlur() {
-    if (!this.focused) return this.ref.focus()
+    if (this.focused) this.close()
+    else this.ref.focus()
+  }
+
+  componentWillUnmount() {
     if (!this.state.value && this.cancelNewNode()) return
     this.save()
+  }
+
+  save() {
+    var {node} = this
+    var data = this.parseItem(this.state.value)
+    data.isNew = false
+    this.ensureUniqueName(data)
+    node.update(data)
+    dashboard.save()
   }
 
   cancelNewNode() {

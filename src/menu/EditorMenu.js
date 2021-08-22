@@ -37,7 +37,7 @@ export default class {
           {icon: 'undo', action: editor.doUndo},
           {action: editor.split, icon: 'ellipsis-v'},
           {action: editor.paste, icon: 'paste'},
-          {action: editor.save, icon: 'check'}
+          {action: editor.close, icon: 'check'}
         ]} />
         <MenuRow size={.8} buttons={[
           {action: node.delete, icon: 'trash'}
