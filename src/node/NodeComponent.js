@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import Hyperlink from 'react-native-hyperlink'
 import linking from '../linking'
 import NodeMenu from "../menu/NodeMenu";
+import dashboard from "../dashboard";
 
 export default class NodeComponent extends Component {
 
@@ -25,16 +26,20 @@ export default class NodeComponent extends Component {
     this.attachToNode()
   }
 
-  attachToNode() {
-    this.node.backgroundAnim = new Animated.Value(0)
-    this.subscribeTo(this.node)
-  }
-
   render() {
+    var {node} = this
+    if (node.importance == 'archived' && !dashboard.showArchived)
+      return null
+
     return <View style={this.wrapStyle}>
       {this.body()}
       {this.renderSubItems()}
     </View>
+  }
+
+  attachToNode() {
+    this.node.backgroundAnim = new Animated.Value(0)
+    this.subscribeTo(this.node)
   }
 
   get wrapStyle() {
