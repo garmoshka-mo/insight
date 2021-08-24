@@ -32,7 +32,7 @@ export default class YmlParser {
     if (separator < 0) return
 
     var description = line.slice(separator + 1).trim()
-    if (!description || ['>-'].includes(description)) return
+    if (!description || ['>-', '|-'].includes(description)) return
 
     return line.slice(0, separator) + ":\n" +
       " ".repeat(spaces) + "_: " + description
