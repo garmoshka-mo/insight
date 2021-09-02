@@ -33,7 +33,7 @@ export default class {
       </View>
       <View style={{flexDirection: 'row'}}>
         <MenuRow size={.8} buttons={[
-          {action: menuController.pop, icon: 'times-circle-o', left: true},
+          {action: editor.close, icon: 'times-circle-o', left: true},
           {icon: 'undo', action: editor.doUndo},
           {action: editor.split, icon: 'ellipsis-v'},
           {action: editor.paste, icon: 'paste'},
@@ -48,8 +48,7 @@ export default class {
   }
 
   onMenuPop() {
-    if (!this.editor.cancelNewNode())
-      this.node.update({editing: false})
+    this.editor.close()
   }
 
   editSibling(dir) {

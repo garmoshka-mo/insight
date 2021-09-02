@@ -142,7 +142,8 @@ export default class extends Component {
   }
 
   close() {
-    this.node.update({editing: false})
+    if (this.node.editing)
+      this.node.update({editing: false})
   }
 
   onBlur() {
@@ -151,8 +152,8 @@ export default class extends Component {
   }
 
   componentWillUnmount() {
-    if (!this.state.value && this.cancelNewNode()) return
-    this.save()
+    if (this.state.value || !this.cancelNewNode()) this.save()
+    menuController.pop()
   }
 
   save() {
