@@ -119,9 +119,9 @@ export default class extends Component {
 
   insertPrefix(prefix) {
     this.setState({
-      value: prefix + ' ' + this.state.value
+      value: prefix + this.state.value
     })
-    this.moveCursor(this.cursor + prefix.length + 1)
+    this.moveCursor(this.cursor + prefix.length)
   }
 
   insert(piece) {

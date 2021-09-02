@@ -24,11 +24,7 @@ export default class {
 
     this.tools = <View style={{flexDirection: 'column'}}>
       <View style={{flexDirection: 'row', justifyContent: "flex-end", paddingBottom: 10}}>
-        <MenuRow size={.8} buttons={
-          PREFIX_EMOJI.map(emoji =>
-            ({action: _=> editor.insertPrefix(emoji), emoji})
-          )
-         } style={{flex: 1, justifyContent: "flex-end"}} />
+        {this.emojis()}
       </View>
       <View style={{flexDirection: 'row', paddingBottom: 10}}>
         <StatusMenu node={node}/>
@@ -62,6 +58,17 @@ export default class {
   editSibling(dir) {
     this.editor.save()
     this.node.editSibling(dir)
+  }
+
+  emojis() {
+    var {editor} = this
+    return <MenuRow size={.8} buttons={
+      PREFIX_EMOJI.map(emoji => {
+        var str = emoji + ' '
+        return {action: _=> editor.insert(str),
+          longPressAction: _=> editor.insertPrefix(str), emoji}
+      })
+    } style={{flex: 1, justifyContent: "flex-end"}} />
   }
 
 }

@@ -26,6 +26,7 @@ export default class MenuRow extends Component {
     return <TouchableOpacity
       key={button.icon || button.emoji}
       style={style}
+      onLongPress={button.disabled ? null : button.longPressAction}
       onPress={button.disabled ? null : button.action}
     >
       {this.icon(button)}
