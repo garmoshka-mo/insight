@@ -112,9 +112,11 @@ export default class extends Component {
       v = v.slice(0, splitter) + v.slice(splitter + 1)
       if (splitter < c) c--
     }
+    while (v[c - 1] == " ") c--
     this.setState({
       value: v.slice(0, c) + ":" + v.slice(c)
     })
+    this.moveCursor(c + 2)
   }
 
   insertPrefix(prefix) {
