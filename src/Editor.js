@@ -117,6 +117,13 @@ export default class extends Component {
     })
   }
 
+  insertPrefix(prefix) {
+    this.setState({
+      value: prefix + ' ' + this.state.value
+    })
+    this.moveCursor(this.cursor + prefix.length + 1)
+  }
+
   insert(piece) {
     piece = piece.replace(/Источник: .*/, '')
 
@@ -130,10 +137,12 @@ export default class extends Component {
     this.setState({
       value: v.slice(0, c) + piece + v.slice(c)
     })
-    c += piece.length
-    this.ref.setNativeProps({ selection:{ start:c, end:c } })
-    this.ref.setNativeProps({ selection:{ } })
+    this.moveCursor(c + piece.length)
   }
+
+  moveCursor(c) {
+    this.ref.setNativeProps({ selection:{ start:c, end:c } })
+  }r
 
   onFocus() {
     if (!this.menu)
@@ -174,6 +183,7 @@ export default class extends Component {
   }
 
   onChangeText(value) {
+    this.ref.setNativeProps({ selection:{} })
     this.undo.changed(value)
     this.setState({value})
   }
