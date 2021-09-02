@@ -32,9 +32,11 @@ export default new class extends ComponentController {
     this.refresh()
   }
 
-  pop() {
-    if (this.stack.length == 1)
+  pop(mode) {
+    if (this.stack.length == 1) {
+      if (mode == 'soft') return
       return showError('Trying to pop root menu')
+    }
     this.stack.pop().onMenuPop?.()
     this.refresh()
   }

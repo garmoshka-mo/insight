@@ -153,7 +153,7 @@ export default class extends Component {
 
   componentWillUnmount() {
     if (this.state.value || !this.cancelNewNode()) this.save()
-    menuController.pop()
+    menuController.pop('soft')
   }
 
   save() {
