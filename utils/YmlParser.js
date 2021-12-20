@@ -13,9 +13,15 @@ export default class YmlParser {
       var m = line.match(/^(\s*)/)
       var spaces = m ? m[1].length : 0
 
+      // Normalize list items - add ":" in the end
       if (prevSpaces == spaces && line.trim() &&
-          !line.includes(":") && prevLine.includes(":"))
+          !line.includes(":") && prevLine.includes(":")) {
         lines[i] = line = line + ":"
+      // Normalize <new line> descriptions:
+      } else if (spaces == 0 && !line.includes(":")) {
+        lines[i] = " ".repeat(prevSpaces) + line
+        spaces = prevSpaces
+      }
 
       if (prevSpaces < spaces) {
         var normalized = this.normalizeDescription(prevLine, spaces)
