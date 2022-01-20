@@ -30,7 +30,7 @@ export default class YmlParser {
       prevLine = line
       prevSpaces = spaces
     })
-    return yaml.load(lines.join("\n"))
+    return yaml.load(lines.join("\n")) || {"new item": null}
   }
 
   static normalizeDescription(line, spaces) {
