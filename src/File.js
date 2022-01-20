@@ -6,7 +6,7 @@ import files from './files'
 import {showError} from './errors'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import conflictResolver from "./conflictResolver";
-import {logr} from "./commonFunctions";
+import {logr, showFlash} from "./commonFunctions";
 import _ from "lodash"
 import YmlParser from "../utils/YmlParser.js";
 import settings from "./settings";
@@ -96,10 +96,14 @@ export default class File {
   static async create(name) {
     var file = new this({
       id: '__empty_file__',
+      rev: '123456789',
       path_lower: `${settings.path}/${name}.yml`
     })
     await fs.ensureFile(file.filePath)
-    return file.upload()
+    await file.upload()
+    await file.download()
+    showFlash(`File ${name}.yml created`)
+    return file
   }
 
   async _upload(modeTag = "update") {

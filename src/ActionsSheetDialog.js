@@ -19,6 +19,7 @@ export default class ActionsSheetDialog extends Component {
           actionsSheetController.error ? colors.bad : colors.background,
           zIndex: 10
         }}
+        keyboardShouldPersistTaps="always"
         gestureEnabled={true}
         onClose={actionsSheetController.onCloseOnce}
         ref={actionsSheetController.ref}

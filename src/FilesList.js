@@ -14,6 +14,7 @@ export default class extends Component {
   render() {
     return <ScrollView
         nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="always"
         style={{maxHeight: 500}}>
       {files.list.map(this.fileRow)}
       {this.createButton}
@@ -56,7 +57,7 @@ export default class extends Component {
   }
 
   createNew(name) {
-    if (name) File.create(name)
+    if (name) files.create(name)
     this.setState({createDialog: false})
   }
   

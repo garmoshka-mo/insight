@@ -34,6 +34,12 @@ export default new class Files extends ComponentController {
     this.sort()
   }
 
+  async create(name) {
+    var file = await File.create(name)
+    if (file) this.list.push(file)
+    this.refresh()
+  }
+
   sort() {
     this.list = _.sortBy(this.list, 'name')
   }
