@@ -27,6 +27,15 @@ class Fs {
     return RNFetchBlob.fs.writeFile(path, data, 'utf8')
   }
 
+  async ensureFile(path) {
+    if (!await this.exists(path))
+      await RNFS.writeFile(path, '')
+  }
+
+  exists(path) {
+    return RNFS.exists(path)
+  }
+
   // private
 
   async _initRootDir() {

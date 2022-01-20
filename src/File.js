@@ -4,12 +4,12 @@ import autoBind from "../utils/autoBind";
 import s from './services'
 import files from './files'
 import {showError} from './errors'
-import settings from './settings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import conflictResolver from "./conflictResolver";
 import {logr} from "./commonFunctions";
 import _ from "lodash"
 import YmlParser from "../utils/YmlParser.js";
+import settings from "./settings";
 
 export default class File {
 
@@ -91,6 +91,15 @@ export default class File {
     uploadResult.changed = false
     await this.updateMeta(uploadResult)
     return result
+  }
+
+  static async create(name) {
+    var file = new this({
+      id: '__empty_file__',
+      path_lower: `${settings.path}/${name}.yml`
+    })
+    await fs.ensureFile(file.filePath)
+    return file.upload()
   }
 
   async _upload(modeTag = "update") {

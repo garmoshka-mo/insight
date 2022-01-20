@@ -1,9 +1,10 @@
 import React, {Component} from "../utils/react-tuned"
-import {View, Text, TouchableOpacity} from 'react-native'
+import {ScrollView, Text, TouchableOpacity} from 'react-native'
 import styles, {colors} from "./styles";
 import actionsSheetController from "./actionsSheetController";
 import files from "./files";
 import DialogInput from 'react-native-dialog-input'
+import File from "./File";
 
 export default class extends Component {
 
@@ -11,11 +12,13 @@ export default class extends Component {
   state = {createDialog: false}
 
   render() {
-    return <View>
+    return <ScrollView
+        nestedScrollEnabled={true}
+        style={{maxHeight: 500}}>
       {files.list.map(this.fileRow)}
       {this.createButton}
       {this.createDialog}
-    </View>
+    </ScrollView>
   }
 
   fileRow(file) {
@@ -53,9 +56,7 @@ export default class extends Component {
   }
 
   createNew(name) {
-    if (name) {
-      `${name}.yml`
-    }
+    if (name) File.create(name)
     this.setState({createDialog: false})
   }
   
