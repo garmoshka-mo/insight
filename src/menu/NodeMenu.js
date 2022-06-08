@@ -12,6 +12,7 @@ import menuController from "./menuController";
 import MenuRow from "./MenuRow";
 import StatusMenu from "./StatusMenu";
 import dashboard from "../dashboard";
+import autoBind from "../../utils/autoBind";
 
 
 export default class NodeMenu {
@@ -19,6 +20,7 @@ export default class NodeMenu {
   onHide = null
 
   constructor(node) {
+    autoBind(this)
     this.node = node
     var style = {flexDirection: 'row', paddingBottom: 20, justifyContent: 'center'}
 
