@@ -60,3 +60,4 @@ buck-out/
 /.project
 /config/config.dev.js
 /scripts/monitor_config.sh
+android/app/src/
