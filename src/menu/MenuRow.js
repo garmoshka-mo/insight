@@ -34,12 +34,13 @@ export default class MenuRow extends Component {
   }
 
   icon(button) {
+    var material
     var {icon, emoji, disabled, selected} = button
     if (selected && !selected()) disabled = true
     if (emoji) return this.emoji(button, emoji)
 
     if (icon.startsWith('material/')) {
-      var material = true
+      material = true
       icon = icon.replace('material/', '')
     }
     var props = {
