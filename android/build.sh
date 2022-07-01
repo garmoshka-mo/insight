@@ -19,4 +19,5 @@ yarn react-native bundle \
 
 APK=app/build/outputs/apk/debug/app-debug.apk
 adb install -r $APK && \
+sleep 1 && \
 adb shell am start -n com.insight/.MainActivity
