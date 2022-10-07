@@ -6,8 +6,15 @@ import yaml from 'js-yaml'
 export default class YmlParser {
 
   static parse(content) {
-    var lines = content.replace(/\t/g, '  ').split("\n")
+    return new this(content).parse()
+  }
 
+  constructor(content) {
+    this.lines = content.replace(/\t/g, '  ').split("\n")
+  }
+
+  parse() {
+    var {lines} = this
     var prevLine, prevSpaces = 0
     lines.forEach((line, i) => {
       var m = line.match(/^(\s*)/)
@@ -23,17 +30,31 @@ export default class YmlParser {
         spaces = prevSpaces
       }
 
-      if (prevSpaces < spaces) {
-        var normalized = this.normalizeDescription(prevLine, spaces)
-        if (normalized) lines[i - 1] = normalized
-      }
+      if (prevSpaces < spaces) this.update(i - 1,
+          this.normalizeDescription(prevLine, spaces)
+        )
+      if (line.includes(":"))
+        this.lines[i] = line = this.cleanLine(line)
+
       prevLine = line
       prevSpaces = spaces
     })
     return yaml.load(lines.join("\n")) || {"new item": null}
   }
 
-  static normalizeDescription(line, spaces) {
+  update(i, data) {
+    if (data) this.lines[i] = data
+  }
+
+  cleanLine(line) {
+    var left = line.substr(0, line.indexOf(":"))
+    var right = line.substr(line.indexOf(":"))
+    right = right.replaceAll(": -", "")
+    right = right.replaceAll(":", "")
+    return `${left}:${right}`
+  }
+
+  normalizeDescription(line, spaces) {
     var separator = line.indexOf(':')
     if (separator < 0) return
 

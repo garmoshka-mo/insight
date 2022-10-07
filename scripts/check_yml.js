@@ -45,7 +45,8 @@ function handleArgs() {
       parseDir(path)
     else {
       var data = parse(path)
-      // console.log(JSON.stringify(data, null, 2))
+      if (args[1] == 'print')
+        console.log(JSON.stringify(data, null, 2))
       console.log('✅  Verified')
     }
   } else
