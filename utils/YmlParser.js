@@ -27,6 +27,7 @@ export default class YmlParser {
       var m = line.match(/^(\s*)/)
       var spaces = m ? m[1].length : 0
 
+      if (!line.trim()) return
       if (isDescriptionSection && spaces < prevSpaces)
         isDescriptionSection = false
 
@@ -36,7 +37,7 @@ export default class YmlParser {
 
       if (!isDescriptionSection) {
         // Normalize list items - add ":" in the end
-        if (line.trim() && !line.includes(":")) {
+        if (!line.includes(":")) {
           lines[i] = line = line + ":"
         // Normalize <new line> descriptions:
         } else if (spaces == 0 && !line.includes(":")) {
@@ -53,7 +54,8 @@ export default class YmlParser {
 
       prevLine = line
       prevSpaces = spaces
-      isDescriptionSection ||= !!line.match(/: >-$/)
+      isDescriptionSection = isDescriptionSection ||
+        !!line.match(/: >-$/)
     })
     return lines
   }

@@ -1,6 +1,7 @@
 # DEV
 
 * `yarn che path_to_yml print` - check .yml file format and **print** conversion result
+* `yarn build`
 
 ## patch package
 

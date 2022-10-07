@@ -8,6 +8,7 @@
     "start": "react-native start",
     "start-rc": "react-native start --reset-cache",
     "che": "node ./scripts/check_yml.js",
+    "build": "android/build.sh",
     "postinstall": "patch-package"
   },
   "dependencies": {
