@@ -15,29 +15,38 @@ export default class YmlParser {
 
   parse() {
     var {lines} = this
-    var prevLine, prevSpaces = 0
+    var prevLine, prevSpaces = 0, isDescriptionSection
     lines.forEach((line, i) => {
       var m = line.match(/^(\s*)/)
       var spaces = m ? m[1].length : 0
 
-      // Normalize list items - add ":" in the end
-      if (prevSpaces == spaces && line.trim() &&
-          !line.includes(":") && prevLine.includes(":")) {
-        lines[i] = line = line + ":"
-      // Normalize <new line> descriptions:
-      } else if (spaces == 0 && !line.includes(":")) {
-        lines[i] = " ".repeat(prevSpaces) + line
-        spaces = prevSpaces
-      }
+      if (isDescriptionSection && spaces < prevSpaces)
+        isDescriptionSection = false
 
-      if (prevSpaces < spaces) this.update(i - 1,
-          this.normalizeDescription(prevLine, spaces)
+      if (false && i+1 == 57) console.log('ℹ️  Line:', line,
+          isDescriptionSection, spaces, prevSpaces
         )
-      if (line.includes(":"))
-        this.lines[i] = line = this.cleanLine(line)
+
+      if (!isDescriptionSection) {
+        // Normalize list items - add ":" in the end
+        if (line.trim() && !line.includes(":")) {
+          lines[i] = line = line + ":"
+        // Normalize <new line> descriptions:
+        } else if (spaces == 0 && !line.includes(":")) {
+          lines[i] = " ".repeat(prevSpaces) + line
+          spaces = prevSpaces
+        }
+
+        if (prevSpaces < spaces) this.update(i - 1,
+            this.normalizeDescription(prevLine, spaces)
+          )
+        if (line.includes(":"))
+          this.lines[i] = line = this.cleanLine(line)
+      }
 
       prevLine = line
       prevSpaces = spaces
+      isDescriptionSection ||= !!line.match(/: >-$/)
     })
     return yaml.load(lines.join("\n")) || {"new item": null}
   }
