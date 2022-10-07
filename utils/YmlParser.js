@@ -2,6 +2,7 @@
  **/
 
 import yaml from 'js-yaml'
+import './sugar.js'
 
 export default class YmlParser {
 
@@ -67,9 +68,8 @@ export default class YmlParser {
   cleanLine(line) {
     var left = line.substr(0, line.indexOf(":"))
     var right = line.substr(line.indexOf(":") + 1)
-    right = right.replace(/^\s-/, "") // fix of first ": -"
-    right = right.replaceAll(": -", "")
-    right = right.replaceAll(": ", "")
+    right = right.replace(/^\s-/, " ") // fix of first ": -"
+    right = right.replaceAllByRegexStr(": ", " ")
     return `${left}:${right}`
   }
 
