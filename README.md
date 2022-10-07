@@ -1,5 +1,9 @@
 # DEV
 
+* `yarn che path_to_yml` - check .yml file format
+
+## patch package
+
 ```
 yarn patch-package package_name
 yarn patch-package metro-config/metro

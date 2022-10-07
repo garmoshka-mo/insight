@@ -37,13 +37,14 @@ function parseDir(path) {
 }
 
 function handleArgs() {
-  var args = process.argv.slice(2)
+  var args = process.argv.slice(2), path
 
-  if (args[0]) {
-    if (fs.lstatSync(args[0]).isDirectory())
-      parseDir(args[0])
+  if ((path = args[0])) {
+    if (!fs.existsSync(path)) throw `Path doesn't exists: ${path}`
+    if (fs.lstatSync(path).isDirectory())
+      parseDir(path)
     else {
-      var data = parse(args[0])
+      var data = parse(path)
       // console.log(JSON.stringify(data, null, 2))
       console.log('✅  Verified')
     }
