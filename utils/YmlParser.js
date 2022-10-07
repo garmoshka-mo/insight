@@ -10,10 +10,17 @@ export default class YmlParser {
   }
 
   constructor(content) {
-    this.lines = content.replace(/\t/g, '  ').split("\n")
+    this.initial_yaml = content.replace(/\t/g, '  ')
+    this.lines = this.initial_yaml.split("\n")
   }
 
   parse() {
+    this.result_yaml = this.normalizeLines().join("\n")
+    this.result = yaml.load(this.result_yaml) || {"new item": null}
+    return this.result
+  }
+
+  normalizeLines() {
     var {lines} = this
     var prevLine, prevSpaces = 0, isDescriptionSection
     lines.forEach((line, i) => {
@@ -48,7 +55,7 @@ export default class YmlParser {
       prevSpaces = spaces
       isDescriptionSection ||= !!line.match(/: >-$/)
     })
-    return yaml.load(lines.join("\n")) || {"new item": null}
+    return lines
   }
 
   update(i, data) {
@@ -57,9 +64,10 @@ export default class YmlParser {
 
   cleanLine(line) {
     var left = line.substr(0, line.indexOf(":"))
-    var right = line.substr(line.indexOf(":"))
+    var right = line.substr(line.indexOf(":") + 1)
+    right = right.replace(/^\s-/, "") // fix of first ": -"
     right = right.replaceAll(": -", "")
-    right = right.replaceAll(":", "")
+    right = right.replaceAll(": ", "")
     return `${left}:${right}`
   }
 

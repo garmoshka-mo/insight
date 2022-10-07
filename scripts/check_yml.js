@@ -2,6 +2,7 @@ import fs from 'fs'
 import {exec} from "child_process"
 import {writeFileSync} from "fs"
 import YmlParser from "../utils/YmlParser.js";
+import diff from 'diff-lines'
 
 const ENV = process.env
 const OSA_SCRIPT_ROOT = ENV.OSA_SCRIPT_ROOT
@@ -9,7 +10,9 @@ const OSA_SCRIPT_ROOT = ENV.OSA_SCRIPT_ROOT
 function parse(path) {
   try {
     var content = fs.readFileSync(path, 'utf8')
-    return YmlParser.parse(content)
+    var parser = new YmlParser(content)
+    parser.parse()
+    return parser
   } catch (err) {
     console.error(path)
     console.error(err.message)
@@ -44,9 +47,15 @@ function handleArgs() {
     if (fs.lstatSync(path).isDirectory())
       parseDir(path)
     else {
-      var data = parse(path)
+      var parser = parse(path)
       if (args[1] == 'print')
-        console.log(JSON.stringify(data, null, 2))
+        console.log(JSON.stringify(parser.result, null, 2))
+      // if (args[1] == 'diff')
+      console.log('💊 DIFF\n',
+        diff(parser.initial_yaml, parser.result_yaml,
+          {n_surrounding: 1})
+      )
+
       console.log('✅  Verified')
     }
   } else

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.2",
+    "diff-lines": "^1.1.1",
     "dropbox": "^9.4.0",
     "events": "^3.3.0",
     "fast-diff": "^1.2.0",
