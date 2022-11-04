@@ -38,7 +38,7 @@ export default class YmlParser {
 
       if (!isDescriptionSection) {
         // Normalize list items - add ":" in the end
-        if (!line.includes(":")) {
+        if (!line.endsWith(":") && !line.includes(": ")) {
           lines[i] = line = line + ":"
         // Normalize <new line> descriptions:
         } else if (spaces == 0 && !line.includes(":")) {
@@ -49,7 +49,7 @@ export default class YmlParser {
         if (prevSpaces < spaces) this.update(i - 1,
             this.normalizeDescription(prevLine, spaces)
           )
-        if (line.includes(":"))
+        if (line.includes(": "))
           this.lines[i] = line = this.cleanLine(line)
       }
 
@@ -66,11 +66,12 @@ export default class YmlParser {
   }
 
   cleanLine(line) {
-    var left = line.substr(0, line.indexOf(":"))
-    var right = line.substr(line.indexOf(":") + 1)
+    var colon_i = line.indexOf(": ")
+    var left = line.substr(0, colon_i)
+    var right = line.substr(colon_i + 2)
     right = right.replace(/^\s-/, " ") // fix of first ": -"
     right = right.replaceAllByRegexStr(": ", " ")
-    return `${left}:${right}`
+    return `${left}: ${right}`
   }
 
   normalizeDescription(line, spaces) {
