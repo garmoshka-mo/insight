@@ -1,7 +1,9 @@
 # DEV
 
-* `yarn che path_to_yml print` - check .yml file format and **print** conversion result
 * `yarn build`
+* `yarn che path_to_yml print` - check .yml file format and **print** conversion result
+* `yarn che dir` - check all .yml files in **dir**
+* `~/repos/insight/scripts/check_monitor.sh` - auto-check monitor, see script for usage
 
 ## patch package
 

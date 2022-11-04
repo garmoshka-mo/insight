@@ -27,11 +27,12 @@ function parse(path) {
   }
 }
 
-function parseDir(path) {
+function parseDir(dir) {
   var files = 0, checked = 0
-  fs.readdirSync(path).forEach(file => {
-    if (file.endsWith('.yml')) {
-      parse(path + '/' + file)
+  fs.readdirSync(dir).forEach(file => {
+    var path = dir + '/' + file
+    if (file.endsWith('.yml') && fs.lstatSync(path).isFile()) {
+      parse(path)
       checked++
     }
     files ++
